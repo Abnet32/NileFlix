@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { LoginForm } from "@/components/login-form";
+import { AuthForm } from "@/components/login-form";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 export default async function LoginPage() {
@@ -10,5 +10,5 @@ export default async function LoginPage() {
     return redirect("/"); // Redirect to home page if already authenticated
   }
 
-  return <LoginForm />;
+  return <AuthForm />;
 }
