@@ -1,4 +1,4 @@
-import { PrismaClient } from "@/generated/prisma/client"; // must match generated folder
+import { PrismaClient } from "../src/generated/prisma/client"; // must match generated folder
 import { PrismaPg } from "@prisma/adapter-pg";
 
 const adapter = new PrismaPg({
