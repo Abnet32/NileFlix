@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 
 import { authClient } from "@/lib/auth-client";
@@ -21,73 +21,62 @@ import { useRouter } from "next/navigation";
 export function AuthForm() {
   const router = useRouter();
 
-  const [isPending, startTransition] = useTransition();
+  const [emailPending, startEmailTransition] = useTransition();
+  const [googlePending, startGoogleTransition] = useTransition();
 
   const [isSignUp, setIsSignUp] = useState(false);
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   // -------------------------
-  // Email + Password
+  // Email
   // -------------------------
 
-  const handleEmailAuth = () => {
-    startTransition(async () => {
-      if (!email || !password) {
-        toast.error("Please fill all fields");
-        return;
-      }
-
-      try {
-        if (isSignUp) {
-          await authClient.signUp.email({
-            email,
-            password,
-            name: email.split("@")[0],
-          });
-
-          toast.success("Account created successfully!");
-        } else {
-          await authClient.signIn.email({
-            email,
-            password,
-          });
-
-          toast.success("Signed in successfully!");
-        }
-
-        router.push("/");
-        router.refresh();
-      } catch (error) {
-        toast.error("Authentication failed");
-      }
+  async function signInWithEmail() {
+    startEmailTransition(async () => {
+      await authClient.emailOtp.sendVerificationOtp({
+        email: email,
+        type: "sign-in",
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("OTP sent to your email!");
+            router.push("/verify-request?email=" + email);
+          },
+          onError: () => {
+            toast.error("Failed to send OTP. Please try again.");
+          },
+        },
+      });
     });
-  };
+  }
 
   // -------------------------
   // Google
   // -------------------------
-  
-  const handleGoogleAuth = () => {
-    startTransition(async () => {
+
+  async function signInWithGoogle() {
+    startGoogleTransition(async () => {
       await authClient.signIn.social({
         provider: "google",
         callbackURL: "/",
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Successfully signed in with Google!");
+          },
+          onError: () => {
+            toast.error("Internal server error. Please try again later.");
+          },
+        },
       });
     });
-  };
+  }
 
   return (
     <Card className="w-[400px]">
       <CardHeader>
-        <CardTitle className="text-xl text-center">
-          {isSignUp ? "Create Account" : "Welcome Back"}
-        </CardTitle>
+        <CardTitle className="text-xl text-center">Welcome Back!</CardTitle>
         <CardDescription className="text-center">
-          {isSignUp
-            ? "Sign up using email or Google"
-            : "Sign in using email or Google"}
+          Login with your Google or Email Account
         </CardDescription>
       </CardHeader>
 
@@ -95,52 +84,57 @@ export function AuthForm() {
         {/* Google Button */}
         <Button
           variant="outline"
-          onClick={handleGoogleAuth}
-          disabled={isPending}
+          onClick={signInWithGoogle}
+          disabled={googlePending}
           className="w-full flex items-center gap-2"
         >
-          <FcGoogle size={20} />
-          Continue with Google
-        </Button>
-
-        <div className="text-center text-sm text-muted-foreground">OR</div>
-
-        {/* Email */}
-        <div className="grid gap-2">
-          <Label>Email</Label>
-          <Input
-            type="email"
-            placeholder="email@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        
-        {/* Password */}
-        <div className="grid gap-2">
-          <Label>Password</Label>
-          <Input
-            type="password"
-            placeholder="********"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <Button onClick={handleEmailAuth} disabled={isPending}>
-          {isPending ? (
+          {googlePending ? (
             <>
-              <Loader2 className="animate-spin mr-2" size={16} />
-              Loading...
+              <Loader2 className="animate-spin" size={20} />
+              <span>Signing in with Google...</span>
             </>
-          ) : isSignUp ? (
-            "Sign Up"
           ) : (
-            "Sign In"
+            <>
+              <FcGoogle size={20} />
+              Sign In with Google
+            </>
           )}
         </Button>
 
-        <p className="text-sm text-center text-muted-foreground">
+        <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+          <span className="relative z-10 bg-card px-2 text-muted-foreground">
+            Or continue with
+          </span>
+        </div>
+
+        {/* Email */}
+        <div className="grid gap-3">
+          <div className="grid gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              placeholder="email@example.com"
+              required
+            />
+          </div>
+          <Button onClick={signInWithEmail} disabled={emailPending}>
+            {emailPending ? (
+              <>
+                <Loader2 className="size-4 animate-spin" />
+                <span>Loading...</span>
+              </>
+            ) : (
+              <>
+                <Send className="size-4" />
+                <span>continue with email</span>
+              </>
+            )}
+          </Button>
+        </div>
+
+        {/* <p className="text-sm text-center text-muted-foreground">
           {isSignUp ? (
             <>
               Already have an account?{" "}
@@ -162,7 +156,7 @@ export function AuthForm() {
               </span>
             </>
           )}
-        </p>
+        </p> */}
       </CardContent>
     </Card>
   );

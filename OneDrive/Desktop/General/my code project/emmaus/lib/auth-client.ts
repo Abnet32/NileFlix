@@ -1,13 +1,8 @@
 // lib/auth-client.ts
 import { createAuthClient } from "better-auth/react";
+import { emailOTPClient } from "better-auth/client/plugins";
 
 export const authClient = createAuthClient({
-  // enable email/password auth
-  emailAndPassword: {
-    enabled: true,
-    autoSignIn: true, // automatically sign in after signup
-  },
-
   // configure social providers (Google in this case)
   socialProviders: {
     google: {
@@ -17,7 +12,5 @@ export const authClient = createAuthClient({
   },
 
   // optional plugins can go here
-  plugins: [
-    // e.g. twoFactorClient({ twoFactorPage: "/two-factor" })
-  ],
+  plugins: [emailOTPClient()],
 });

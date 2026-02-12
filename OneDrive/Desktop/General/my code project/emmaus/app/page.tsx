@@ -19,7 +19,7 @@ export default function Home() {
       fetchOptions: {
         onSuccess: () => {
           toast.success("Logged out successfully");
-          router.refresh();
+          router.push("/login");
         },
         onError: () => {
           toast.error("Something went wrong");
@@ -46,19 +46,12 @@ export default function Home() {
       <ModeToggle />
 
       {session ? (
-        <div className="flex flex-col items-center gap-4">
-          <p className="text-lg">
-            Welcome, <span className="font-semibold">{session.user.name}</span>
-          </p>
-
+        <div>
+          <p>Hi, {session.user.name}!</p>
           <Button onClick={handleLogout}>Logout</Button>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-4">
-          <p className="text-lg">Welcome, Guest</p>
-
-          <Button onClick={() => router.push("/login")}>Login</Button>
-        </div>
+        <Button>Login</Button>
       )}
     </div>
   );
