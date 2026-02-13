@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "./prisma";
 import { resend } from "./resend";
-import { emailOTP } from "better-auth/plugins";
+import { admin, emailOTP, organization } from "better-auth/plugins";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -15,7 +15,42 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        required: false,
+        defaultValue: "user",
+        enum: ["user", "admin"],
+      },
+      department: {
+        type: "string",
+        required: false,
+        defaultValue: null,
+        enum: [
+          "sales",
+          "engineering",
+          "hr",
+          "research",
+          "marketing",
+          "instructor",
+        ],
+      },
+      phoneNumber: {
+        type: "number",
+        required: false,
+        defaultValue: null,
+      },
+      officeLocation: {
+        type: "string",
+        required: false,
+        defaultValue: null,
+      },
+    },
+  },
   plugins: [
+    admin(),
+    organization(),
     emailOTP({
       async sendVerificationOTP({ email, otp }) {
         await resend.emails.send({
