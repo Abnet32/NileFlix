@@ -24,7 +24,6 @@ export function AuthForm() {
   const [emailPending, startEmailTransition] = useTransition();
   const [googlePending, startGoogleTransition] = useTransition();
 
-  const [isSignUp, setIsSignUp] = useState(false);
 
   const [email, setEmail] = useState("");
 
