@@ -5,27 +5,36 @@ import { ModeToggle } from "@/components/toggle-theme";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useTransition } from "react";
 
 export default function Home() {
   const router = useRouter();
 
   const { data: session, isPending } = authClient.useSession();
+  const [isLoading, startTransition] = useTransition();
 
   // ---------------------
   // Logout
   // ---------------------
-  const handleLogout = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success("Logged out successfully");
-          router.push("/login");
+  async function handleLogout() {
+    startTransition(async () => {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Logged out successfully");
+            router.push("/login");
+          },
+          onError: () => {
+            toast.error("Something went wrong");
+          },
         },
-        onError: () => {
-          toast.error("Something went wrong");
-        },
-      },
+      });
     });
+  }
+
+  const handleLogin = () => {
+    router.push("/login");
   };
 
   // ---------------------
@@ -34,7 +43,8 @@ export default function Home() {
   if (isPending) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p>Checking session...</p>
+        <Loader2 className="animate-spin size-4 mr-2" />
+        <span className="text-lg">Loading...</span>
       </div>
     );
   }
@@ -46,12 +56,21 @@ export default function Home() {
       <ModeToggle />
 
       {session ? (
-        <div>
-          <p>Hi, {session.user.name}!</p>
-          <Button onClick={handleLogout}>Logout</Button>
-        </div>
+        <>
+          <p>Hi, {session.user.name}</p>
+          <Button onClick={handleLogout} disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="animate-spin size-4 mr-2" />
+                Logging out...
+              </>
+            ) : (
+              "Logout"
+            )}
+          </Button>
+        </>
       ) : (
-        <Button>Login</Button>
+        <Button onClick={handleLogin}>Login</Button>
       )}
     </div>
   );
