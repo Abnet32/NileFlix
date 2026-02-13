@@ -27,7 +27,10 @@ model User {
   @@unique([email])
   @@map("user")
 }
-
+enum Role {
+  user 
+  admin
+}
 model Session {
   id        String   @id
   expiresAt DateTime

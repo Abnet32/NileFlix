@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useTransition } from "react";
+// import { DynamicBreadcrumb } from "./dashboard/layout";
 
 export default function Home() {
   const router = useRouter();
@@ -52,7 +53,8 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-6">
       <h1 className="text-3xl font-bold">Emmaus Diary</h1>
-
+      <div className="border-b pb-3">
+      </div>
       <ModeToggle />
 
       {session ? (
