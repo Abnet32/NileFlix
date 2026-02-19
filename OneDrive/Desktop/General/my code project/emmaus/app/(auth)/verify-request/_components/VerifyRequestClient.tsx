@@ -34,7 +34,7 @@ export default function VerifyRequest() {
         fetchOptions: {
           onSuccess() {
             toast.success("Email verified successfully!");
-            router.push("/"); // redirect to home page after successful verification
+            router.push("/dashboard"); // redirect to home page after successful verification
           },
           onError() {
             toast.error("Invalid OTP. Please try again.");
