@@ -7,7 +7,7 @@ export default async function LoginPage() {
     headers: await headers(),
   });
   if (session) {
-    return redirect("/"); // Redirect to home page if already authenticated
+    return redirect("dashboard"); // Redirect to home page if already authenticated
   }
 
   return <AuthForm />;

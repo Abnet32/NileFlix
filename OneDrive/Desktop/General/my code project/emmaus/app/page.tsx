@@ -18,13 +18,14 @@ export default function Home() {
   // ---------------------
   // Logout
   // ---------------------
+
   async function handleLogout() {
     startTransition(async () => {
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
             toast.success("Logged out successfully");
-            router.push("/login");
+            router.push("/");
           },
           onError: () => {
             toast.error("Something went wrong");
@@ -53,8 +54,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-6">
       <h1 className="text-3xl font-bold">Emmaus Diary</h1>
-      <div className="border-b pb-3">
-      </div>
+      <div className="border-b pb-3"></div>
       <ModeToggle />
 
       {session ? (
@@ -64,7 +64,7 @@ export default function Home() {
             {isLoading ? (
               <>
                 <Loader2 className="animate-spin size-4 mr-2" />
-                Logging out...
+                Loading...
               </>
             ) : (
               "Logout"
@@ -72,7 +72,7 @@ export default function Home() {
           </Button>
         </>
       ) : (
-        <Button onClick={handleLogin}>Login</Button>
+        <Button onClick={handleLogin}>Get Started</Button>
       )}
     </div>
   );
