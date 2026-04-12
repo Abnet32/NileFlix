@@ -1,15 +1,16 @@
 import { betterAuth } from "better-auth";
-import { connectDB } from "./db";
+import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { client } from "./db"; // your mongodb client
 
 export const auth = betterAuth({
-  database: async () => {
-    const db = await connectDB();
-    return db.collection("users");
-  },
-
+  database: mongodbAdapter(client.db()),
   emailAndPassword: {
     enabled: true,
   },
-
-  trustedOrigins: ["http://localhost:3000"],
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
 });
