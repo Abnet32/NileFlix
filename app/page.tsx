@@ -119,7 +119,7 @@ export default function HomePage() {
           </div>
         </header>
 
-        <div className="hero-glow stagger-in delay-1 overflow-hidden rounded-3xl border border-border/80 bg-[var(--hero)] p-5 md:p-8">
+        <div className="hero-glow stagger-in delay-1 overflow-hidden rounded-3xl border border-border/80 bg-(--hero) p-5 md:p-8">
           <header className="mb-10 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="flex size-10 items-center justify-center rounded-full bg-primary/20 text-primary">
@@ -215,7 +215,7 @@ export default function HomePage() {
           {perks.map((perk, index) => (
             <Card
               key={perk.title}
-              className="ott-glass stagger-in border-border/80 bg-card/80 [animation-fill-mode:both]"
+              className="ott-glass stagger-in border-border/80 bg-card/80 fill-mode-[both]"
               style={{ animationDelay: `${index * 90 + 160}ms` }}
             >
               <CardHeader className="gap-3">
