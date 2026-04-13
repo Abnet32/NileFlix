@@ -95,7 +95,7 @@ export default function SignInPage() {
   return (
     <main className="cinema-grid flex min-h-dvh items-center justify-center px-4 py-10">
       <section className="ott-shell grid w-full overflow-hidden rounded-3xl border border-border/80 bg-card/50 md:grid-cols-[1fr_1fr]">
-        <div className="ott-poster relative hidden min-h-[36rem] p-8 md:flex md:flex-col md:justify-between">
+        <div className="ott-poster relative hidden min-h-144 p-8 md:flex md:flex-col md:justify-between">
           <div className="inline-flex w-fit items-center gap-2 rounded-full bg-secondary/70 px-3 py-1 text-xs text-muted-foreground">
             <Film className="size-3.5 text-accent" />
             Premium streaming
