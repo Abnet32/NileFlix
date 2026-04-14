@@ -1,0 +1,33 @@
+# add gitignore
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Ignore everything in the root except the .gitignore file
+/*
+!.gitignore
+# Ignore everything in the src directory except the .gitignore file
+/src/*
+!/src/.gitignore
+# Ignore everything in the dist directory except the .gitignore file
+/dist/*
+!/dist/.gitignore
+# Ignore everything in the node_modules directory except the .gitignore file
+/node_modules/*
+!/node_modules/.gitignore
+# Ignore everything in the coverage directory except the .gitignore file
+/coverage/*
+!/coverage/.gitignore
+# Ignore everything in the .vscode directory except the .gitignore file
+/.vscode/*
+!/.vscode/.gitignore
+# Ignore everything in the .idea directory except the .gitignore file
+/.idea/*
+!/.idea/.gitignore
+# Ignore everything in the .DS_Store file except the .gitignore file
+.DS_Store
+# Ignore everything in the .env file except the .gitignore file
+.env
+# Ignore everything in the .env.local file except the .gitignore file
+.env.local
+# Ignore everything in the .env.development file except the .gitignore file
+.env.development
+# Ignore everything in the .env.test file except the .gitignore file
+.env.test
