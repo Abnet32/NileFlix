@@ -35,14 +35,14 @@ export default async function Home() {
       />
 
       <main className="container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
+        {/* <div className="mb-6"> */}
+          {/* <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
             NileFlix
-          </p>
-          <h1 className="font-heading text-3xl font-medium sm:text-4xl">
+          </p> */}
+          {/* <h1 className="font-heading text-3xl font-medium sm:text-4xl">
             Browse by category
-          </h1>
-        </div>
+          </h1> */}
+        {/* </div> */}
 
         <div className="space-y-6">
           {rows.map((row) => (
