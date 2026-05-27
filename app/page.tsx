@@ -8,6 +8,7 @@ import {
   getUpcomingMovies,
   getNowPlayingMovies,
 } from "@/lib/tmdb";
+import Footer from "@/components/footer";
 
 type HomeProps = {
   searchParams: Promise<{ query?: string | string[] }>;
@@ -31,18 +32,20 @@ export default async function Home({ searchParams }: HomeProps) {
   );
 
   const rows = [
-    { title: "Trending This Week", movies: trending.results.slice(0, 12) },
-    { title: "Popular", movies: popular.results.slice(0, 12) },
-    { title: "Top Rated", movies: topRated.results.slice(0, 12) },
-    { title: "Upcoming", movies: upcoming.results.slice(0, 12) },
-    { title: "Now Playing", movies: nowPlaying.results.slice(0, 12) },
+    { title: "Trending This Week", movies: trending.results.slice(0, 15) },
+    { title: "Popular", movies: popular.results.slice(0, 15) },
+    { title: "Top Rated", movies: topRated.results.slice(0, 15) },
+    { title: "Upcoming", movies: upcoming.results.slice(0, 15) },
+    { title: "Now Playing", movies: nowPlaying.results.slice(0, 15) },
   ];
+
+  const initialHero = trending.results[0] ?? null;
 
   return (
     <>
       <HeroBanner
-        movies={trending.results.slice(0, 12)}
-        initialHero={trending.results[0] ?? null}
+        movies={trending.results.slice(0, 15)}
+        initialHero={initialHero}
       />
 
       <main className="container mx-auto isolate px-4 py-8">
@@ -53,13 +56,13 @@ export default async function Home({ searchParams }: HomeProps) {
             open the movie page.
           </p> */}
         </section>
-
         <div className="relative z-0 space-y-6">
           {rows.map((row) => (
             <MovieRow key={row.title} title={row.title} movies={row.movies} />
           ))}
         </div>
       </main>
+      <Footer />
     </>
   );
 }
