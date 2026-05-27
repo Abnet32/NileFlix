@@ -42,13 +42,13 @@ export default function MovieRow({ title, movies }: MovieRowProps) {
     <section className="mb-8">
       <h2 className="mb-3 px-2 text-lg font-medium">{title}</h2>
       {/* <progress
-        className="mb-2 block h-0.5 w-full overflow-hidden accent-default "
+        className="mb-2 block h-0.5 w-full overflow-hidden"
         value={scrollProgress}
         max={100}
         aria-label={`${title} scroll progress`}
       /> */}
       <div
-        ref={scrollerRef}
+
         className="-mx-2 overflow-x-auto px-2 scroll-pl-4 snap-x snap-mandatory scrollbar-hide"
       >
         <div className="flex items-stretch gap-4">
