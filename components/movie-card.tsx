@@ -1,16 +1,7 @@
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { Play } from "lucide-react";
 import { TMDBMovie } from "@/lib/tmdb";
 
 type MovieCardProps = {
@@ -18,50 +9,48 @@ type MovieCardProps = {
 };
 
 export default function MovieCard({ movie }: MovieCardProps) {
+  const imagePath = movie.poster_path ?? movie.backdrop_path;
+  const releaseYear = movie.release_date
+    ? new Date(movie.release_date).getFullYear()
+    : null;
+
   return (
-    <Card className="mx-auto w-full max-w-sm pt-0">
-      <div className="relative aspect-video w-full overflow-hidden">
-        {movie.backdrop_path ? (
-          <Image
-            src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path}`}
-            alt={movie.title}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-muted via-background to-muted text-xs uppercase tracking-[0.35em] text-muted-foreground">
-            No artwork
+    <Link href={`/movie/${movie.id}`} className="block group">
+      <Card className="mx-auto h-full w-full overflow-hidden shadow-lg transition-all duration-200 transform hover:-translate-y-1 hover:shadow-2xl">
+        <div className="relative aspect-2/3 w-full overflow-hidden">
+          {imagePath ? (
+            <Image
+              src={`https://image.tmdb.org/t/p/w780${imagePath}`}
+              alt={movie.title}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-muted via-background to-muted text-xs uppercase tracking-[0.35em] text-muted-foreground">
+              No artwork
+            </div>
+          )}
+
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+          <div className="absolute left-3 top-3">
+            <Badge variant="secondary">
+              {movie.vote_average.toFixed(1)} ⭐
+            </Badge>
           </div>
-        )}
-      </div>
-      <CardHeader>
-        <CardAction>
-          <Badge variant="secondary">{movie.vote_average.toFixed(1)} ⭐</Badge>
-        </CardAction>
-        <CardTitle>{movie.title}</CardTitle>
-        <CardDescription>
-          {movie.overview.length > 140
-            ? `${movie.overview.slice(0, 140)}...`
-            : movie.overview}
-        </CardDescription>
-      </CardHeader>
-      <CardFooter>
-        <div className="grid w-full grid-cols-2 gap-2">
-          <Link
-            href={`/movie/${movie.id}`}
-            className={buttonVariants({ variant: "outline" })}
-          >
-            Details
-          </Link>
-          <Link
-            href={`/movie/${movie.id}/watch`}
-            className={buttonVariants({ variant: "default" })}
-          >
-            <Play />
-            Play
-          </Link>
+          <div className="absolute inset-x-0 bottom-0 p-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+            <div className="space-y-1">
+              <h3 className="text-lg font-bold leading-tight text-white line-clamp-2">
+                {movie.title}
+              </h3>
+              {releaseYear ? (
+                <p className="text-sm font-semibold text-white/90">
+                  {releaseYear}
+                </p>
+              ) : null}
+            </div>
+          </div>
         </div>
-      </CardFooter>
-    </Card>
+      </Card>
+    </Link>
   );
 }
