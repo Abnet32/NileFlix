@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardAction,
@@ -9,34 +9,59 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-const MovieCard = async () => {
-  // featch movie from tmdb api and display it in the card
+import Link from "next/link";
+import { Play } from "lucide-react";
+import { TMDBMovie } from "@/lib/tmdb";
+
+type MovieCardProps = {
+  movie: TMDBMovie;
+};
+
+export default function MovieCard({ movie }: MovieCardProps) {
   return (
-    <Card className="relative mx-auto w-full max-w-sm pt-0">
-      <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
+    <Card className="mx-auto w-full max-w-sm pt-0">
       <div className="relative aspect-video w-full overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=859&auto=format&fit=crop"
-          alt="Event cover"
-          fill
-          className="object-cover brightness-75 grayscale dark:brightness-50"
-        />
+        {movie.backdrop_path ? (
+          <Image
+            src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path}`}
+            alt={movie.title}
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-muted via-background to-muted text-xs uppercase tracking-[0.35em] text-muted-foreground">
+            No artwork
+          </div>
+        )}
       </div>
       <CardHeader>
         <CardAction>
-          <Badge variant="secondary">Featured</Badge>
+          <Badge variant="secondary">{movie.vote_average.toFixed(1)} ⭐</Badge>
         </CardAction>
-        <CardTitle>Design systems meetup</CardTitle>
+        <CardTitle>{movie.title}</CardTitle>
         <CardDescription>
-          A practical talk on component APIs, accessibility, and shipping
-          faster.
+          {movie.overview.length > 140
+            ? `${movie.overview.slice(0, 140)}...`
+            : movie.overview}
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button className="w-full">View Event</Button>
+        <div className="grid w-full grid-cols-2 gap-2">
+          <Link
+            href={`/movie/${movie.id}`}
+            className={buttonVariants({ variant: "outline" })}
+          >
+            Details
+          </Link>
+          <Link
+            href={`/movie/${movie.id}/watch`}
+            className={buttonVariants({ variant: "default" })}
+          >
+            <Play />
+            Play
+          </Link>
+        </div>
       </CardFooter>
     </Card>
   );
-};
-
-export default MovieCard;
+}
