@@ -137,4 +137,21 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* Make progress bars with the accent-primary class match the primary theme color */
+  progress.accent-primary {
+    accent-color: var(--primary);
+  }
+
+  progress.accent-primary::-webkit-progress-bar {
+    background: transparent;
+  }
+
+  progress.accent-primary::-webkit-progress-value {
+    background-color: var(--primary);
+  }
+
+  progress.accent-primary::-moz-progress-bar {
+    background-color: var(--primary);
+  }
 }
