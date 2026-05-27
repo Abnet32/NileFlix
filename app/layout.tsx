@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/footer";
 import { cn } from "@/lib/utils";
 
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-sans" });
@@ -38,7 +39,9 @@ export default function RootLayout({
         outfit.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+      </body>
     </html>
   );
 }
