@@ -1,6 +1,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import VideoPlayer from "@/components/view-movie";
 import { getMovie } from "@/lib/tmdb";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 type WatchPageProps = {
@@ -26,8 +27,9 @@ export default async function WatchPage({ params }: WatchPageProps) {
 
           <Link
             href={`/movie/${movie.id}`}
-            className={buttonVariants({  size: "sm" })}
+            className={buttonVariants({ size: "sm" })}
           >
+            <ArrowLeft />
             Back
           </Link>
         </div>
