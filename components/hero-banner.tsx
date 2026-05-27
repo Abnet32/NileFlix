@@ -2,10 +2,10 @@
 
 import { buttonVariants } from "@/components/ui/button";
 import type { TMDBMovie } from "@/lib/tmdb";
-import { Info, Play, RefreshCw } from "lucide-react";
+import { Info, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 type HeroBannerProps = {
   movies: TMDBMovie[];
@@ -20,13 +20,19 @@ export default function HeroBanner({
     () => movies.filter((movie) => movie.backdrop_path || movie.poster_path),
     [movies],
   );
-  const [hero, setHero] = useState<TMDBMovie | null>(() => {
-    if (initialHero) return initialHero;
-    if (heroMovies.length === 0) return null;
+  const [hero, setHero] = useState<TMDBMovie | null>(
+    initialHero ?? heroMovies[0] ?? null,
+  );
+
+  // Pick a random hero only on the client after hydration so the server
+  // rendered HTML matches the initial render and avoids hydration mismatches.
+  useEffect(() => {
+    if (heroMovies.length === 0) return;
 
     const idx = Math.floor(Math.random() * heroMovies.length);
-    return heroMovies[idx];
-  });
+    const id = window.setTimeout(() => setHero(heroMovies[idx]), 0);
+    return () => window.clearTimeout(id);
+  }, [heroMovies]);
 
   if (!hero) {
     return null;
@@ -102,18 +108,6 @@ export default function HeroBanner({
             <Info />
             Details
           </Link>
-          <button
-            type="button"
-            onClick={() => {
-              if (heroMovies.length === 0) return;
-              const idx = Math.floor(Math.random() * heroMovies.length);
-              setHero(heroMovies[idx]);
-            }}
-            className={buttonVariants({ variant: "ghost", size: "lg" })}
-            aria-label="Refresh hero"
-          >
-            <RefreshCw />
-          </button>
         </div>
       </div>
     </section>
