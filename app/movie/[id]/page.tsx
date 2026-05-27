@@ -1,8 +1,11 @@
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import ActionButtons from "@/components/action-buttons";
 import { getMovie, getMovieVideos, getTrailerVideo } from "@/lib/tmdb";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { formatRuntime } from "@/lib/utils";
 
 type MoviePageProps = {
   params: Promise<{ id: string }>;
@@ -15,6 +18,14 @@ export default async function MoviePage({ params }: MoviePageProps) {
 
   return (
     <main className="container mx-auto px-4 py-10">
+      <div className="flex justify-end mb-4">
+        <Button variant="ghost" size="sm">
+          <Link href="/" className="flex items-center gap-2">
+            <ArrowLeft className="size-4" />
+            Back
+          </Link>
+        </Button>
+      </div>
       <section className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
         <div className="overflow-hidden border border-foreground/10 bg-card shadow-2xl shadow-black/10">
           <div className="relative aspect-2/3 sm:aspect-4/5 lg:aspect-5/6">
@@ -44,7 +55,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
             </h1>
             <p className="text-sm text-muted-foreground sm:text-base">
               {movie.release_date || "Release date unavailable"}
-              {movie.runtime ? ` • ${movie.runtime} min` : ""}
+              {movie.runtime ? ` • ${formatRuntime(movie.runtime)}` : ""}
             </p>
             <div className="flex flex-wrap gap-2">
               {movie.genres.map((genre) => (
@@ -59,27 +70,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
             {movie.overview}
           </p>
 
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href={`/movie/${movie.id}/watch`}
-              className={buttonVariants({ variant: "default" })}
-            >
-              Watch movie
-            </Link>
-            {trailer ? (
-              <a
-                href={`https://www.youtube.com/watch?v=${trailer.key}`}
-                target="_blank"
-                rel="noreferrer"
-                className={buttonVariants({ variant: "outline" })}
-              >
-                Watch trailer
-              </a>
-            ) : null}
-            <Link href="/" className={buttonVariants({ variant: "ghost" })}>
-              Back home
-            </Link>
-          </div>
+          <ActionButtons movieId={movie.id} trailerKey={trailer?.key ?? null} />
         </div>
       </section>
     </main>
