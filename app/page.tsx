@@ -51,10 +51,6 @@ export default async function Home({ searchParams }: HomeProps) {
       <main className="container mx-auto isolate px-4 py-8">
         <section className="relative z-40 mb-8 bg-card/80 p-4 shadow-lg shadow-black/5 backdrop-blur sm:p-6">
           <MovieSearch initialQuery={initialQuery} />
-          {/* <p className="mt-3 text-sm text-muted-foreground">
-            Type one letter and results will pop up as suggestions. Pick one to
-            open the movie page.
-          </p> */}
         </section>
         <div className="relative z-0 space-y-6">
           {rows.map((row) => (
