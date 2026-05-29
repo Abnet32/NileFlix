@@ -61,12 +61,12 @@ export default function VideoPlayer({ id, title }: VideoPlayerProps) {
   }, []);
 
   return (
-    <div className="mx-auto h-full w-full max-w-5xl overflow-hidden  bg-zinc-950 shadow-2xl shadow-black/40">
-      <div className="h-full w-full bg-black">
+    <div className="mx-auto w-full max-w-6xl overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl shadow-black/40">
+      <div className="relative aspect-video w-full bg-black">
         <iframe
           title={`${title} player`}
           src={buildVidlinkSrc({ id, title })}
-          className="h-full w-full border-0 transition-opacity duration-200 ease-out"
+          className="absolute inset-0 h-full w-full border-0 transition-opacity duration-200 ease-out"
           allow="autoplay; fullscreen; picture-in-picture"
           allowFullScreen
           loading="eager"
