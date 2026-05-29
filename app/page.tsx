@@ -49,7 +49,7 @@ export default async function Home({ searchParams }: HomeProps) {
       />
 
       <main className="container mx-auto isolate px-4 py-8">
-        <section className="relative z-40 mb-8 bg-card/80 p-4 shadow-lg shadow-black/5 backdrop-blur sm:p-6">
+        <section className="relative z-40 mb-8 p-4 sm:p-6">
           <MovieSearch initialQuery={initialQuery} />
         </section>
         <div className="relative z-0 space-y-6">
