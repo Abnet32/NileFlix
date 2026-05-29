@@ -107,7 +107,7 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
               }}
               placeholder="search movies..."
               autoComplete="off"
-              className="h-12 w-full rounded-none border border-input bg-background pl-11 pr-12 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30"
+              className="h-11 w-full rounded-none border border-input bg-background pl-11 pr-12 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 sm:h-12"
             />
             {query ? (
               <button
@@ -133,7 +133,7 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
               if (!trimmedQuery) return;
               void runSearch(trimmedQuery);
             }}
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-none border border-transparent bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-none border border-transparent bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 sm:h-12"
             disabled={!trimmedQuery || isLoading}
           >
             <Search className="size-4" />
@@ -145,15 +145,14 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
       {isOpen && trimmedQuery ? (
         <div className="absolute left-0 right-0 top-full z-50 mt-3">
           <Card className="overflow-hidden border-border/70 bg-card/95 shadow-2xl shadow-black/15 backdrop-blur">
-            <div className="flex items-center justify-between border-b border-border px-4 py-3">
-             
+            <div className="flex items-center justify-between border-b border-border px-3 py-2.5 sm:px-4 sm:py-3">
               <p className="text-xs text-muted-foreground">
                 {isLoading ? "Loading" : `${results.length} found`}
               </p>
             </div>
 
             {results.length ? (
-              <div className="max-h-[60vh] overflow-y-auto p-2">
+              <div className="max-h-[60vh] overflow-y-auto p-1.5 sm:p-2">
                 {results.map((movie) => {
                   const imagePath = movie.poster_path ?? movie.backdrop_path;
                   const releaseYear = movie.release_date
@@ -167,26 +166,26 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
                       onClick={() => setIsOpen(false)}
                       className="flex items-center gap-3 rounded-none p-2 transition-colors hover:bg-muted"
                     >
-                      <div className="relative h-16 w-12 shrink-0 overflow-hidden bg-muted">
+                      <div className="relative h-14 w-10 shrink-0 overflow-hidden bg-muted sm:h-16 sm:w-12">
                         {imagePath ? (
                           <Image
                             src={`https://image.tmdb.org/t/p/w342${imagePath}`}
                             alt={movie.title}
                             fill
                             className="object-cover"
-                            sizes="48px"
+                            sizes="40px"
                           />
                         ) : null}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-foreground">
+                        <p className="truncate text-sm font-medium text-foreground sm:text-[15px]">
                           {movie.title}
                         </p>
-                        <p className="truncate text-xs text-muted-foreground">
+                        <p className="truncate text-[11px] text-muted-foreground sm:text-xs">
                           {releaseYear ?? "Unknown year"} •{" "}
                           {movie.vote_average.toFixed(1)}
                         </p>
-                        <p className="line-clamp-2 text-xs text-muted-foreground">
+                        <p className="line-clamp-2 text-[11px] text-muted-foreground sm:text-xs">
                           {movie.overview || "No description available."}
                         </p>
                       </div>
