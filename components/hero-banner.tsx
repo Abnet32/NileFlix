@@ -1,5 +1,6 @@
 "use client";
 
+import Header from "@/components/header";
 import { buttonVariants } from "@/components/ui/button";
 import type { TMDBMovie } from "@/lib/tmdb";
 import { Info, Play } from "lucide-react";
@@ -41,7 +42,7 @@ export default function HeroBanner({
   const heroImage = hero.backdrop_path || hero.poster_path;
 
   return (
-    <section className="relative mb-8 h-[60vh] w-full overflow-hidden sm:h-[70vh] lg:h-[85vh]">
+    <section className="relative mb-10 w-full overflow-hidden rounded-none bg-black sm:mb-12">
       {heroImage ? (
         <Image
           src={`https://image.tmdb.org/t/p/original${heroImage}`}
@@ -57,57 +58,56 @@ export default function HeroBanner({
         </div>
       )}
 
-      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent" />
-      <div className="absolute inset-y-0 left-0 w-1/3 bg-linear-to-r from-black/80 via-black/35 to-transparent" />
-      <div className="absolute inset-y-0 right-0 w-1/3 bg-linear-to-l from-black/80 via-black/35 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/95 via-black/55 to-transparent" />
-      <div className="absolute bottom-12 left-6 right-6 max-w-5xl space-y-4 text-white">
-        <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
-          NileFlix
-        </p>
-        <h2 className="text-3xl font-heading font-bold leading-tight md:text-5xl">
-          {hero.title}
-        </h2>
+      <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/50 to-black/20" />
+      <div className="absolute inset-y-0 left-0 w-full bg-linear-to-r from-black/85 via-black/35 to-transparent lg:w-2/3" />
+      <div className="absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/95 via-black/60 to-transparent" />
 
-        <div className="flex flex-wrap items-center gap-3 text-sm text-white/90">
-          {hero.release_date ? (
-            <span className="font-medium">
-              {new Date(hero.release_date).getFullYear()}
-            </span>
-          ) : null}
-          {hero.genre_ids?.length ? (
-            <span className="inline-block">•</span>
-          ) : null}
-          <span className="text-white/80">
-            {hero.genre_ids?.slice(0, 3).join(" · ")}
-          </span>
-        </div>
+      <div className="relative z-10">
+        <Header />
 
-        <p className="max-w-2xl text-base text-white/90 line-clamp-3">
-          {hero.overview}
-        </p>
+        <div className="mx-auto flex min-h-112 max-w-7xl items-end px-4 py-8 sm:min-h-128 sm:px-6 lg:min-h-144 lg:px-8 lg:py-10">
+          <div className="max-w-3xl space-y-5 text-white">
+            <div className="flex flex-wrap items-center gap-3 text-xs  tracking-[0.35em] text-white/70">
+              <span>Featured</span>
+              <span className="h-px w-10 bg-white/35" />
+              <span>
+                {hero.release_date
+                  ? new Date(hero.release_date).getFullYear()
+                  : "Now"}
+              </span>
+            </div>
 
-        <div className="flex flex-wrap items-center gap-4 pt-1">
-          <Link
-            href={`/movie/${hero.id}/watch`}
-            className={
-              buttonVariants({ variant: "default", size: "lg" }) +
-              " min-w-48 text-center"
-            }
-          >
-            <Play />
-            Play
-          </Link>
-          <Link
-            href={`/movie/${hero.id}`}
-            className={
-              buttonVariants({ variant: "secondary", size: "lg" }) +
-              " min-w-48 text-center"
-            }
-          >
-            <Info />
-            Details
-          </Link>
+            <h2 className="text-4xl font-heading font-bold leading-[0.95] text-balance sm:text-5xl lg:text-7xl">
+              {hero.title}
+            </h2>
+
+            <p className="max-w-2xl text-base leading-7 text-white/85 sm:text-lg sm:leading-8 line-clamp-4">
+              {hero.overview}
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3 pt-2 sm:gap-4">
+              <Link
+                href={`/movie/${hero.id}/watch`}
+                className={
+                  buttonVariants({ variant: "default", size: "lg" }) +
+                  " min-w-40 justify-center text-center"
+                }
+              >
+                <Play />
+                Play
+              </Link>
+              <Link
+                href={`/movie/${hero.id}`}
+                className={
+                  buttonVariants({ variant: "secondary", size: "lg" }) +
+                  " min-w-40 justify-center text-center"
+                }
+              >
+                <Info />
+                Details
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>
