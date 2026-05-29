@@ -13,7 +13,7 @@ export function ModeToggle() {
       type="button"
       variant="outline"
       size="icon"
-      className="relative border-none"
+      className="relative border-none "
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       onClick={() => setTheme(isDark ? "light" : "dark")}
     >
