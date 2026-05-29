@@ -22,7 +22,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("h-full", "antialiased", outfit.variable)}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn("h-full", "antialiased", outfit.variable)}
+    >
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
