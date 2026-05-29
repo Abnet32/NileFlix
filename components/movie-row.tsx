@@ -39,20 +39,23 @@ export default function MovieRow({ title, movies }: MovieRowProps) {
   }, [movies]);
 
   return (
-    <section className="mb-8">
-      <h2 className="mb-3 px-2 text-lg font-medium">{title}</h2>
+    <section className="mb-6 sm:mb-8">
+      <h2 className="mb-2 px-2 text-base font-medium sm:mb-3 sm:text-lg">
+        {title}
+      </h2>
       <progress
-        className="mb-2 block h-0.5 w-full overflow-hidden accent-primary appearance-none rounded-full"
+        className="mb-2 block h-0.5 w-full overflow-hidden appearance-none rounded-full accent-primary"
         value={scrollProgress}
         max={100}
         aria-label={`${title} scroll progress`}
       />
-      <div
-        className="-mx-2 overflow-x-auto px-2 scroll-pl-4 snap-x snap-mandatory scrollbar-hide"
-      >
-        <div className="flex items-stretch gap-4">
+      <div className="-mx-2 overflow-x-auto px-2 scroll-pl-4 snap-x snap-mandatory scrollbar-hide">
+        <div className="flex items-stretch gap-3 sm:gap-4">
           {movies.slice(0, 12).map((movie) => (
-            <div key={movie.id} className="shrink-0 w-64 snap-start">
+            <div
+              key={movie.id}
+              className="w-36 shrink-0 snap-start sm:w-44 md:w-52 lg:w-60"
+            >
               <MovieCard movie={movie} />
             </div>
           ))}
