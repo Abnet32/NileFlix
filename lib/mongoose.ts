@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 
-const uri = process.env.MONGODB_URI;
+function getMongoUri() {
+  const uri = process.env.MONGODB_URI;
 
-if (!uri) {
-  throw new Error("Missing MONGODB_URI");
+  if (!uri) {
+    throw new Error("Missing MONGODB_URI");
+  }
+
+  return uri;
 }
 
 declare global {
@@ -26,6 +30,8 @@ if (!global._mongooseConnection) {
 }
 
 export async function connectMongoose() {
+  const uri = getMongoUri();
+
   if (cached.connection) {
     return cached.connection;
   }
