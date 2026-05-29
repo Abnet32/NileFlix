@@ -85,12 +85,6 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
     <div ref={wrapperRef} className="relative">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="relative flex-1 space-y-2">
-          {/* <label
-            htmlFor="movie-search"
-            className="text-xs uppercase tracking-[0.35em] text-muted-foreground"
-          >
-            Search movies
-          </label> */}
           <div className="relative">
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
@@ -152,14 +146,7 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
         <div className="absolute left-0 right-0 top-full z-50 mt-3">
           <Card className="overflow-hidden border-border/70 bg-card/95 shadow-2xl shadow-black/15 backdrop-blur">
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              {/* <div>
-                <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
-                  Live results
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Showing matches for "{trimmedQuery}".
-                </p>
-              </div> */}
+             
               <p className="text-xs text-muted-foreground">
                 {isLoading ? "Loading" : `${results.length} found`}
               </p>
