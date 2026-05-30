@@ -110,10 +110,24 @@ export function ThemeProvider({
     return () => mediaQuery.removeListener(updateSystemTheme);
   }, [disableTransitionOnChange, enableSystem, theme]);
 
-  const setTheme = React.useCallback((nextTheme: Theme) => {
-    setThemeState(nextTheme);
-    window.localStorage.setItem(STORAGE_KEY, nextTheme);
-  }, []);
+  const setTheme = React.useCallback(
+    (nextTheme: Theme) => {
+      setThemeState(nextTheme);
+      window.localStorage.setItem(STORAGE_KEY, nextTheme);
+
+      if (nextTheme === "system" && enableSystem) {
+        const systemTheme = getSystemTheme();
+        setResolvedTheme(systemTheme);
+        applyTheme(systemTheme, disableTransitionOnChange);
+        return;
+      }
+
+      const resolved: ResolvedTheme = nextTheme === "dark" ? "dark" : "light";
+      setResolvedTheme(resolved);
+      applyTheme(resolved, disableTransitionOnChange);
+    },
+    [disableTransitionOnChange, enableSystem],
+  );
 
   const value = React.useMemo(
     () => ({ theme, resolvedTheme, setTheme }),
