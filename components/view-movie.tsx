@@ -61,7 +61,7 @@ export default function VideoPlayer({ id, title }: VideoPlayerProps) {
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-6xl overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl shadow-black/40">
+    <div className="mx-auto w-full max-w-6xl overflow-hidden border border-white/10 bg-zinc-950 shadow-2xl shadow-black/40">
       <div className="relative aspect-video w-full bg-black">
         <iframe
           title={`${title} player`}
