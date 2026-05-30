@@ -1,28 +1,27 @@
 "use client";
 
+import * as React from "react";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "@/components/theme-provider";
-import { Button } from "@/components/ui/button";
+import { useTheme } from "./theme-provider";
 
 export function ModeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
-    <Button
-      type="button"
-      variant="outline"
-      size="icon"
-      className="relative border-none "
-      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+    <a
+      href="#"
+      onClick={toggleTheme}
+      className="relative inline-flex items-center justify-center p-2"
+      aria-label="Toggle theme"
     >
-      {isDark ? (
-        <Sun className="h-[1.2rem] w-[1.2rem] transition-all" />
-      ) : (
-        <Moon className="h-[1.2rem] w-[1.2rem] transition-all" />
-      )}
+      <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
       <span className="sr-only">Toggle theme</span>
-    </Button>
+    </a>
   );
 }
