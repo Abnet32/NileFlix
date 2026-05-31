@@ -8,7 +8,7 @@ import {
   getTrailerVideo,
 } from "@/lib/tmdb";
 import { cn, formatRuntime } from "@/lib/utils";
-import { ArrowLeft, CalendarRange, Play } from "lucide-react";
+import { ArrowLeft, CalendarRange, Play, Video } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -93,12 +93,12 @@ export default async function SeasonPage({ params }: SeasonPageProps) {
             {season.overview || series.overview}
           </p>
 
-          <div className="flex flex-wrap gap-3 pt-2">
+          <div className="flex flex-wrap items-center gap-4 pt-1">
             <Link
               href={getEpisodeHref(id, seasonNumber, "1")}
               className={cn(
-                buttonVariants({ variant: "default", size: "sm" }),
-                "gap-2 px-4",
+                buttonVariants({ variant: "default", size: "lg" }),
+                "min-w-48 justify-center gap-2 text-center",
               )}
             >
               <Play className="size-4" />
@@ -110,11 +110,11 @@ export default async function SeasonPage({ params }: SeasonPageProps) {
                 target="_blank"
                 rel="noreferrer"
                 className={cn(
-                  buttonVariants({ variant: "secondary", size: "sm" }),
-                  "gap-2 px-4",
+                  buttonVariants({ variant: "secondary", size: "lg" }),
+                  "min-w-48 justify-center gap-2 text-center",
                 )}
               >
-                <Play className="size-4" />
+                <Video className="size-4" />
                 Play trailer
               </a>
             ) : null}
@@ -150,7 +150,7 @@ export default async function SeasonPage({ params }: SeasonPageProps) {
                     Episode {episode.episode_number}
                   </p>
                   <h2 className="mt-2 text-base font-medium leading-tight group-hover:text-foreground">
-                     {episode.name}
+                    {episode.name}
                   </h2>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {episode.runtime
