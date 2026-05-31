@@ -1,12 +1,19 @@
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { getSeries, getSeriesSeason } from "@/lib/tmdb";
+import {
+  getSeries,
+  getSeriesSeason,
+  getSeriesVideos,
+  getTrailerVideo,
+  getSeasonHref,
+} from "@/lib/tmdb";
 import { formatRuntime, cn } from "@/lib/utils";
 import {
   ArrowLeft,
   CalendarRange,
   Clapperboard,
   Layers3,
+  Play,
   PlayCircle,
 } from "lucide-react";
 import Image from "next/image";
@@ -18,13 +25,24 @@ type TvPageProps = {
 
 export default async function TvPage({ params }: TvPageProps) {
   const { id } = await params;
-  const [series, firstSeason] = await Promise.all([
+  const [series, firstSeason, videos] = await Promise.all([
     getSeries(id),
     getSeriesSeason(id, "1"),
+    getSeriesVideos(id),
   ]);
 
+  const trailer = getTrailerVideo(videos.results);
   const episodes = firstSeason.episodes ?? [];
   const heroImage = series.backdrop_path ?? series.poster_path;
+  const seasons = series.seasons.filter((season) => season.season_number > 0);
+  const seasonColors = [
+    "bg-emerald-500/80",
+    "bg-amber-500/80",
+    "bg-sky-500/80",
+    "bg-rose-500/80",
+    "bg-violet-500/80",
+    "bg-teal-500/80",
+  ];
 
   return (
     <main className="container mx-auto px-4 py-10">
@@ -33,7 +51,7 @@ export default async function TvPage({ params }: TvPageProps) {
           href="/"
           className={cn(
             buttonVariants({ variant: "ghost", size: "sm" }),
-            "gap-2 rounded-full border border-border/70 bg-background/80 px-4 backdrop-blur",
+            "gap-2 border border-border/70 bg-background/80 px-4 backdrop-blur",
           )}
         >
           <ArrowLeft className="size-4" />
@@ -43,7 +61,7 @@ export default async function TvPage({ params }: TvPageProps) {
 
       <section className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
         <div className="overflow-hidden border border-foreground/10 bg-card shadow-2xl shadow-black/10">
-          <div className="relative aspect-[2/3] sm:aspect-[4/5] lg:aspect-[5/6]">
+          <div className="relative aspect-2/3 sm:aspect-4/5 lg:aspect-5/6">
             {heroImage ? (
               <Image
                 src={`https://image.tmdb.org/t/p/w780${heroImage}`}
@@ -96,30 +114,65 @@ export default async function TvPage({ params }: TvPageProps) {
                 </Badge>
               ))}
             </div>
+
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Link
+                href={`/tv/${id}/season/1`}
+                className={cn(
+                  buttonVariants({ variant: "default", size: "sm" }),
+                  "gap-2 px-4",
+                )}
+              >
+                <Play className="size-4" />
+                Open season 1
+              </Link>
+              {trailer ? (
+                <a
+                  href={`https://www.youtube.com/watch?v=${trailer.key}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={cn(
+                    buttonVariants({ variant: "secondary", size: "sm" }),
+                    "gap-2 px-4",
+                  )}
+                >
+                  <Play className="size-4" />
+                  Play trailer
+                </a>
+              ) : null}
+            </div>
           </div>
 
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
             {series.overview}
           </p>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            {series.seasons
-              .filter((season) => season.season_number > 0)
-              .slice(0, 4)
-              .map((season) => (
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {seasons.map((season, index) => (
+              <Link
+                key={season.id}
+                href={getSeasonHref(id, season.season_number)}
+                className="group flex overflow-hidden border border-foreground/10 bg-card/70 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+              >
                 <div
-                  key={season.id}
-                  className="border border-foreground/10 bg-card/70 p-4"
-                >
-                  <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                  className={cn(
+                    "w-2 shrink-0",
+                    seasonColors[index % seasonColors.length],
+                  )}
+                />
+                <div className="flex-1 p-3.5">
+                  <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground">
                     Season {season.season_number}
                   </p>
-                  <h2 className="mt-2 text-lg font-medium">{season.name}</h2>
-                  <p className="mt-1 text-sm text-muted-foreground">
+                  <h2 className="mt-2 text-base font-medium leading-tight group-hover:text-foreground">
+                    {season.name}
+                  </h2>
+                  <p className="mt-1 text-xs text-muted-foreground">
                     {season.episode_count} episodes
                   </p>
                 </div>
-              ))}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -189,7 +242,7 @@ export default async function TvPage({ params }: TvPageProps) {
           href="/"
           className={cn(
             buttonVariants({ variant: "default", size: "lg" }),
-            "rounded-full px-6",
+            "px-6",
           )}
         >
           <PlayCircle className="size-5" />
