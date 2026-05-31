@@ -5,6 +5,7 @@ import { useEffect } from "react";
 type VideoPlayerProps = {
   id: string;
   title: string;
+  contentType?: "movie" | "tv";
   primaryColor?: string;
   secondaryColor?: string;
   iconColor?: string;
@@ -26,6 +27,7 @@ function buildVidlinkSrc({
   showTitle = false,
   nextButton = false,
   player = "default",
+  contentType = "movie",
 }: VideoPlayerProps) {
   const params = new URLSearchParams();
 
@@ -39,10 +41,14 @@ function buildVidlinkSrc({
   params.set("autoplay", String(autoplay));
   params.set("nextbutton", String(nextButton));
 
-  return `https://vidlink.pro/movie/${id}?${params.toString()}`;
+  return `https://vidlink.pro/${contentType}/${id}?${params.toString()}`;
 }
 
-export default function VideoPlayer({ id, title }: VideoPlayerProps) {
+export default function VideoPlayer({
+  id,
+  title,
+  contentType,
+}: VideoPlayerProps) {
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== "https://vidlink.pro") return;
@@ -65,7 +71,7 @@ export default function VideoPlayer({ id, title }: VideoPlayerProps) {
       <div className="relative aspect-video w-full bg-black">
         <iframe
           title={`${title} player`}
-          src={buildVidlinkSrc({ id, title })}
+          src={buildVidlinkSrc({ id, title, contentType })}
           className="absolute inset-0 h-full w-full border-0 transition-opacity duration-200 ease-out"
           allow="autoplay; fullscreen; picture-in-picture"
           loading="eager"
