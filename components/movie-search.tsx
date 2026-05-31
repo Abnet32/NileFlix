@@ -1,14 +1,20 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import type { TMDBMovie } from "@/lib/tmdb";
+import {
+  getContentHref,
+  getContentTitle,
+  getContentYear,
+  type TMDBSearchResult,
+} from "@/lib/tmdb";
+import { Badge } from "@/components/ui/badge";
 import { Search, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type SearchResponse = {
-  results: TMDBMovie[];
+  results: TMDBSearchResult[];
 };
 
 type MovieSearchProps = {
@@ -19,7 +25,7 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const requestIdRef = useRef(0);
   const [query, setQuery] = useState(initialQuery);
-  const [results, setResults] = useState<TMDBMovie[]>([]);
+  const [results, setResults] = useState<TMDBSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,7 +41,7 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to search movies");
+        throw new Error("Failed to search titles");
       }
 
       if (requestId !== requestIdRef.current) return;
@@ -105,7 +111,7 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
                   setIsOpen(true);
                 }
               }}
-              placeholder="search movies..."
+              placeholder="search movies or tv shows..."
               autoComplete="off"
               className="h-11 w-full rounded-none border border-input bg-background pl-11 pr-12 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 sm:h-12"
             />
@@ -153,16 +159,18 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
 
             {results.length ? (
               <div className="max-h-[60vh] overflow-y-auto p-1.5 sm:p-2">
-                {results.map((movie) => {
-                  const imagePath = movie.poster_path ?? movie.backdrop_path;
-                  const releaseYear = movie.release_date
-                    ? new Date(movie.release_date).getFullYear()
-                    : null;
+                {results.map((item) => {
+                  const imagePath = item.poster_path ?? item.backdrop_path;
+                  const year = getContentYear(item);
+                  const title = getContentTitle(item);
+                  const href = getContentHref(item);
+                  const contentType =
+                    item.media_type === "tv" ? "TV Show" : "Movie";
 
                   return (
                     <Link
-                      key={movie.id}
-                      href={`/movie/${movie.id}`}
+                      key={`${item.media_type}-${item.id}`}
+                      href={href}
                       onClick={() => setIsOpen(false)}
                       className="flex items-center gap-3 rounded-none p-2 transition-colors hover:bg-muted"
                     >
@@ -170,7 +178,7 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
                         {imagePath ? (
                           <Image
                             src={`https://image.tmdb.org/t/p/w342${imagePath}`}
-                            alt={movie.title}
+                            alt={title}
                             fill
                             className="object-cover"
                             sizes="40px"
@@ -178,15 +186,23 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
                         ) : null}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-foreground sm:text-[15px]">
-                          {movie.title}
-                        </p>
+                        <div className="mb-1 flex items-center gap-2">
+                          <p className="truncate text-sm font-medium text-foreground sm:text-[15px]">
+                            {title}
+                          </p>
+                          <Badge
+                            variant="secondary"
+                            className="h-5 rounded-full px-2 text-[10px] uppercase tracking-[0.2em]"
+                          >
+                            {contentType}
+                          </Badge>
+                        </div>
                         <p className="truncate text-[11px] text-muted-foreground sm:text-xs">
-                          {releaseYear ?? "Unknown year"} •{" "}
-                          {movie.vote_average.toFixed(1)}
+                          {year ?? "Unknown year"} •{" "}
+                          {item.vote_average.toFixed(1)}
                         </p>
                         <p className="line-clamp-2 text-[11px] text-muted-foreground sm:text-xs">
-                          {movie.overview || "No description available."}
+                          {item.overview || "No description available."}
                         </p>
                       </div>
                     </Link>
