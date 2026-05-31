@@ -7,6 +7,11 @@ import {
   getTopRatedMovies,
   getUpcomingMovies,
   getNowPlayingMovies,
+  getTrendingSeries,
+  getPopularSeries,
+  getTopRatedSeries,
+  getAiringTodaySeries,
+  getOnTheAirSeries,
 } from "@/lib/tmdb";
 import Footer from "@/components/footer";
 
@@ -21,15 +26,29 @@ export default async function Home({ searchParams }: HomeProps) {
     ? (queryValue[0]?.trim() ?? "")
     : (queryValue?.trim() ?? "");
 
-  const [trending, popular, topRated, upcoming, nowPlaying] = await Promise.all(
-    [
-      getTrendingMovies(),
-      getPopularMovies(),
-      getTopRatedMovies(),
-      getUpcomingMovies(),
-      getNowPlayingMovies(),
-    ],
-  );
+  const [
+    trending,
+    popular,
+    topRated,
+    upcoming,
+    nowPlaying,
+    trendingSeries,
+    popularSeries,
+    topRatedSeries,
+    airingTodaySeries,
+    onTheAirSeries,
+  ] = await Promise.all([
+    getTrendingMovies(),
+    getPopularMovies(),
+    getTopRatedMovies(),
+    getUpcomingMovies(),
+    getNowPlayingMovies(),
+    getTrendingSeries(),
+    getPopularSeries(),
+    getTopRatedSeries(),
+    getAiringTodaySeries(),
+    getOnTheAirSeries(),
+  ]);
 
   const rows = [
     { title: "Trending This Week", movies: trending.results.slice(0, 15) },
@@ -37,7 +56,15 @@ export default async function Home({ searchParams }: HomeProps) {
     { title: "Top Rated", movies: topRated.results.slice(0, 15) },
     { title: "Upcoming", movies: upcoming.results.slice(0, 15) },
     { title: "Now Playing", movies: nowPlaying.results.slice(0, 15) },
+    { title: "Trending Series", movies: trendingSeries.results.slice(0, 15) },
+    { title: "Popular Series", movies: popularSeries.results.slice(0, 15) },
+    { title: "Top Rated Series", movies: topRatedSeries.results.slice(0, 15) },
+    { title: "Airing Today", movies: airingTodaySeries.results.slice(0, 15) },
+    { title: "On The Air", movies: onTheAirSeries.results.slice(0, 15) },
   ];
+
+  const movieRows = rows.slice(0, 5);
+  const tvShowRows = rows.slice(5);
 
   const initialHero = trending.results[0] ?? null;
 
@@ -52,11 +79,29 @@ export default async function Home({ searchParams }: HomeProps) {
         <section className="relative z-40 mb-8 p-4 sm:p-6">
           <MovieSearch initialQuery={initialQuery} />
         </section>
-        <div className="relative z-0 space-y-6">
-          {rows.map((row) => (
-            <MovieRow key={row.title} title={row.title} movies={row.movies} />
+        <section id="movies" className="relative z-0 space-y-6 scroll-mt-28">
+          {movieRows.map((row) => (
+            <MovieRow
+              key={row.title}
+              title={row.title}
+              movies={row.movies}
+              contentType="movie"
+            />
           ))}
-        </div>
+        </section>
+        <section
+          id="tv-shows"
+          className="relative z-0 space-y-6 scroll-mt-28 pt-8"
+        >
+          {tvShowRows.map((row) => (
+            <MovieRow
+              key={row.title}
+              title={row.title}
+              movies={row.movies}
+              contentType="tv"
+            />
+          ))}
+        </section>
       </main>
       <Footer />
     </>
