@@ -1,4 +1,4 @@
-import { searchMovies } from "@/lib/tmdb";
+import { searchContent } from "@/lib/tmdb";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -9,9 +9,11 @@ export async function GET(request: Request) {
     return NextResponse.json({ results: [] });
   }
 
-  const { results } = await searchMovies(query);
+  const { results } = await searchContent(query);
 
   return NextResponse.json({
-    results,
+    results: results.filter(
+      (item) => item.media_type === "movie" || item.media_type === "tv",
+    ),
   });
 }
