@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import VideoPlayer from "@/components/view-movie";
-import { getMovie } from "@/lib/tmdb";
+import { getContentTitle, getMovie } from "@/lib/tmdb";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -11,6 +11,7 @@ type WatchPageProps = {
 export default async function WatchPage({ params }: WatchPageProps) {
   const { id } = await params;
   const movie = await getMovie(id);
+  const title = getContentTitle(movie);
 
   return (
     <main className="min-h-dvh bg-black text-white">
@@ -21,7 +22,7 @@ export default async function WatchPage({ params }: WatchPageProps) {
               Now playing
             </p>
             <h1 className="truncate font-heading text-xl font-medium sm:text-3xl lg:text-4xl">
-              {movie.title}
+              {title}
             </h1>
           </div>
 
@@ -38,7 +39,7 @@ export default async function WatchPage({ params }: WatchPageProps) {
         </div>
 
         <div className="min-h-0 flex-1">
-          <VideoPlayer id={movie.id.toString()} title={movie.title} />
+          <VideoPlayer id={movie.id.toString()} title={title} />
         </div>
       </div>
     </main>
