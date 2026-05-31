@@ -147,7 +147,7 @@ export default async function TvPage({ params }: TvPageProps) {
             {series.overview}
           </p>
 
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-4">
             {seasons.map((season, index) => (
               <Link
                 key={season.id}
