@@ -3,13 +3,20 @@ const BASE_URL = "https://api.themoviedb.org/3";
 
 export type TMDBMovie = {
   id: number;
-  title: string;
+  title?: string;
+  name?: string;
   overview: string;
   backdrop_path: string | null;
   poster_path: string | null;
   vote_average: number;
-  release_date: string;
+  release_date?: string;
+  first_air_date?: string;
+  media_type?: "movie" | "tv" | "person";
   genre_ids?: number[];
+};
+
+export type TMDBSearchResult = TMDBMovie & {
+  media_type: "movie" | "tv";
 };
 
 export type TMDBGenre = {
@@ -20,6 +27,40 @@ export type TMDBGenre = {
 export type TMDBMovieDetails = TMDBMovie & {
   runtime: number | null;
   genres: TMDBGenre[];
+};
+
+export type TMDBEpisode = {
+  id: number;
+  name: string;
+  overview: string;
+  episode_number: number;
+  still_path: string | null;
+  air_date: string;
+  runtime: number | null;
+  vote_average: number;
+};
+
+export type TMDBSeason = {
+  id: number;
+  name: string;
+  overview: string;
+  season_number: number;
+  episode_count: number;
+  poster_path: string | null;
+  air_date: string;
+  episodes?: TMDBEpisode[];
+};
+
+export type TMDBSeriesDetails = TMDBMovie & {
+  name: string;
+  first_air_date: string;
+  last_air_date: string;
+  number_of_seasons: number;
+  number_of_episodes: number;
+  status: string;
+  genres: TMDBGenre[];
+  episode_run_time: number[];
+  seasons: TMDBSeason[];
 };
 
 export type TMDBVideo = {
@@ -34,6 +75,8 @@ export type TMDBVideo = {
 type TMDBResponse<T> = {
   results: T[];
 };
+
+type TMDBSeasonResponse = TMDBSeason;
 
 function assertApiKey() {
   if (!API_KEY) {
@@ -55,6 +98,23 @@ async function tmdbFetch<T>(path: string) {
   return response.json() as Promise<T>;
 }
 
+export function getContentTitle(content: Pick<TMDBMovie, "title" | "name">) {
+  return content.title ?? content.name ?? "Untitled";
+}
+
+export function getContentYear(
+  content: Pick<TMDBMovie, "release_date" | "first_air_date">,
+) {
+  const date = content.release_date ?? content.first_air_date;
+  return date ? new Date(date).getFullYear() : null;
+}
+
+export function getContentHref(content: Pick<TMDBMovie, "id" | "media_type">) {
+  return content.media_type === "tv"
+    ? `/tv/${content.id}`
+    : `/movie/${content.id}`;
+}
+
 export async function getTrendingMovies() {
   return tmdbFetch<TMDBResponse<TMDBMovie>>(
     "/trending/movie/week?language=en-US",
@@ -64,6 +124,12 @@ export async function getTrendingMovies() {
 export async function searchMovies(query: string) {
   return tmdbFetch<TMDBResponse<TMDBMovie>>(
     `/search/movie?query=${encodeURIComponent(query)}&language=en-US`,
+  );
+}
+
+export async function searchContent(query: string) {
+  return tmdbFetch<TMDBResponse<TMDBSearchResult>>(
+    `/search/multi?query=${encodeURIComponent(query)}&language=en-US`,
   );
 }
 
@@ -100,4 +166,42 @@ export async function getNowPlayingMovies() {
   return tmdbFetch<TMDBResponse<TMDBMovie>>(
     `/movie/now_playing?language=en-US`,
   );
+}
+
+export async function getGenres() {
+  return tmdbFetch<{ genres: TMDBGenre[] }>(`/genre/movie/list?language=en-US`);
+}
+
+export function getTrendingSeries() {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>("/trending/tv/week?language=en-US");
+}
+
+export async function getSeries(id: string) {
+  return tmdbFetch<TMDBSeriesDetails>(`/tv/${id}?language=en-US`);
+}
+
+export async function getSeriesVideos(id: string) {
+  return tmdbFetch<TMDBResponse<TMDBVideo>>(`/tv/${id}/videos?language=en-US`);
+}
+
+export async function getSeriesSeason(id: string, seasonNumber: string) {
+  return tmdbFetch<TMDBSeasonResponse>(
+    `/tv/${id}/season/${seasonNumber}?language=en-US`,
+  );
+}
+
+export async function getPopularSeries() {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(`/tv/popular?language=en-US`);
+}
+
+export async function getTopRatedSeries() {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(`/tv/top_rated?language=en-US`);
+}
+
+export async function getAiringTodaySeries() {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(`/tv/airing_today?language=en-US`);
+}
+
+export async function getOnTheAirSeries() {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(`/tv/on_the_air?language=en-US`);
 }
