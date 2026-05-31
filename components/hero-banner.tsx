@@ -2,7 +2,7 @@
 
 import Header from "@/components/header";
 import { buttonVariants } from "@/components/ui/button";
-import type { TMDBMovie } from "@/lib/tmdb";
+import { getContentTitle, type TMDBMovie } from "@/lib/tmdb";
 import { Info, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,13 +40,14 @@ export default function HeroBanner({
   }
 
   const heroImage = hero.backdrop_path || hero.poster_path;
+  const heroTitle = getContentTitle(hero);
 
   return (
     <section className="relative mb-10 w-full overflow-hidden rounded-none bg-black sm:mb-12">
       {heroImage ? (
         <Image
           src={`https://image.tmdb.org/t/p/original${heroImage}`}
-          alt={hero.title}
+          alt={heroTitle}
           fill
           sizes="100vw"
           className="object-cover"
@@ -78,7 +79,7 @@ export default function HeroBanner({
             </div>
 
             <h2 className="text-4xl font-heading font-bold leading-[0.95] text-balance sm:text-5xl lg:text-7xl">
-              {hero.title}
+              {heroTitle}
             </h2>
 
             <p className="max-w-2xl text-base leading-7 text-white/85 sm:text-lg sm:leading-8 line-clamp-4">
