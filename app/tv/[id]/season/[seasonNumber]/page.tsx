@@ -28,6 +28,7 @@ export default async function SeasonPage({ params }: SeasonPageProps) {
   const episodes = season.episodes ?? [];
   const heroImage =
     season.poster_path ?? series.backdrop_path ?? series.poster_path;
+  const firstEpisodeNumber = episodes[0]?.episode_number;
   const accentColors = [
     "bg-emerald-500/80",
     "bg-amber-500/80",
@@ -94,16 +95,18 @@ export default async function SeasonPage({ params }: SeasonPageProps) {
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-1">
-            <Link
-              href={getEpisodeHref(id, seasonNumber, "1")}
-              className={cn(
-                buttonVariants({ variant: "default", size: "lg" }),
-                "min-w-48 justify-center gap-2 text-center",
-              )}
-            >
-              <Play className="size-4" />
-              Open first episode
-            </Link>
+            {firstEpisodeNumber ? (
+              <Link
+                href={getEpisodeHref(id, seasonNumber, firstEpisodeNumber)}
+                className={cn(
+                  buttonVariants({ variant: "default", size: "lg" }),
+                  "min-w-48 justify-center gap-2 text-center",
+                )}
+              >
+                <Play className="size-4" />
+                Open first episode
+              </Link>
+            ) : null}
             {trailer ? (
               <a
                 href={`https://www.youtube.com/watch?v=${trailer.key}`}
