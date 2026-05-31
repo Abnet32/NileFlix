@@ -14,7 +14,7 @@ import {
   Clapperboard,
   Layers3,
   Play,
-  PlayCircle,
+  Video,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -115,12 +115,12 @@ export default async function TvPage({ params }: TvPageProps) {
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="flex flex-wrap items-center gap-4 pt-1">
               <Link
                 href={`/tv/${id}/season/1`}
                 className={cn(
-                  buttonVariants({ variant: "default", size: "sm" }),
-                  "gap-2 px-4",
+                  buttonVariants({ variant: "default", size: "lg" }),
+                  "min-w-48 justify-center gap-2 text-center",
                 )}
               >
                 <Play className="size-4" />
@@ -132,11 +132,11 @@ export default async function TvPage({ params }: TvPageProps) {
                   target="_blank"
                   rel="noreferrer"
                   className={cn(
-                    buttonVariants({ variant: "secondary", size: "sm" }),
-                    "gap-2 px-4",
+                    buttonVariants({ variant: "secondary", size: "lg" }),
+                    "min-w-48 justify-center gap-2 text-center",
                   )}
                 >
-                  <Play className="size-4" />
+                  <Video className="size-4" />
                   Play trailer
                 </a>
               ) : null}
@@ -186,75 +186,15 @@ export default async function TvPage({ params }: TvPageProps) {
         </div>
       </section>
 
-      {/* <section className="mt-12 space-y-4">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
-              Episodes
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold">Season 1</h2>
-          </div>
-          <Badge variant="secondary">{episodes.length} episodes</Badge>
-        </div>
-
-        {episodes.length ? (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {episodes.map((episode) => (
-              <article
-                key={episode.id}
-                className="overflow-hidden border border-foreground/10 bg-card shadow-lg shadow-black/5"
-              >
-                <div className="relative aspect-video bg-muted">
-                  {episode.still_path ? (
-                    <Image
-                      src={`https://image.tmdb.org/t/p/w780${episode.still_path}`}
-                      alt={episode.name}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                      No still image
-                    </div>
-                  )}
-                </div>
-
-                <div className="space-y-3 p-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <h3 className="text-base font-medium">
-                      {episode.episode_number}. {episode.name}
-                    </h3>
-                    <Badge variant="outline">
-                      {episode.runtime ? formatRuntime(episode.runtime) : "-"}
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {episode.air_date || "Air date unavailable"} •{" "}
-                    {episode.vote_average.toFixed(1)}
-                  </p>
-                  <p className="line-clamp-4 text-sm leading-6 text-muted-foreground">
-                    {episode.overview || "No episode summary available."}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="border border-dashed border-border p-6 text-sm text-muted-foreground">
-            Episode information is not available for this title.
-          </div>
-        )}
-      </section> */}
-
       <div className="mt-10 flex justify-center">
         <Link
           href="/"
           className={cn(
             buttonVariants({ variant: "default", size: "lg" }),
-            "px-6",
+            "min-w-48 justify-center gap-2 text-center",
           )}
         >
-          <PlayCircle className="size-5" />
+          <Play className="size-5" />
           Explore more titles
         </Link>
       </div>
