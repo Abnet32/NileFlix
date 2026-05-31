@@ -50,21 +50,24 @@ export default async function Home({ searchParams }: HomeProps) {
     getOnTheAirSeries(),
   ]);
 
-  const rows = [
+  const movieRows = [
     { title: "Trending This Week", movies: trending.results.slice(0, 15) },
     { title: "Popular", movies: popular.results.slice(0, 15) },
     { title: "Top Rated", movies: topRated.results.slice(0, 15) },
     { title: "Upcoming", movies: upcoming.results.slice(0, 15) },
     { title: "Now Playing", movies: nowPlaying.results.slice(0, 15) },
-    { title: "Trending Series", movies: trendingSeries.results.slice(0, 15) },
-    { title: "Popular Series", movies: popularSeries.results.slice(0, 15) },
-    { title: "Top Rated Series", movies: topRatedSeries.results.slice(0, 15) },
+  ];
+
+  const tvRows = [
+    {
+      title: "Trending This Week",
+      movies: trendingSeries.results.slice(0, 15),
+    },
+    { title: "Popular", movies: popularSeries.results.slice(0, 15) },
+    { title: "Top Rated", movies: topRatedSeries.results.slice(0, 15) },
     { title: "Airing Today", movies: airingTodaySeries.results.slice(0, 15) },
     { title: "On The Air", movies: onTheAirSeries.results.slice(0, 15) },
   ];
-
-  const movieRows = rows.slice(0, 5);
-  const tvShowRows = rows.slice(5);
 
   const initialHero = trending.results[0] ?? null;
 
@@ -80,6 +83,20 @@ export default async function Home({ searchParams }: HomeProps) {
           <MovieSearch initialQuery={initialQuery} />
         </section>
         <section id="movies" className="relative z-0 space-y-6 scroll-mt-28">
+          <div className="flex items-end justify-between gap-4 px-2">
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
+                Movies
+              </p>
+            </div>
+            <a
+              href="#tv-shows"
+              className="text-xs uppercase tracking-[0.3em] text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Jump to TV
+            </a>
+          </div>
+
           {movieRows.map((row) => (
             <MovieRow
               key={row.title}
@@ -89,11 +106,26 @@ export default async function Home({ searchParams }: HomeProps) {
             />
           ))}
         </section>
+
         <section
           id="tv-shows"
           className="relative z-0 space-y-6 scroll-mt-28 pt-8"
         >
-          {tvShowRows.map((row) => (
+          <div className="flex items-end justify-between gap-4 px-2">
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
+                TV Shows
+              </p>
+            </div>
+            <a
+              href="#movies"
+              className="text-xs uppercase tracking-[0.3em] text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Jump to Movies
+            </a>
+          </div>
+
+          {tvRows.map((row) => (
             <MovieRow
               key={row.title}
               title={row.title}
