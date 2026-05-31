@@ -6,6 +6,8 @@ type VideoPlayerProps = {
   id: string;
   title: string;
   contentType?: "movie" | "tv";
+  seasonNumber?: string;
+  episodeNumber?: string;
   primaryColor?: string;
   secondaryColor?: string;
   iconColor?: string;
@@ -19,6 +21,8 @@ type VideoPlayerProps = {
 
 function buildVidlinkSrc({
   id,
+  seasonNumber,
+  episodeNumber,
   primaryColor,
   secondaryColor,
   iconColor,
@@ -41,13 +45,20 @@ function buildVidlinkSrc({
   params.set("autoplay", String(autoplay));
   params.set("nextbutton", String(nextButton));
 
-  return `https://vidlink.pro/${contentType}/${id}?${params.toString()}`;
+  const mediaPath =
+    contentType === "tv"
+      ? `tv/${id}/${seasonNumber ?? 1}/${episodeNumber ?? 1}`
+      : `${contentType}/${id}`;
+
+  return `https://vidlink.pro/${mediaPath}?${params.toString()}`;
 }
 
 export default function VideoPlayer({
   id,
   title,
   contentType,
+  seasonNumber,
+  episodeNumber,
 }: VideoPlayerProps) {
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -71,7 +82,13 @@ export default function VideoPlayer({
       <div className="relative aspect-video w-full bg-black">
         <iframe
           title={`${title} player`}
-          src={buildVidlinkSrc({ id, title, contentType })}
+          src={buildVidlinkSrc({
+            id,
+            title,
+            contentType,
+            seasonNumber,
+            episodeNumber,
+          })}
           className="absolute inset-0 h-full w-full border-0 transition-opacity duration-200 ease-out"
           allow="autoplay; fullscreen; picture-in-picture"
           loading="eager"
