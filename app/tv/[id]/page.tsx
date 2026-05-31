@@ -186,7 +186,7 @@ export default async function TvPage({ params }: TvPageProps) {
         </div>
       </section>
 
-      <div className="mt-10 flex justify-center">
+      {/* <div className="mt-10 flex justify-center">
         <Link
           href="/"
           className={cn(
@@ -197,7 +197,7 @@ export default async function TvPage({ params }: TvPageProps) {
           <Play className="size-5" />
           Explore more titles
         </Link>
-      </div>
+      </div> */}
     </main>
   );
 }
