@@ -110,41 +110,40 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
                 {episode.vote_average.toFixed(1)} rating
               </span>
             </p>
-
-            <div className="flex flex-wrap gap-3 pt-2">
-              <Link
-                href={`/tv/${id}/season/${seasonNumber}/episode/${episodeNumber}/watch`}
-                className={cn(
-                  buttonVariants({ variant: "default", size: "sm" }),
-                  "gap-2 px-4",
-                )}
-              >
-                <Play className="size-4" />
-                Watch episode
-              </Link>
-              {trailer ? (
-                <a
-                  href={`https://www.youtube.com/watch?v=${trailer.key}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={cn(
-                    buttonVariants({ variant: "secondary", size: "sm" }),
-                    "gap-2 px-4",
-                  )}
-                >
-                  <Play className="size-4" />
-                  Play trailer
-                </a>
-              ) : null}
-            </div>
           </div>
 
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
             {episode.overview || "No episode summary available."}
           </p>
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Link
+              href={`/tv/${id}/season/${seasonNumber}/episode/${episodeNumber}/watch`}
+              className={cn(
+                buttonVariants({ variant: "default", size: "sm" }),
+                "gap-2 px-4",
+              )}
+            >
+              <Play className="size-4" />
+              Watch episode
+            </Link>
+            {trailer ? (
+              <a
+                href={`https://www.youtube.com/watch?v=${trailer.key}`}
+                target="_blank"
+                rel="noreferrer"
+                className={cn(
+                  buttonVariants({ variant: "secondary", size: "sm" }),
+                  "gap-2 px-4",
+                )}
+              >
+                <Play className="size-4" />
+                Play trailer
+              </a>
+            ) : null}
+          </div>
         </div>
       </section>
-
     </main>
   );
 }
