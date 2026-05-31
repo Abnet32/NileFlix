@@ -62,44 +62,48 @@ export default function Header() {
           </Link>
         </div>
 
-        <details className="relative ml-auto md:hidden">
-          <summary
-            className={cn(
-              buttonVariants({ variant: "ghost", size: "sm" }),
-              "list-none border border-white/10 bg-white/5 px-3 text-white/80 shadow-sm shadow-black/10 backdrop-blur-sm hover:border-white/20 hover:bg-white/10 hover:text-white [&::-webkit-details-marker]:hidden",
-            )}
-          >
-            <Menu className="size-4" aria-hidden="true" />
-            Menu
-          </summary>
+        <div className="ml-auto flex items-center gap-2 md:hidden">
+          <ModeToggle />
 
-          <div className="absolute right-0 top-full z-50 mt-3 w-56 overflow-hidden border border-white/10 bg-black/95 p-2 shadow-2xl shadow-black/30 backdrop-blur-xl">
-            {navItems.map(({ label, href, icon: Icon }) => (
-              <Link
-                key={label}
-                href={href}
-                className={cn(
-                  buttonVariants({ variant: "ghost", size: "sm" }),
-                  "w-full justify-start gap-2 px-3 text-white/85 hover:bg-white/10 hover:text-white",
-                )}
-              >
-                <Icon className="size-4" aria-hidden="true" />
-                {label}
-              </Link>
-            ))}
-
-            <Link
-              href="/sign-in"
+          <details className="relative">
+            <summary
               className={cn(
-                buttonVariants({ variant: "default", size: "sm" }),
-                "mt-2 w-full justify-start gap-2 px-3",
+                buttonVariants({ variant: "ghost", size: "sm" }),
+                "list-none border border-white/10 bg-white/5 px-3 text-white/80 shadow-sm shadow-black/10 backdrop-blur-sm hover:border-white/20 hover:bg-white/10 hover:text-white [&::-webkit-details-marker]:hidden",
               )}
             >
-              <UserRound className="size-4" aria-hidden="true" />
-              Sign in
-            </Link>
-          </div>
-        </details>
+              <Menu className="size-4" aria-hidden="true" />
+              Menu
+            </summary>
+
+            <div className="absolute right-0 top-full z-50 mt-3 w-38 overflow-hidden border border-white/10 bg-black/95 p-2 shadow-2xl shadow-black/30 backdrop-blur-xl">
+              {navItems.map(({ label, href, icon: Icon }) => (
+                <Link
+                  key={label}
+                  href={href}
+                  className={cn(
+                    buttonVariants({ variant: "ghost", size: "sm" }),
+                    "w-full justify-start gap-2 px-3 text-white/85 hover:bg-white/10 hover:text-white",
+                  )}
+                >
+                  <Icon className="size-4" aria-hidden="true" />
+                  {label}
+                </Link>
+              ))}
+
+              <Link
+                href="/sign-in"
+                className={cn(
+                  buttonVariants({ variant: "default", size: "sm" }),
+                  "mt-2 w-full justify-start gap-2 px-3",
+                )}
+              >
+                <UserRound className="size-4" aria-hidden="true" />
+                Sign in
+              </Link>
+            </div>
+          </details>
+        </div>
       </div>
     </header>
   );
