@@ -14,6 +14,7 @@ import {
   CalendarRange,
   Clapperboard,
   Play,
+  Video,
   Tv2,
 } from "lucide-react";
 import Image from "next/image";
@@ -116,12 +117,12 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
             {episode.overview || "No episode summary available."}
           </p>
 
-          <div className="flex flex-wrap gap-3 pt-2">
+          <div className="flex flex-wrap items-center gap-4 pt-1">
             <Link
               href={`/tv/${id}/season/${seasonNumber}/episode/${episodeNumber}/watch`}
               className={cn(
-                buttonVariants({ variant: "default", size: "sm" }),
-                "gap-2 px-4",
+                buttonVariants({ variant: "default", size: "lg" }),
+                "min-w-48 justify-center gap-2 text-center",
               )}
             >
               <Play className="size-4" />
@@ -133,11 +134,11 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
                 target="_blank"
                 rel="noreferrer"
                 className={cn(
-                  buttonVariants({ variant: "secondary", size: "sm" }),
-                  "gap-2 px-4",
+                  buttonVariants({ variant: "secondary", size: "lg" }),
+                  "min-w-48 justify-center gap-2 text-center",
                 )}
               >
-                <Play className="size-4" />
+                <Video className="size-4" />
                 Play trailer
               </a>
             ) : null}
