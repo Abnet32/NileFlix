@@ -87,40 +87,40 @@ export default async function SeasonPage({ params }: SeasonPageProps) {
             <h1 className="font-heading text-3xl font-medium text-balance sm:text-5xl">
               {season.name}
             </h1>
-
-            <div className="flex flex-wrap gap-3 pt-2">
-              <Link
-                href={getEpisodeHref(id, seasonNumber, "1")}
-                className={cn(
-                  buttonVariants({ variant: "default", size: "sm" }),
-                  "gap-2 px-4",
-                )}
-              >
-                <Play className="size-4" />
-                Open first episode
-              </Link>
-              {trailer ? (
-                <a
-                  href={`https://www.youtube.com/watch?v=${trailer.key}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={cn(
-                    buttonVariants({ variant: "secondary", size: "sm" }),
-                    "gap-2 px-4",
-                  )}
-                >
-                  <Play className="size-4" />
-                  Play trailer
-                </a>
-              ) : null}
-            </div>
           </div>
 
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
             {season.overview || series.overview}
           </p>
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Link
+              href={getEpisodeHref(id, seasonNumber, "1")}
+              className={cn(
+                buttonVariants({ variant: "default", size: "sm" }),
+                "gap-2 px-4",
+              )}
+            >
+              <Play className="size-4" />
+              Open first episode
+            </Link>
+            {trailer ? (
+              <a
+                href={`https://www.youtube.com/watch?v=${trailer.key}`}
+                target="_blank"
+                rel="noreferrer"
+                className={cn(
+                  buttonVariants({ variant: "secondary", size: "sm" }),
+                  "gap-2 px-4",
+                )}
+              >
+                <Play className="size-4" />
+                Play trailer
+              </a>
+            ) : null}
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-4">
             {episodes.map((episode, index) => {
               const accent = accentColors[index % accentColors.length];
 
@@ -142,7 +142,7 @@ export default async function SeasonPage({ params }: SeasonPageProps) {
                       Episode {episode.episode_number}
                     </p>
                     <h2 className="mt-2 text-base font-medium leading-tight group-hover:text-foreground">
-                      {episode.name}
+                      Episode {episode.episode_number}
                     </h2>
                     <p className="mt-1 text-xs text-muted-foreground">
                       {episode.runtime
