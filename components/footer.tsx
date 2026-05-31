@@ -1,4 +1,4 @@
-const portfolioHref = "https://abinet.me"; 
+const portfolioHref = "https://abinet.me";
 
 export default function Footer() {
   return (
@@ -31,7 +31,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="font-semibold transition hover:text-primary hover:underline"
               >
-                Abnet
+                By Abnet
               </a>
             </div>
           </div>
