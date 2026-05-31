@@ -61,6 +61,7 @@ export default async function EpisodeWatchPage({
           <VideoPlayer
             id={series.id.toString()}
             title={`${showTitle} - S${seasonNumber}E${episodeNumber}`}
+            contentType="tv"
             autoplay
             showTitle
           />
