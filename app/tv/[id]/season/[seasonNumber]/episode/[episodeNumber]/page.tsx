@@ -65,7 +65,7 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
         </Link>
       </div>
 
-      <section className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+      <section className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
         <div className="overflow-hidden border border-foreground/10 bg-card shadow-2xl shadow-black/10">
           <div className="relative aspect-2/3 bg-muted sm:aspect-4/5 lg:aspect-5/6">
             {heroImage ? (
