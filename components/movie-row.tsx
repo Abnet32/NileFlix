@@ -7,9 +7,14 @@ import { useEffect, useRef, useState } from "react";
 type MovieRowProps = {
   title: string;
   movies: TMDBMovie[];
+  contentType?: "movie" | "tv";
 };
 
-export default function MovieRow({ title, movies }: MovieRowProps) {
+export default function MovieRow({
+  title,
+  movies,
+  contentType,
+}: MovieRowProps) {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -56,7 +61,7 @@ export default function MovieRow({ title, movies }: MovieRowProps) {
               key={movie.id}
               className="w-36 shrink-0 snap-start sm:w-44 md:w-52 lg:w-60"
             >
-              <MovieCard movie={movie} />
+              <MovieCard movie={movie} contentType={contentType} />
             </div>
           ))}
         </div>
