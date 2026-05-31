@@ -34,6 +34,7 @@ export type TMDBEpisode = {
   name: string;
   overview: string;
   episode_number: number;
+  season_number?: number;
   still_path: string | null;
   air_date: string;
   runtime: number | null;
@@ -115,6 +116,18 @@ export function getContentHref(content: Pick<TMDBMovie, "id" | "media_type">) {
     : `/movie/${content.id}`;
 }
 
+export function getSeasonHref(id: string, seasonNumber: number | string) {
+  return `/tv/${id}/season/${seasonNumber}`;
+}
+
+export function getEpisodeHref(
+  id: string,
+  seasonNumber: number | string,
+  episodeNumber: number | string,
+) {
+  return `/tv/${id}/season/${seasonNumber}/episode/${episodeNumber}`;
+}
+
 export async function getTrendingMovies() {
   return tmdbFetch<TMDBResponse<TMDBMovie>>(
     "/trending/movie/week?language=en-US",
@@ -187,6 +200,16 @@ export async function getSeriesVideos(id: string) {
 export async function getSeriesSeason(id: string, seasonNumber: string) {
   return tmdbFetch<TMDBSeasonResponse>(
     `/tv/${id}/season/${seasonNumber}?language=en-US`,
+  );
+}
+
+export async function getSeriesEpisode(
+  id: string,
+  seasonNumber: string,
+  episodeNumber: string,
+) {
+  return tmdbFetch<TMDBEpisode>(
+    `/tv/${id}/season/${seasonNumber}/episode/${episodeNumber}?language=en-US`,
   );
 }
 
