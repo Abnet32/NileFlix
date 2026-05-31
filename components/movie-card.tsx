@@ -1,27 +1,31 @@
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { getContentTitle, getContentYear, type TMDBMovie } from "@/lib/tmdb";
 import Image from "next/image";
 import Link from "next/link";
-import { TMDBMovie } from "@/lib/tmdb";
 
 type MovieCardProps = {
   movie: TMDBMovie;
+  contentType?: "movie" | "tv";
 };
 
-export default function MovieCard({ movie }: MovieCardProps) {
+export default function MovieCard({ movie, contentType }: MovieCardProps) {
   const imagePath = movie.poster_path ?? movie.backdrop_path;
-  const releaseYear = movie.release_date
-    ? new Date(movie.release_date).getFullYear()
-    : null;
+  const releaseYear = getContentYear(movie);
+  const title = getContentTitle(movie);
+  const resolvedType =
+    contentType ?? (movie.media_type === "tv" ? "tv" : "movie");
+  const href = resolvedType === "tv" ? `/tv/${movie.id}` : `/movie/${movie.id}`;
+  const typeLabel = resolvedType === "tv" ? "TV Show" : "Movie";
 
   return (
-    <Link href={`/movie/${movie.id}`} className="block group">
+    <Link href={href} className="group block">
       <Card className="mx-auto h-full w-full overflow-hidden shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
         <div className="relative aspect-2/3 w-full overflow-hidden">
           {imagePath ? (
             <Image
               src={`https://image.tmdb.org/t/p/w342${imagePath}`}
-              alt={movie.title}
+              alt={title}
               fill
               className="object-cover"
               sizes="(max-width: 640px) 40vw, (max-width: 1024px) 22vw, 16vw"
@@ -41,10 +45,18 @@ export default function MovieCard({ movie }: MovieCardProps) {
               {movie.vote_average.toFixed(1)} ⭐
             </Badge>
           </div>
+          <div className="absolute right-2 top-2 sm:right-3 sm:top-3">
+            <Badge
+              variant="outline"
+              className="border-white/20 bg-black/40 px-2 py-1 text-[10px] text-white sm:text-xs"
+            >
+              {typeLabel}
+            </Badge>
+          </div>
           <div className="absolute inset-x-0 bottom-0 p-2 sm:p-3">
             <div className="space-y-1 text-white">
               <h3 className="line-clamp-2 text-sm font-semibold leading-tight sm:text-base sm:font-bold lg:text-lg">
-                {movie.title}
+                {title}
               </h3>
               {releaseYear ? (
                 <p className="text-[11px] font-medium text-white/85 sm:text-sm">
