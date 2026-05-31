@@ -59,7 +59,7 @@ export default async function TvPage({ params }: TvPageProps) {
         </Link>
       </div>
 
-      <section className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+      <section className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
         <div className="overflow-hidden border border-foreground/10 bg-card shadow-2xl shadow-black/10">
           <div className="relative aspect-2/3 sm:aspect-4/5 lg:aspect-5/6">
             {heroImage ? (
@@ -146,38 +146,47 @@ export default async function TvPage({ params }: TvPageProps) {
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
             {series.overview}
           </p>
-
-          <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-4">
-            {seasons.map((season, index) => (
-              <Link
-                key={season.id}
-                href={getSeasonHref(id, season.season_number)}
-                className="group flex overflow-hidden border border-foreground/10 bg-card/70 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-              >
-                <div
-                  className={cn(
-                    "w-2 shrink-0",
-                    seasonColors[index % seasonColors.length],
-                  )}
-                />
-                <div className="flex-1 p-3.5">
-                  <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground">
-                    Season {season.season_number}
-                  </p>
-                  <h2 className="mt-2 text-base font-medium leading-tight group-hover:text-foreground">
-                    {season.name}
-                  </h2>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {season.episode_count} episodes
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 
       <section className="mt-12 space-y-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
+            Seasons
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold">All Seasons</h2>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-4">
+          {seasons.map((season, index) => (
+            <Link
+              key={season.id}
+              href={getSeasonHref(id, season.season_number)}
+              className="group flex overflow-hidden border border-foreground/10 bg-card/70 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              <div
+                className={cn(
+                  "w-2 shrink-0",
+                  seasonColors[index % seasonColors.length],
+                )}
+              />
+              <div className="flex-1 p-3.5">
+                <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground">
+                  Season {season.season_number}
+                </p>
+                <h2 className="mt-2 text-base font-medium leading-tight group-hover:text-foreground">
+                  {season.name}
+                </h2>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {season.episode_count} episodes
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* <section className="mt-12 space-y-4">
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
@@ -235,7 +244,7 @@ export default async function TvPage({ params }: TvPageProps) {
             Episode information is not available for this title.
           </div>
         )}
-      </section>
+      </section> */}
 
       <div className="mt-10 flex justify-center">
         <Link
