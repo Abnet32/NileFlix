@@ -1,7 +1,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import ActionButtons from "@/components/action-buttons";
-import { getMovie, getMovieVideos, getTrailerVideo } from "@/lib/tmdb";
+import {
+  getContentTitle,
+  getMovie,
+  getMovieVideos,
+  getTrailerVideo,
+} from "@/lib/tmdb";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -15,6 +20,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
   const { id } = await params;
   const [movie, videos] = await Promise.all([getMovie(id), getMovieVideos(id)]);
   const trailer = getTrailerVideo(videos.results);
+  const title = getContentTitle(movie);
 
   return (
     <main className="container mx-auto px-4 py-10">
@@ -32,7 +38,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
             {movie.poster_path ? (
               <Image
                 src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
-                alt={movie.title}
+                alt={title}
                 fill
                 className="object-cover"
                 priority
@@ -51,7 +57,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
               {movie.vote_average.toFixed(1)} ⭐
             </Badge>
             <h1 className="font-heading text-3xl font-medium text-balance sm:text-5xl">
-              {movie.title}
+              {title}
             </h1>
             <p className="text-sm text-muted-foreground sm:text-base">
               {movie.release_date || "Release date unavailable"}
