@@ -68,7 +68,6 @@ export default function VideoPlayer({ id, title }: VideoPlayerProps) {
           src={buildVidlinkSrc({ id, title })}
           className="absolute inset-0 h-full w-full border-0 transition-opacity duration-200 ease-out"
           allow="autoplay; fullscreen; picture-in-picture"
-          allowFullScreen
           loading="eager"
         />
       </div>
