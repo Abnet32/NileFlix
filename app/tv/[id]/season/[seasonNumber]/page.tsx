@@ -52,7 +52,7 @@ export default async function SeasonPage({ params }: SeasonPageProps) {
         </Link>
       </div>
 
-      <section className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+      <section className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
         <div className="overflow-hidden border border-foreground/10 bg-card shadow-2xl shadow-black/10">
           <div className="relative aspect-2/3 sm:aspect-4/5 lg:aspect-5/6">
             {heroImage ? (
@@ -119,41 +119,48 @@ export default async function SeasonPage({ params }: SeasonPageProps) {
               </a>
             ) : null}
           </div>
+        </div>
+      </section>
 
-          <div className="grid gap-3 sm:grid-cols-4">
-            {episodes.map((episode, index) => {
-              const accent = accentColors[index % accentColors.length];
+      <section className="mt-12 space-y-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
+            Episodes
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold">
+            Season {season.season_number}
+          </h2>
+        </div>
 
-              return (
-                <Link
-                  key={episode.id}
-                  href={getEpisodeHref(
-                    id,
-                    seasonNumber,
-                    episode.episode_number,
-                  )}
-                  className={cn(
-                    "group flex overflow-hidden border border-foreground/10 bg-card/70 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg",
-                  )}
-                >
-                  <div className={cn("w-2 shrink-0", accent)} />
-                  <div className="flex-1 p-3.5">
-                    <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground">
-                      Episode {episode.episode_number}
-                    </p>
-                    <h2 className="mt-2 text-base font-medium leading-tight group-hover:text-foreground">
-                      Episode {episode.episode_number}
-                    </h2>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {episode.runtime
-                        ? formatRuntime(episode.runtime)
-                        : "Runtime unavailable"}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+        <div className="grid gap-3 sm:grid-cols-4">
+          {episodes.map((episode, index) => {
+            const accent = accentColors[index % accentColors.length];
+
+            return (
+              <Link
+                key={episode.id}
+                href={getEpisodeHref(id, seasonNumber, episode.episode_number)}
+                className={cn(
+                  "group flex overflow-hidden border border-foreground/10 bg-card/70 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg",
+                )}
+              >
+                <div className={cn("w-2 shrink-0", accent)} />
+                <div className="flex-1 p-3.5">
+                  <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground">
+                    Episode {episode.episode_number}
+                  </p>
+                  <h2 className="mt-2 text-base font-medium leading-tight group-hover:text-foreground">
+                     {episode.name}
+                  </h2>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {episode.runtime
+                      ? formatRuntime(episode.runtime)
+                      : "Runtime unavailable"}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </section>
     </main>
