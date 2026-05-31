@@ -2,12 +2,11 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import {
   getSeries,
-  getSeriesSeason,
   getSeriesVideos,
   getTrailerVideo,
   getSeasonHref,
 } from "@/lib/tmdb";
-import { formatRuntime, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   ArrowLeft,
   CalendarRange,
@@ -25,16 +24,15 @@ type TvPageProps = {
 
 export default async function TvPage({ params }: TvPageProps) {
   const { id } = await params;
-  const [series, firstSeason, videos] = await Promise.all([
+  const [series, videos] = await Promise.all([
     getSeries(id),
-    getSeriesSeason(id, "1"),
     getSeriesVideos(id),
   ]);
 
   const trailer = getTrailerVideo(videos.results);
-  const episodes = firstSeason.episodes ?? [];
   const heroImage = series.backdrop_path ?? series.poster_path;
   const seasons = series.seasons.filter((season) => season.season_number > 0);
+  const firstPlayableSeason = seasons[0]?.season_number ?? 1;
   const seasonColors = [
     "bg-emerald-500/80",
     "bg-amber-500/80",
@@ -117,14 +115,14 @@ export default async function TvPage({ params }: TvPageProps) {
 
             <div className="flex flex-wrap items-center gap-4 pt-1">
               <Link
-                href={`/tv/${id}/season/1`}
+                href={getSeasonHref(id, firstPlayableSeason)}
                 className={cn(
                   buttonVariants({ variant: "default", size: "lg" }),
                   "min-w-48 justify-center gap-2 text-center",
                 )}
               >
                 <Play className="size-4" />
-                Open season 1
+                Open first season
               </Link>
               {trailer ? (
                 <a
