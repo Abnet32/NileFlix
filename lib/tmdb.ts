@@ -128,6 +128,24 @@ export function getEpisodeHref(
   return `/tv/${id}/season/${seasonNumber}/episode/${episodeNumber}`;
 }
 
+// Anime-specific href helpers (anime content uses the same TMDB "tv" endpoints,
+// but the app routes under `/anime` to separate the UI category)
+export function getAnimeHref(id: string) {
+  return `/anime/${id}`;
+}
+
+export function getAnimeSeasonHref(id: string, seasonNumber: number | string) {
+  return `/anime/${id}/season/${seasonNumber}`;
+}
+
+export function getAnimeEpisodeHref(
+  id: string,
+  seasonNumber: number | string,
+  episodeNumber: number | string,
+) {
+  return `/anime/${id}/season/${seasonNumber}/episode/${episodeNumber}`;
+}
+
 export async function getTrendingMovies() {
   return tmdbFetch<TMDBResponse<TMDBMovie>>(
     "/trending/movie/week?language=en-US",
@@ -227,4 +245,34 @@ export async function getAiringTodaySeries() {
 
 export async function getOnTheAirSeries() {
   return tmdbFetch<TMDBResponse<TMDBMovie>>(`/tv/on_the_air?language=en-US`);
+}
+
+// Anime-specific discovery helpers. TMDB doesn't have a first-class "anime" type,
+// so we discover TV shows with the Animation genre and original language Japanese.
+export async function getTrendingAnime() {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(
+    `/discover/tv?with_genres=16&with_original_language=ja&sort_by=popularity.desc&language=en-US`,
+  );
+}
+
+export async function getPopularAnime() {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(
+    `/discover/tv?with_genres=16&with_original_language=ja&sort_by=popularity.desc&language=en-US`,
+  );
+}
+
+export async function getTopRatedAnime() {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(
+    `/discover/tv?with_genres=16&with_original_language=ja&sort_by=vote_average.desc&vote_count.gte=50&language=en-US`,
+  );
+}
+
+export async function getAiringTodayAnime() {
+  // Fetch today's airing shows then filter to animation genre
+  const airing = await tmdbFetch<TMDBResponse<TMDBMovie>>(
+    `/tv/airing_today?language=en-US`,
+  );
+
+  airing.results = airing.results.filter((r) => r.genre_ids?.includes(16));
+  return airing;
 }
