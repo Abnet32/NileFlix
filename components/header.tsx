@@ -2,7 +2,7 @@
 
 import { ModeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
-import { Film, Menu, TvMinimalPlay, UserRound } from "lucide-react";
+import { Film, Menu, TvMinimalPlay, Star } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,11 @@ const navItems = [
     label: "Movie",
     href: "#movies",
     icon: Film,
+  },
+  {
+    label: "Anime",
+    href: "#anime",
+    icon: Star,
   },
   {
     label: "TV Show",
