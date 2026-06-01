@@ -1,5 +1,5 @@
 import HeroBanner from "@/components/hero-banner";
-import MovieSearch from "@/components/movie-search";
+import MovieSearch from "../components/movie-search";
 import MovieRow from "@/components/movie-row";
 import {
   getTrendingMovies,
@@ -12,6 +12,10 @@ import {
   getTopRatedSeries,
   getAiringTodaySeries,
   getOnTheAirSeries,
+  getTrendingAnime,
+  getPopularAnime,
+  getTopRatedAnime,
+  getAiringTodayAnime,
 } from "@/lib/tmdb";
 import Footer from "@/components/footer";
 
@@ -37,6 +41,10 @@ export default async function Home({ searchParams }: HomeProps) {
     topRatedSeries,
     airingTodaySeries,
     onTheAirSeries,
+    trendingAnime,
+    popularAnime,
+    topRatedAnime,
+    airingTodayAnime,
   ] = await Promise.all([
     getTrendingMovies(),
     getPopularMovies(),
@@ -48,6 +56,10 @@ export default async function Home({ searchParams }: HomeProps) {
     getTopRatedSeries(),
     getAiringTodaySeries(),
     getOnTheAirSeries(),
+    getTrendingAnime(),
+    getPopularAnime(),
+    getTopRatedAnime(),
+    getAiringTodayAnime(),
   ]);
 
   const movieRows = [
@@ -67,6 +79,18 @@ export default async function Home({ searchParams }: HomeProps) {
     { title: "Top Rated", movies: topRatedSeries.results.slice(0, 15) },
     { title: "Airing Today", movies: airingTodaySeries.results.slice(0, 15) },
     { title: "On The Air", movies: onTheAirSeries.results.slice(0, 15) },
+  ];
+
+  const animeRows = [
+    {
+      title: "Trending This Week",
+      movies: trendingAnime.results.slice(0, 15),
+    },
+    { title: "Popular", movies: popularAnime.results.slice(0, 15) },
+    { title: "Top Rated", movies: topRatedAnime.results.slice(0, 15) },
+    { title: "Airing Today", movies: airingTodayAnime.results.slice(0, 15) },
+    // On The Air isn't available via discover; reuse airing today as a placeholder
+    { title: "On The Air", movies: airingTodayAnime.results.slice(0, 15) },
   ];
 
   const initialHero = trending.results[0] ?? null;
@@ -131,6 +155,34 @@ export default async function Home({ searchParams }: HomeProps) {
               title={row.title}
               movies={row.movies}
               contentType="tv"
+            />
+          ))}
+        </section>
+
+        <section
+          id="anime"
+          className="relative z-0 space-y-6 scroll-mt-28 pt-8"
+        >
+          <div className="flex items-end justify-between gap-4 px-2">
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
+                Anime
+              </p>
+            </div>
+            <a
+              href="#movies"
+              className="text-xs uppercase tracking-[0.3em] text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Jump to Movies
+            </a>
+          </div>
+
+          {animeRows.map((row) => (
+            <MovieRow
+              key={row.title}
+              title={row.title}
+              movies={row.movies}
+              contentType="anime"
             />
           ))}
         </section>
