@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 type MovieRowProps = {
   title: string;
   movies: TMDBMovie[];
-  contentType?: "movie" | "tv";
+  contentType?: "movie" | "tv" | "anime";
 };
 
 export default function MovieRow({
