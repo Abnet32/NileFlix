@@ -6,7 +6,7 @@ import Link from "next/link";
 
 type MovieCardProps = {
   movie: TMDBMovie;
-  contentType?: "movie" | "tv";
+  contentType?: "movie" | "tv" | "anime";
 };
 
 export default function MovieCard({ movie, contentType }: MovieCardProps) {
@@ -15,8 +15,18 @@ export default function MovieCard({ movie, contentType }: MovieCardProps) {
   const title = getContentTitle(movie);
   const resolvedType =
     contentType ?? (movie.media_type === "tv" ? "tv" : "movie");
-  const href = resolvedType === "tv" ? `/tv/${movie.id}` : `/movie/${movie.id}`;
-  const typeLabel = resolvedType === "tv" ? "TV Show" : "Movie";
+  const href =
+    resolvedType === "tv"
+      ? `/tv/${movie.id}`
+      : resolvedType === "anime"
+        ? `/anime/${movie.id}`
+        : `/movie/${movie.id}`;
+  const typeLabel =
+    resolvedType === "tv"
+      ? "TV Show"
+      : resolvedType === "anime"
+        ? "Anime"
+        : "Movie";
 
   return (
     <Link href={href} className="group block">
