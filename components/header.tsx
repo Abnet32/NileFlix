@@ -28,7 +28,7 @@ const navItems = [
 export default function Header() {
   return (
     <header className="w-full">
-      <div className="mx-auto flex items-center gap-3 px-4 py-4 backdrop-blur-xl sm:px-6 lg:px-8">
+      <div className="mx-auto flex items-center gap-3 px-4 py-4  sm:px-6 lg:px-8">
         <Link href="/" className="group flex items-center gap-3 shrink-0">
           <span className="leading-none text-white">
             <span className="block text-[0.98rem] uppercase tracking-[0.45em] text-white/55">
