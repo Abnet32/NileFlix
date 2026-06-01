@@ -113,12 +113,6 @@ export default async function Home({ searchParams }: HomeProps) {
                 Movies
               </p>
             </div>
-            <a
-              href="#tv-shows"
-              className="text-xs uppercase tracking-[0.3em] text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Jump to TV
-            </a>
           </div>
 
           {movieRows.map((row) => (
@@ -141,12 +135,6 @@ export default async function Home({ searchParams }: HomeProps) {
                 TV Shows
               </p>
             </div>
-            <a
-              href="#movies"
-              className="text-xs uppercase tracking-[0.3em] text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Jump to Movies
-            </a>
           </div>
 
           {tvRows.map((row) => (
@@ -169,12 +157,6 @@ export default async function Home({ searchParams }: HomeProps) {
                 Anime
               </p>
             </div>
-            <a
-              href="#movies"
-              className="text-xs uppercase tracking-[0.3em] text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Jump to Movies
-            </a>
           </div>
 
           {animeRows.map((row) => (
