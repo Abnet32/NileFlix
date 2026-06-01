@@ -8,10 +8,10 @@ import {
   type TMDBSearchResult,
 } from "@/lib/tmdb";
 import { Badge } from "@/components/ui/badge";
-import { Search, X } from "lucide-react";
+import { Search, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type SearchResponse = {
   results: TMDBSearchResult[];
@@ -28,38 +28,44 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
   const [results, setResults] = useState<TMDBSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [scope, setScope] = useState<"all" | "movie" | "tv" | "anime">("all");
 
   const trimmedQuery = useMemo(() => query.trim(), [query]);
 
-  const runSearch = async (searchTerm: string) => {
-    const requestId = ++requestIdRef.current;
-    setIsLoading(true);
+  const runSearch = useCallback(
+    async (searchTerm: string) => {
+      const requestId = ++requestIdRef.current;
+      setIsLoading(true);
 
-    try {
-      const response = await fetch(
-        `/api/search?query=${encodeURIComponent(searchTerm)}`,
-      );
+      try {
+        const params = new URLSearchParams();
+        params.set("query", searchTerm);
+        if (scope && scope !== "all") params.set("type", scope);
 
-      if (!response.ok) {
-        throw new Error("Failed to search titles");
-      }
+        const response = await fetch(`/api/search?${params.toString()}`);
 
-      if (requestId !== requestIdRef.current) return;
+        if (!response.ok) {
+          throw new Error("Failed to search titles");
+        }
 
-      const data = (await response.json()) as SearchResponse;
-      setResults(data.results);
-      setIsOpen(true);
-    } catch {
-      if (requestId === requestIdRef.current) {
-        setResults([]);
+        if (requestId !== requestIdRef.current) return;
+
+        const data = (await response.json()) as SearchResponse;
+        setResults(data.results);
         setIsOpen(true);
+      } catch {
+        if (requestId === requestIdRef.current) {
+          setResults([]);
+          setIsOpen(true);
+        }
+      } finally {
+        if (requestId === requestIdRef.current) {
+          setIsLoading(false);
+        }
       }
-    } finally {
-      if (requestId === requestIdRef.current) {
-        setIsLoading(false);
-      }
-    }
-  };
+    },
+    [scope],
+  );
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -78,14 +84,14 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
   useEffect(() => {
     if (!trimmedQuery) return;
 
-    const timeoutId = window.setTimeout(async () => {
+    const timeoutId = window.setTimeout(() => {
       void runSearch(trimmedQuery);
     }, 200);
 
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, [trimmedQuery]);
+  }, [trimmedQuery, runSearch]);
 
   return (
     <div ref={wrapperRef} className="relative">
@@ -111,10 +117,11 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
                   setIsOpen(true);
                 }
               }}
-              placeholder="search movies or tv shows..."
+              placeholder="search movies, tv shows, or anime..."
               autoComplete="off"
               className="h-11 w-full rounded-none border border-input bg-background pl-11 pr-12 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 sm:h-12"
             />
+
             {query ? (
               <button
                 type="button"
@@ -133,6 +140,27 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
         </div>
 
         <div className="flex items-center gap-3">
+          <div className="relative">
+            <select
+              value={scope}
+              onChange={(e) =>
+                setScope(e.target.value as "all" | "movie" | "tv" | "anime")
+              }
+              className="h-11 rounded-none border border-input bg-background pl-3 pr-10 text-sm outline-none appearance-none sm:h-12"
+              aria-label="Search scope"
+            >
+              <option value="all">All</option>
+              <option value="movie">Movies</option>
+              <option value="tv">TV Shows</option>
+              <option value="anime">Anime</option>
+            </select>
+
+            <ChevronDown
+              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+              aria-hidden="true"
+            />
+          </div>
+
           <button
             type="button"
             onClick={() => {
@@ -159,55 +187,57 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
 
             {results.length ? (
               <div className="max-h-[60vh] overflow-y-auto p-1.5 sm:p-2">
-                {results.map((item) => {
-                  const imagePath = item.poster_path ?? item.backdrop_path;
-                  const year = getContentYear(item);
-                  const title = getContentTitle(item);
-                  const href = getContentHref(item);
-                  const contentType =
-                    item.media_type === "tv" ? "TV Show" : "Movie";
+                {results.map((item) =>
+                  (() => {
+                    const imagePath = item.poster_path ?? item.backdrop_path;
+                    const year = getContentYear(item);
+                    const title = getContentTitle(item);
+                    const href = getContentHref(item);
+                    const contentType =
+                      item.media_type === "tv" ? "TV Show" : "Movie";
 
-                  return (
-                    <Link
-                      key={`${item.media_type}-${item.id}`}
-                      href={href}
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 rounded-none p-2 transition-colors hover:bg-muted"
-                    >
-                      <div className="relative h-14 w-10 shrink-0 overflow-hidden bg-muted sm:h-16 sm:w-12">
-                        {imagePath ? (
-                          <Image
-                            src={`https://image.tmdb.org/t/p/w342${imagePath}`}
-                            alt={title}
-                            fill
-                            className="object-cover"
-                            sizes="40px"
-                          />
-                        ) : null}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="mb-1 flex items-center gap-2">
-                          <p className="truncate text-sm font-medium text-foreground sm:text-[15px]">
-                            {title}
-                          </p>
-                          <Badge
-                            variant="secondary"
-                            className="h-5 rounded-full px-2 text-[10px] uppercase tracking-[0.2em]"
-                          >
-                            {contentType}
-                          </Badge>
+                    return (
+                      <Link
+                        key={`${item.media_type}-${item.id}`}
+                        href={href}
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center gap-3 rounded-none p-2 transition-colors hover:bg-muted"
+                      >
+                        <div className="relative h-14 w-10 shrink-0 overflow-hidden bg-muted sm:h-16 sm:w-12">
+                          {imagePath ? (
+                            <Image
+                              src={`https://image.tmdb.org/t/p/w342${imagePath}`}
+                              alt={title}
+                              fill
+                              className="object-cover"
+                              sizes="40px"
+                            />
+                          ) : null}
                         </div>
-                        <p className="truncate text-[11px] text-muted-foreground sm:text-xs">
-                          {year ?? "Unknown year"} •{" "}
-                          {item.vote_average.toFixed(1)}
-                        </p>
-                        <p className="line-clamp-2 text-[11px] text-muted-foreground sm:text-xs">
-                          {item.overview || "No description available."}
-                        </p>
-                      </div>
-                    </Link>
-                  );
-                })}
+                        <div className="min-w-0 flex-1">
+                          <div className="mb-1 flex items-center gap-2">
+                            <p className="truncate text-sm font-medium text-foreground sm:text-[15px]">
+                              {title}
+                            </p>
+                            <Badge
+                              variant="secondary"
+                              className="h-5 rounded-full px-2 text-[10px] uppercase tracking-[0.2em]"
+                            >
+                              {contentType}
+                            </Badge>
+                          </div>
+                          <p className="truncate text-[11px] text-muted-foreground sm:text-xs">
+                            {year ?? "Unknown year"} •{" "}
+                            {item.vote_average.toFixed(1)}
+                          </p>
+                          <p className="line-clamp-2 text-[11px] text-muted-foreground sm:text-xs">
+                            {item.overview || "No description available."}
+                          </p>
+                        </div>
+                      </Link>
+                    );
+                  })(),
+                )}
               </div>
             ) : isLoading ? (
               <div className="p-4 text-sm text-muted-foreground">
