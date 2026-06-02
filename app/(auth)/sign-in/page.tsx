@@ -109,9 +109,9 @@ function SignInForm() {
         <h1 className="mb-1 text-2xl font-bold tracking-tight text-foreground">
           Welcome back
         </h1>
-        <p className="text-sm text-muted-foreground">
+        {/* <p className="text-sm text-muted-foreground">
           Sign in to continue your learning journey.
-        </p>
+        </p> */}
       </div>
 
       {error && (
@@ -149,12 +149,12 @@ function SignInForm() {
             >
               Password
             </label>
-            <Link
+            {/* <Link
               href="/forgot-password"
               className="text-xs text-primary hover:underline"
             >
               Forgot Password?
-            </Link>
+            </Link> */}
           </div>
 
           <div className="relative">
@@ -195,7 +195,7 @@ function SignInForm() {
         </button>
       </form>
 
-      <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+      <div className="mt-4 grid  gap-2 grid-cols-2">
         <button
           type="button"
           onClick={() => void handleSocialSignIn("google")}
