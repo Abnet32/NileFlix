@@ -136,11 +136,11 @@ export default function SignUpPage() {
     <div className="w-full max-w-lg">
       <div className="mb-5 text-center">
         <h1 className="mb-1 text-2xl font-bold tracking-tight text-foreground">
-          Create your account
+          Create an account
         </h1>
-        <p className="text-sm text-muted-foreground">
+        {/* <p className="text-sm text-muted-foreground">
           Join E-brary and start learning for free
-        </p>
+        </p> */}
       </div>
 
       {error && (
@@ -303,7 +303,7 @@ export default function SignUpPage() {
         </button>
       </form>
 
-      <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+      <div className="mt-4 grid  gap-2 grid-cols-2">
         <button
           type="button"
           onClick={() => void handleSocialSignIn("google")}
@@ -315,7 +315,7 @@ export default function SignUpPage() {
           ) : (
             <FcGoogle />
           )}
-          Continue with Google
+          Google
         </button>
         <button
           type="button"
@@ -328,7 +328,7 @@ export default function SignUpPage() {
           ) : (
             <FaGithub />
           )}
-          Continue with GitHub
+          GitHub
         </button>
       </div>
 
