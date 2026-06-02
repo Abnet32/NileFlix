@@ -1,6 +1,4 @@
 import Image from "next/image";
-// import Link from "next/link";
-// import { FaLongArrowAltLeft } from "react-icons/fa";
 import nieflix from "@/public/nileflix.jpg";
 export default function AuthLayout({
   children,
@@ -9,19 +7,9 @@ export default function AuthLayout({
 }) {
   return (
     <div className="bg-background">
-      <main className="w-full p-0 ">
-        {/* <div className="mb-3">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 rounded-sm border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-muted"
-          >
-            <FaLongArrowAltLeft className="h-3.5 w-3.5" />
-            Back
-          </Link>
-        </div> */}
-
-        <section className="grid min-h-[calc(100dvh-3.75rem)] md:grid-cols-2">
-          <div className="relative hidden md:block">
+      <main className="w-full">
+        <section className="grid h-screen md:grid-cols-2">
+          <div className="relative hidden md:block min-h-[calc(100dvh-3.75rem)]">
             <Image
               src={nieflix}
               alt="Learning workspace"
@@ -32,7 +20,7 @@ export default function AuthLayout({
             />
             <div className="absolute inset-0 bg-black/45" />
             <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/15 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-8 text-white">
+            {/* <div className="absolute inset-x-0 bottom-0 p-8 text-white">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/80">
                 E-brary
               </p>
@@ -43,7 +31,7 @@ export default function AuthLayout({
                 Short lessons, practical exercises, and step-by-step growth from
                 fundamentals to real software projects.
               </p>
-            </div>
+            </div> */}
           </div>
 
           <div className="flex items-center justify-center bg-background/80 p-4 md:p-6">
