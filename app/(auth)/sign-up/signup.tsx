@@ -150,10 +150,7 @@ export default function SignUpPage() {
         </div>
       )}
 
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 gap-3 md:grid-cols-2"
-      >
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-3">
         <div>
           <label
             htmlFor="name"
@@ -299,7 +296,7 @@ export default function SignUpPage() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-1 flex w-full items-center justify-center gap-2 rounded-sm bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-60 cursor-pointer md:col-span-2"
+          className="mt-1 flex w-full items-center justify-center gap-2 rounded-sm bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
         >
           {loading && <FiLoader className="h-4 w-4 animate-spin" />}
           {loading ? "Creating account…" : "Create account"}
