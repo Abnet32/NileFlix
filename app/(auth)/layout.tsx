@@ -12,7 +12,7 @@ export default function AuthLayout({
           <div className="relative hidden md:block min-h-[calc(100dvh-3.75rem)]">
             <Image
               src={nieflix}
-              alt="Learning workspace"
+              alt="NileFlix"
               fill
               priority
               sizes="50vw"
