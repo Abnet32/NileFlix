@@ -2,7 +2,7 @@
 
 import { ModeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
-import { Film, Menu, TvMinimalPlay, Star } from "lucide-react";
+import { Film, Menu, TvMinimalPlay, Star, UserRound } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -55,16 +55,16 @@ export default function Header() {
 
         <div className="ml-auto hidden items-center gap-2 md:flex">
           <ModeToggle />
-          {/* <Link
+          <Link
             href="/sign-in"
             className={cn(
               buttonVariants({ variant: "default", size: "sm" }),
-              "bg-primary px-4 text-primary-foreground shadow-lg shadow-black/15 transition-transform duration-300 hover:-translate-y-0.5 hover:bg-white/90",
+              "bg-primary px-6 py-4 text-primary-foreground shadow-lg shadow-black/15 transition-transform duration-300 hover:-translate-y-0.5 hover:bg-white/90",
             )}
           >
             <UserRound className="size-4" aria-hidden="true" />
             Sign in
-          </Link> */}
+          </Link>
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:hidden">
@@ -96,7 +96,7 @@ export default function Header() {
                 </Link>
               ))}
 
-              {/* <Link
+              <Link
                 href="/sign-in"
                 className={cn(
                   buttonVariants({ variant: "default", size: "sm" }),
@@ -105,7 +105,7 @@ export default function Header() {
               >
                 <UserRound className="size-4" aria-hidden="true" />
                 Sign in
-              </Link> */}
+              </Link>
             </div>
           </details>
         </div>
