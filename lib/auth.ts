@@ -1,5 +1,5 @@
 // lib/auth.ts
-import "server-only";
+import "server-onl";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import client from "./db";
