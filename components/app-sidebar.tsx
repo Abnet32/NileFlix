@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/sidebar";
 import {
   GalleryVerticalEndIcon,
-  
   TerminalSquareIcon,
   BotIcon,
   BookOpenIcon,
@@ -42,6 +41,11 @@ const data = {
   ],
 
   navMain: [
+    {
+      title: "Home",
+      url: "/dashboard",
+      icon: <GalleryVerticalEndIcon />,
+    },
     {
       title: "Discover",
       url: "/dashboard",
