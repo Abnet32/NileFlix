@@ -7,13 +7,18 @@ import { buttonVariants } from "@/components/ui/button";
 type Props = {
   movieId: number | string;
   trailerKey?: string | null;
+  basePath?: string;
 };
 
-export default function ActionButtons({ movieId, trailerKey }: Props) {
+export default function ActionButtons({
+  movieId,
+  trailerKey,
+  basePath = "/movie",
+}: Props) {
   return (
     <div className="flex flex-wrap items-center gap-4 pt-1">
       <Link
-        href={`/movie/${movieId}/watch`}
+        href={`${basePath}/${movieId}/watch`}
         className={
           buttonVariants({ variant: "default", size: "lg" }) +
           " min-w-48 text-center flex items-center justify-center gap-2"
@@ -38,7 +43,7 @@ export default function ActionButtons({ movieId, trailerKey }: Props) {
         </a>
       ) : (
         <Link
-          href={`/movie/${movieId}`}
+          href={`${basePath}/${movieId}`}
           className={
             buttonVariants({ variant: "secondary", size: "lg" }) +
             " min-w-48 text-center flex items-center justify-center gap-2"
