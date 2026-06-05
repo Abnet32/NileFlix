@@ -48,93 +48,89 @@ const data = {
     },
     {
       title: "Discover",
-      url: "/dashboard",
+      url: "/dashboard/discover/trending",
       icon: <TerminalSquareIcon />,
       isActive: true,
       items: [
         {
           title: "Trending",
-          url: "/dashboard/trending",
+          url: "/dashboard/discover/trending",
         },
         {
           title: "Popular",
-          url: "/dashboard/popular",
+          url: "/dashboard/discover/popular",
         },
         {
           title: "Top Rated",
-          url: "/dashboard/top-rated",
+          url: "/dashboard/discover/top-rated",
         },
         {
           title: "Upcoming",
-          url: "/dashboard/upcoming",
+          url: "/dashboard/discover/upcoming",
         },
       ],
     },
 
     {
       title: "Movies",
-      url: "/dashboard/movies",
+      url: "/dashboard/movies/action",
       icon: <BotIcon />,
       items: [
         {
           title: "Action",
-          url: "/movies/action",
+          url: "/dashboard/movies/action",
         },
         {
           title: "Comedy",
-          url: "/movies/comedy",
+          url: "/dashboard/movies/comedy",
         },
         {
           title: "Drama",
-          url: "/movies/drama",
+          url: "/dashboard/movies/drama",
         },
         {
           title: "Sci-Fi",
-          url: "/movies/scifi",
+          url: "/dashboard/movies/scifi",
         },
       ],
     },
 
     {
       title: "TV Shows",
-      url: "/dashboard/tv",
+      url: "/dashboard/tv-shows/popular",
       icon: <BookOpenIcon />,
       items: [
         {
           title: "Popular Shows",
-          url: "/tv/popular",
+          url: "/dashboard/tv-shows/popular",
         },
         {
           title: "Top Rated",
-          url: "/tv/top-rated",
+          url: "/dashboard/tv-shows/top-rated",
         },
         {
           title: "Airing Today",
-          url: "/tv/airing-today",
+          url: "/dashboard/tv-shows/airing-today",
         },
       ],
     },
 
     {
       title: "My Library",
-      url: "/dashboard/library",
+      url: "/dashboard/favorites",
       icon: <Settings2Icon />,
       items: [
         {
           title: "Favorites",
-          url: "/favorites",
+          url: "/dashboard/favorites",
         },
         {
           title: "Watchlist",
-          url: "/watchlist",
+          url: "/dashboard/watchlist",
         },
         {
-          title: "Collections",
-          url: "/collections",
-        },
-        {
-          title: "Goals",
-          url: "/goals",
+          title: "Recently Seen",
+          url: "/dashboard",
         },
       ],
     },
@@ -143,23 +139,31 @@ const data = {
   projects: [
     {
       name: "AI Recommendations",
-      url: "/ai",
+      url: "/dashboard/discover/trending",
       icon: <FrameIcon />,
     },
     {
       name: "Movie Collections",
-      url: "/collections",
+      url: "/dashboard/favorites",
       icon: <PieChartIcon />,
     },
     {
       name: "Watch Goals",
-      url: "/goals",
+      url: "/dashboard/watchlist",
       icon: <MapIcon />,
     },
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  user?: {
+    name: string;
+    email: string;
+    avatar: string;
+  };
+};
+
+export function AppSidebar({ user, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -170,7 +174,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user ?? data.user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
