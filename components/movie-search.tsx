@@ -19,9 +19,13 @@ type SearchResponse = {
 
 type MovieSearchProps = {
   initialQuery?: string;
+  hrefPrefix?: string;
 };
 
-export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
+export default function MovieSearch({
+  initialQuery = "",
+  hrefPrefix = "",
+}: MovieSearchProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const requestIdRef = useRef(0);
   const [query, setQuery] = useState(initialQuery);
@@ -192,7 +196,7 @@ export default function MovieSearch({ initialQuery = "" }: MovieSearchProps) {
                     const imagePath = item.poster_path ?? item.backdrop_path;
                     const year = getContentYear(item);
                     const title = getContentTitle(item);
-                    const href = getContentHref(item);
+                    const href = `${hrefPrefix}${getContentHref(item)}`;
                     const contentType =
                       item.media_type === "tv" ? "TV Show" : "Movie";
 
