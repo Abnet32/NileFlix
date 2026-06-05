@@ -8,12 +8,14 @@ type MovieRowProps = {
   title: string;
   movies: TMDBMovie[];
   contentType?: "movie" | "tv" | "anime";
+  hrefPrefix?: string;
 };
 
 export default function MovieRow({
   title,
   movies,
   contentType,
+  hrefPrefix,
 }: MovieRowProps) {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -61,7 +63,11 @@ export default function MovieRow({
               key={movie.id}
               className="w-36 shrink-0 snap-start sm:w-44 md:w-52 lg:w-60"
             >
-              <MovieCard movie={movie} contentType={contentType} />
+              <MovieCard
+                movie={movie}
+                contentType={contentType}
+                hrefPrefix={hrefPrefix}
+              />
             </div>
           ))}
         </div>
