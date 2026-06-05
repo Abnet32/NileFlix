@@ -7,20 +7,26 @@ import Link from "next/link";
 type MovieCardProps = {
   movie: TMDBMovie;
   contentType?: "movie" | "tv" | "anime";
+  hrefPrefix?: string;
 };
 
-export default function MovieCard({ movie, contentType }: MovieCardProps) {
+export default function MovieCard({
+  movie,
+  contentType,
+  hrefPrefix = "",
+}: MovieCardProps) {
   const imagePath = movie.poster_path ?? movie.backdrop_path;
   const releaseYear = getContentYear(movie);
   const title = getContentTitle(movie);
   const resolvedType =
     contentType ?? (movie.media_type === "tv" ? "tv" : "movie");
-  const href =
+  const path =
     resolvedType === "tv"
       ? `/tv/${movie.id}`
       : resolvedType === "anime"
         ? `/anime/${movie.id}`
         : `/movie/${movie.id}`;
+  const href = `${hrefPrefix}${path}`;
   const typeLabel =
     resolvedType === "tv"
       ? "TV Show"
