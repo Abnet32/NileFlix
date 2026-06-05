@@ -152,6 +152,12 @@ export async function getTrendingMovies() {
   );
 }
 
+export async function getTrendingAll() {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(
+    "/trending/all/week?language=en-US",
+  );
+}
+
 export async function searchMovies(query: string) {
   return tmdbFetch<TMDBResponse<TMDBMovie>>(
     `/search/movie?query=${encodeURIComponent(query)}&language=en-US`,
@@ -201,6 +207,12 @@ export async function getNowPlayingMovies() {
 
 export async function getGenres() {
   return tmdbFetch<{ genres: TMDBGenre[] }>(`/genre/movie/list?language=en-US`);
+}
+
+export async function getMoviesByGenre(genreId: number) {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(
+    `/discover/movie?with_genres=${genreId}&sort_by=popularity.desc&language=en-US`,
+  );
 }
 
 export function getTrendingSeries() {
