@@ -36,7 +36,7 @@ export default function MovieCard({
 
   return (
     <Link href={href} className="group block">
-      <Card className="mx-auto h-full w-full overflow-hidden shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
+      <Card className="mx-auto h-full w-full overflow-hidden rounded-xl shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
         <div className="relative aspect-2/3 w-full overflow-hidden">
           {imagePath ? (
             <Image
@@ -52,7 +52,7 @@ export default function MovieCard({
             </div>
           )}
 
-          <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent opacity-100 transition-opacity duration-200 sm:opacity-0 sm:group-hover:opacity-100" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/40 to-transparent opacity-100 transition-all duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:backdrop-blur-[2px]" />
           <div className="absolute left-2 top-2 sm:left-3 sm:top-3">
             <Badge
               variant="secondary"

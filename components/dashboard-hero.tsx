@@ -33,7 +33,7 @@ export default function DashboardHero({ movies }: DashboardHeroProps) {
   const basePath = hero.media_type === "tv" ? "/dashboard/tv" : "/dashboard/movie";
 
   return (
-    <section className="relative mb-8 w-full overflow-hidden rounded-xl bg-black">
+    <section className="relative -mx-4 -mt-6 mb-8 w-[calc(100%+2rem)] overflow-hidden rounded-b-2xl bg-black shadow-2xl shadow-black/20 sm:-mx-6 sm:w-[calc(100%+3rem)]">
       {heroImage ? (
         <Image
           src={`https://image.tmdb.org/t/p/original${heroImage}`}
@@ -52,7 +52,7 @@ export default function DashboardHero({ movies }: DashboardHeroProps) {
       <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/50 to-black/20" />
       <div className="absolute inset-y-0 left-0 w-full bg-linear-to-r from-black/85 via-black/35 to-transparent lg:w-2/3" />
 
-      <div className="relative z-10 flex min-h-72 items-end px-5 py-6 sm:min-h-96 sm:px-8 sm:py-8 lg:min-h-[28rem]">
+      <div className="relative z-10 flex min-h-80 items-end px-5 py-6 sm:min-h-[30rem] sm:px-8 sm:py-8 lg:min-h-[34rem]">
         <div className="max-w-2xl space-y-4 text-white">
           <div className="flex flex-wrap items-center gap-3 text-xs tracking-[0.35em] text-white/70">
             <span>FEATURED</span>
@@ -69,7 +69,7 @@ export default function DashboardHero({ movies }: DashboardHeroProps) {
             </span>
           </div>
 
-          <h2 className="text-3xl font-heading font-bold leading-[0.95] text-balance sm:text-5xl lg:text-6xl">
+          <h2 className="text-4xl font-heading font-bold leading-[0.95] text-balance sm:text-5xl lg:text-7xl">
             {heroTitle}
           </h2>
 

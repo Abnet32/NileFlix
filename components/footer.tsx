@@ -2,42 +2,48 @@ const portfolioHref = "https://abinet.me";
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-border/60 bg-linear-to-b from-card/70 to-background px-4 py-6 text-sm text-muted-foreground">
-      <div className="container mx-auto max-w-7xl">
-        {/* <div className="rounded-2xl px-5 py-5"> */}
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div className="text-center lg:text-left">
-            <div className="text-sm  text-foreground">
-              &copy; {new Date().getFullYear()} NileFlix
-            </div>
+    <footer className="w-full border-t border-border/40 bg-linear-to-b from-card/70 to-background">
+      <div className="container mx-auto max-w-7xl px-4 py-8">
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+          {/* Brand column */}
+          <div className="space-y-2 text-center md:text-left">
+            <h3 className="text-lg font-heading font-semibold text-foreground">
+              NileFlix
+            </h3>
+            <p className="max-w-xs text-xs leading-5 text-muted-foreground">
+              Discover movies, TV shows, and anime. Powered by TMDB and VidLink.
+            </p>
           </div>
 
-          <p className="max-w-2xl text-center text-xs leading-5 lg:text-center">
-            This content is provided by third-party sources and is not hosted,
-            produced, or endorsed by NileFlix. We aggregate movie data to help
-            you discover titles. All movie information, including posters and
-            trailers, is sourced
-          </p>
+          {/* Attribution column */}
+          <div className="text-center">
+            <p className="max-w-md text-xs leading-5 text-muted-foreground">
+              This product uses the TMDB API but is not endorsed or certified by
+              TMDB. All movie information, posters, and trailers are sourced from
+              third-party providers.
+            </p>
+          </div>
 
-          <div className="flex flex-col items-center gap-2 lg:items-end">
-            <div className="flex items-center gap-2 px-4 py-2 text-sm text-foreground">
-              <span className="text-xs text-muted-foreground">Made with</span>
-              <span aria-hidden className="text-blue-500">
-                💙
-              </span>
+          {/* Credits column */}
+          <div className="flex flex-col items-center gap-1 md:items-end">
+            <p className="text-xs text-muted-foreground">
+              &copy; {new Date().getFullYear()} NileFlix
+            </p>
+            <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <span>Made with</span>
+              <span aria-hidden className="text-blue-500">💙</span>
               <a
                 href={portfolioHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold transition hover:text-primary hover:underline"
+                className="font-medium text-foreground transition-colors hover:text-primary hover:underline"
               >
                 By Abnet
               </a>
-            </div>
+            </p>
           </div>
         </div>
       </div>
-      {/* </div> */}
     </footer>
   );
 }
