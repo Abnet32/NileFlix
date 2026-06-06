@@ -1,5 +1,7 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import DashboardHeader from "@/components/dashboard-header";
+import ScrollToTop from "@/components/scroll-to-top";
+import AiChatWrapper from "@/components/ai-chat-wrapper";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -28,6 +30,8 @@ export default async function DashboardLayout({
       <SidebarInset>
         <DashboardHeader />
         {children}
+        <ScrollToTop />
+        <AiChatWrapper />
       </SidebarInset>
     </SidebarProvider>
   );

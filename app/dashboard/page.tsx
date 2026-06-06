@@ -1,5 +1,9 @@
 import DashboardHero from "@/components/dashboard-hero";
 import MovieRow from "@/components/movie-row";
+import ForYouRow from "@/components/for-you-row";
+import ContinueWatchingRow from "@/components/continue-watching-row";
+import QuickFavoritesRow from "@/components/quick-favorites-row";
+import DashboardStatsBar from "@/components/dashboard-stats-bar";
 import RecentlySeenRow from "@/components/recently-seen-row";
 import {
   getTrendingAll,
@@ -59,18 +63,18 @@ export default async function DashboardPage() {
     .slice(0, 8);
 
   const movieRows = [
-    { title: "Trending This Week", movies: trending.results.slice(0, 15) },
-    { title: "Popular", movies: popular.results.slice(0, 15) },
-    { title: "Top Rated", movies: topRated.results.slice(0, 15) },
-    { title: "Upcoming", movies: upcoming.results.slice(0, 15) },
+    { title: "Trending This Week", movies: trending.results.slice(0, 15), viewAll: "/dashboard/discover/trending" },
+    { title: "Popular", movies: popular.results.slice(0, 15), viewAll: "/dashboard/discover/popular" },
+    { title: "Top Rated", movies: topRated.results.slice(0, 15), viewAll: "/dashboard/discover/top-rated" },
+    { title: "Upcoming", movies: upcoming.results.slice(0, 15), viewAll: "/dashboard/discover/upcoming" },
     { title: "Now Playing", movies: nowPlaying.results.slice(0, 15) },
   ];
 
   const tvRows = [
     { title: "Trending This Week", movies: trendingSeries.results.slice(0, 15) },
-    { title: "Popular", movies: popularSeries.results.slice(0, 15) },
-    { title: "Top Rated", movies: topRatedSeries.results.slice(0, 15) },
-    { title: "Airing Today", movies: airingTodaySeries.results.slice(0, 15) },
+    { title: "Popular", movies: popularSeries.results.slice(0, 15), viewAll: "/dashboard/tv-shows/popular" },
+    { title: "Top Rated", movies: topRatedSeries.results.slice(0, 15), viewAll: "/dashboard/tv-shows/top-rated" },
+    { title: "Airing Today", movies: airingTodaySeries.results.slice(0, 15), viewAll: "/dashboard/tv-shows/airing-today" },
     { title: "On The Air", movies: onTheAirSeries.results.slice(0, 15) },
   ];
 
@@ -85,6 +89,10 @@ export default async function DashboardPage() {
     <main className="flex-1 px-4 py-6 sm:px-6">
       <DashboardHero movies={heroPool} />
 
+      <DashboardStatsBar />
+      <ForYouRow />
+      <ContinueWatchingRow />
+      <QuickFavoritesRow />
       <RecentlySeenRow />
 
       <Section id="movies" label="Movies">
@@ -95,6 +103,7 @@ export default async function DashboardPage() {
             movies={row.movies}
             contentType="movie"
             hrefPrefix="/dashboard"
+            viewAllHref={"viewAll" in row ? (row as { viewAll?: string }).viewAll : undefined}
           />
         ))}
       </Section>
@@ -107,6 +116,7 @@ export default async function DashboardPage() {
             movies={row.movies}
             contentType="tv"
             hrefPrefix="/dashboard"
+            viewAllHref={"viewAll" in row ? (row as { viewAll?: string }).viewAll : undefined}
           />
         ))}
       </Section>
