@@ -279,6 +279,37 @@ export async function getTopRatedAnime() {
   );
 }
 
+// Similar & Recommended titles
+export async function getSimilarMovies(id: string) {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(
+    `/movie/${id}/similar?language=en-US`,
+  );
+}
+
+export async function getSimilarSeries(id: string) {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(
+    `/tv/${id}/similar?language=en-US`,
+  );
+}
+
+export async function getMovieRecommendations(id: string) {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(
+    `/movie/${id}/recommendations?language=en-US`,
+  );
+}
+
+export async function getSeriesRecommendations(id: string) {
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(
+    `/tv/${id}/recommendations?language=en-US`,
+  );
+}
+
+// Generic discover for advanced genre browsing
+export async function discoverMovies(params: Record<string, string>) {
+  const queryString = new URLSearchParams({ ...params, language: "en-US" }).toString();
+  return tmdbFetch<TMDBResponse<TMDBMovie>>(`/discover/movie?${queryString}`);
+}
+
 export async function getAiringTodayAnime() {
   // Fetch today's airing shows then filter to animation genre
   const airing = await tmdbFetch<TMDBResponse<TMDBMovie>>(

@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import MediaActions from "@/components/media-actions";
+import ShareButton from "@/components/share-button";
 import { type TMDBSeriesDetails } from "@/lib/tmdb";
 import type { MediaListItem } from "@/lib/media-lists";
 import { cn } from "@/lib/utils";
@@ -156,7 +157,10 @@ export default function SeriesDetail({
             {series.overview}
           </p>
 
-          {listItem ? <MediaActions item={listItem} /> : null}
+          <div className="flex flex-wrap items-center gap-3">
+            {listItem ? <MediaActions item={listItem} /> : null}
+            <ShareButton title={series.name} />
+          </div>
         </div>
       </section>
 

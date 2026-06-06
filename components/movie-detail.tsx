@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import ActionButtons from "@/components/action-buttons";
 import MediaActions from "@/components/media-actions";
+import ShareButton from "@/components/share-button";
 import { getContentTitle, type TMDBMovieDetails } from "@/lib/tmdb";
 import type { MediaListItem } from "@/lib/media-lists";
 import Image from "next/image";
@@ -87,7 +88,10 @@ export default function MovieDetail({
             basePath={basePath}
           />
 
-          {listItem ? <MediaActions item={listItem} /> : null}
+          <div className="flex flex-wrap items-center gap-3">
+            {listItem ? <MediaActions item={listItem} /> : null}
+            <ShareButton title={title} />
+          </div>
         </div>
       </section>
     </main>

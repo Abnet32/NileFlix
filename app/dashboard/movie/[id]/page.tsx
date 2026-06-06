@@ -1,9 +1,11 @@
 import MovieDetail from "@/components/movie-detail";
+import SimilarTitles from "@/components/similar-titles";
 import RecentlySeenTracker from "@/components/recently-seen-tracker";
 import {
   getContentTitle,
   getMovie,
   getMovieVideos,
+  getSimilarMovies,
   getTrailerVideo,
 } from "@/lib/tmdb";
 
@@ -13,7 +15,11 @@ type MoviePageProps = {
 
 export default async function DashboardMoviePage({ params }: MoviePageProps) {
   const { id } = await params;
-  const [movie, videos] = await Promise.all([getMovie(id), getMovieVideos(id)]);
+  const [movie, videos, similar] = await Promise.all([
+    getMovie(id),
+    getMovieVideos(id),
+    getSimilarMovies(id),
+  ]);
   const trailer = getTrailerVideo(videos.results);
   const listItem = {
     id: movie.id,
@@ -43,6 +49,13 @@ export default async function DashboardMoviePage({ params }: MoviePageProps) {
         basePath="/dashboard/movie"
         listItem={listItem}
       />
+      <div className="container mx-auto px-4 pb-10">
+        <SimilarTitles
+          title="Similar Movies"
+          items={similar.results}
+          contentType="movie"
+        />
+      </div>
     </>
   );
 }

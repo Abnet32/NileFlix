@@ -1,9 +1,11 @@
 import RecentlySeenTracker from "@/components/recently-seen-tracker";
 import SeriesDetail from "@/components/series-detail";
+import SimilarTitles from "@/components/similar-titles";
 import {
   getAnimeSeasonHref,
   getSeries,
   getSeriesVideos,
+  getSimilarSeries,
   getTrailerVideo,
 } from "@/lib/tmdb";
 
@@ -13,9 +15,10 @@ type AnimePageProps = {
 
 export default async function DashboardAnimePage({ params }: AnimePageProps) {
   const { id } = await params;
-  const [series, videos] = await Promise.all([
+  const [series, videos, similar] = await Promise.all([
     getSeries(id),
     getSeriesVideos(id),
+    getSimilarSeries(id),
   ]);
 
   const trailer = getTrailerVideo(videos.results);
@@ -50,6 +53,13 @@ export default async function DashboardAnimePage({ params }: AnimePageProps) {
         seasonHref={(seasonNumber) => getAnimeSeasonHref(id, seasonNumber)}
         listItem={listItem}
       />
+      <div className="container mx-auto px-4 pb-10">
+        <SimilarTitles
+          title="Similar Anime"
+          items={similar.results}
+          contentType="anime"
+        />
+      </div>
     </>
   );
 }

@@ -4,10 +4,12 @@
 // carries the series id. MovieCard links TV titles to `/dashboard/tv/<id>`.
 import RecentlySeenTracker from "@/components/recently-seen-tracker";
 import SeriesDetail from "@/components/series-detail";
+import SimilarTitles from "@/components/similar-titles";
 import {
   getSeasonHref,
   getSeries,
   getSeriesVideos,
+  getSimilarSeries,
   getTrailerVideo,
 } from "@/lib/tmdb";
 
@@ -17,9 +19,10 @@ type TvDetailPageProps = {
 
 export default async function DashboardTvPage({ params }: TvDetailPageProps) {
   const { category: id } = await params;
-  const [series, videos] = await Promise.all([
+  const [series, videos, similar] = await Promise.all([
     getSeries(id),
     getSeriesVideos(id),
+    getSimilarSeries(id),
   ]);
 
   const trailer = getTrailerVideo(videos.results);
@@ -54,6 +57,13 @@ export default async function DashboardTvPage({ params }: TvDetailPageProps) {
         seasonHref={(seasonNumber) => getSeasonHref(id, seasonNumber)}
         listItem={listItem}
       />
+      <div className="container mx-auto px-4 pb-10">
+        <SimilarTitles
+          title="Similar Shows"
+          items={similar.results}
+          contentType="tv"
+        />
+      </div>
     </>
   );
 }

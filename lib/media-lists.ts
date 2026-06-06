@@ -88,6 +88,15 @@ export function toggleItem(key: MediaListKey, item: MediaListItem): boolean {
   return true;
 }
 
+/** Get IDs for a list (for exclusion in recommendations). */
+export function getFavoritesIds(): number[] {
+  return readList(FAVORITES_KEY).map((item) => item.id);
+}
+
+export function getWatchlistIds(): number[] {
+  return readList(WATCHLIST_KEY).map((item) => item.id);
+}
+
 /** Adapt a stored item into the shape MovieCard/MovieRow expect. */
 export function itemToMovie(item: MediaListItem): TMDBMovie {
   return {
