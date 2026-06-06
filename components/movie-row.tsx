@@ -9,6 +9,7 @@ type MovieRowProps = {
   movies: TMDBMovie[];
   contentType?: "movie" | "tv" | "anime";
   hrefPrefix?: string;
+  viewAllHref?: string;
 };
 
 export default function MovieRow({
@@ -16,6 +17,7 @@ export default function MovieRow({
   movies,
   contentType,
   hrefPrefix,
+  viewAllHref,
 }: MovieRowProps) {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -47,11 +49,19 @@ export default function MovieRow({
 
   return (
     <section className="mb-6 sm:mb-8">
-      <h2 className="mb-2 px-2 text-base font-medium sm:mb-3 sm:text-lg">
-        {title}
-      </h2>
+      <div className="mb-2 flex items-center justify-between px-2 sm:mb-3">
+        <h2 className="text-base font-medium sm:text-lg">{title}</h2>
+        {viewAllHref ? (
+          <a
+            href={viewAllHref}
+            className="text-xs font-medium text-primary transition-colors hover:text-primary/80"
+          >
+            View All →
+          </a>
+        ) : null}
+      </div>
       <progress
-        className="mb-2 block h-0.5 w-full overflow-hidden appearance-none rounded-full accent-primary"
+        className="mb-2 block h-0.5 w-full overflow-hidden appearance-none rounded-full accent-primary transition-opacity duration-200"
         value={scrollProgress}
         max={100}
         aria-label={`${title} scroll progress`}

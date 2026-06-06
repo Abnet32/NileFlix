@@ -23,7 +23,7 @@ export default function MediaActions({ item }: { item: MediaListItem }) {
   }, [item.id, item.media_type]);
 
   const baseClass =
-    "inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition-colors";
+    "inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-all duration-200 active:scale-95";
 
   return (
     <div className="flex flex-wrap items-center gap-3">
