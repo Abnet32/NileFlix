@@ -15,13 +15,14 @@ import {
 } from "@/components/ui/sidebar";
 import {
   GalleryVerticalEndIcon,
-  TerminalSquareIcon,
-  BotIcon,
-  BookOpenIcon,
-  Settings2Icon,
-  FrameIcon,
-  PieChartIcon,
-  MapIcon,
+  HomeIcon,
+  CompassIcon,
+  ClapperboardIcon,
+  TvIcon,
+  LibraryIcon,
+  HeartIcon,
+  BookmarkIcon,
+  UserRoundIcon,
 } from "lucide-react";
 
 // This is sample data.
@@ -44,12 +45,12 @@ const data = {
     {
       title: "Home",
       url: "/dashboard",
-      icon: <GalleryVerticalEndIcon />,
+      icon: <HomeIcon />,
     },
     {
       title: "Discover",
       url: "/dashboard/discover/trending",
-      icon: <TerminalSquareIcon />,
+      icon: <CompassIcon />,
       isActive: true,
       items: [
         {
@@ -74,7 +75,7 @@ const data = {
     {
       title: "Movies",
       url: "/dashboard/movies/action",
-      icon: <BotIcon />,
+      icon: <ClapperboardIcon />,
       items: [
         {
           title: "Action",
@@ -98,7 +99,7 @@ const data = {
     {
       title: "TV Shows",
       url: "/dashboard/tv-shows/popular",
-      icon: <BookOpenIcon />,
+      icon: <TvIcon />,
       items: [
         {
           title: "Popular Shows",
@@ -118,7 +119,7 @@ const data = {
     {
       title: "My Library",
       url: "/dashboard/favorites",
-      icon: <Settings2Icon />,
+      icon: <LibraryIcon />,
       items: [
         {
           title: "Favorites",
@@ -138,19 +139,19 @@ const data = {
 
   projects: [
     {
-      name: "AI Recommendations",
-      url: "/dashboard/discover/trending",
-      icon: <FrameIcon />,
+      name: "Profile",
+      url: "/dashboard/profile",
+      icon: <UserRoundIcon />,
     },
     {
-      name: "Movie Collections",
+      name: "Favorites",
       url: "/dashboard/favorites",
-      icon: <PieChartIcon />,
+      icon: <HeartIcon />,
     },
     {
-      name: "Watch Goals",
+      name: "Watchlist",
       url: "/dashboard/watchlist",
-      icon: <MapIcon />,
+      icon: <BookmarkIcon />,
     },
   ],
 };
