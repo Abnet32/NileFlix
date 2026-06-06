@@ -156,4 +156,43 @@
   progress.accent-primary::-moz-progress-bar {
     background-color: var(--primary);
   }
+
+  /* Glass-morphism utilities */
+  .glass {
+    @apply bg-background/70 backdrop-blur-xl border border-white/10 shadow-lg;
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-md border border-white/5 shadow-xl;
+  }
+
+  /* Shimmer animation for loading skeletons */
+  .animate-shimmer {
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  /* Page entrance animation */
+  .page-enter {
+    animation: fade-in-up 0.3s ease-out;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
