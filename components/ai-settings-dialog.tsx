@@ -35,7 +35,7 @@ export default function AiSettingsDialog({ isOpen, onClose }: AiSettingsDialogPr
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="mx-4 w-full max-w-sm rounded-2xl border border-border/60 bg-card p-6 shadow-2xl">
+      <div className="mx-4 w-full max-w-sm rounded-none border border-border/60 bg-card p-6 shadow-2xl">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-lg font-semibold">AI Chat Settings</h3>
           <button

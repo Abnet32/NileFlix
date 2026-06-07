@@ -42,7 +42,7 @@ export default async function ProfilePage() {
         <ProfileStats />
 
         {/* Account Info Card */}
-        <div className="rounded-xl border border-border/60 bg-card/60 p-6 shadow-sm backdrop-blur">
+        <div className="rounded-none border border-border/60 bg-card/60 p-6 shadow-sm backdrop-blur">
           <h2 className="mb-4 text-lg font-semibold">Account Details</h2>
           <dl className="grid gap-4 sm:grid-cols-2">
             <div>

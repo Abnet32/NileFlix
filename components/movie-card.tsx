@@ -36,7 +36,7 @@ export default function MovieCard({
 
   return (
     <Link href={href} className="group block">
-      <Card className="mx-auto h-full w-full overflow-hidden rounded-xl shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
+      <Card className="mx-auto h-full w-full overflow-hidden rounded-none shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
         <div className="relative aspect-2/3 w-full overflow-hidden">
           {imagePath ? (
             <Image

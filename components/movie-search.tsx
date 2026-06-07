@@ -276,7 +276,7 @@ export default function MovieSearch({
                             </p>
                             <Badge
                               variant="secondary"
-                              className="h-5 rounded-full px-2 text-[10px] uppercase tracking-[0.2em]"
+                              className="h-5 rounded-none px-2 text-[10px] uppercase tracking-[0.2em]"
                             >
                               {contentType}
                             </Badge>

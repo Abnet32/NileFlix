@@ -49,7 +49,7 @@ export default async function EpisodeWatchPage({
             href={`/tv/${id}/season/${seasonNumber}/episode/${episodeNumber}`}
             className={
               buttonVariants({ size: "sm" }) +
-              " w-full justify-center rounded-full sm:w-auto"
+              " w-full justify-center rounded-none sm:w-auto"
             }
           >
             <ArrowLeft />

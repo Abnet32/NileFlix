@@ -61,7 +61,7 @@ export default function MovieRow({
         ) : null}
       </div>
       <progress
-        className="mb-2 block h-0.5 w-full overflow-hidden appearance-none rounded-full accent-primary transition-opacity duration-200"
+        className="mb-2 block h-0.5 w-full overflow-hidden appearance-none rounded-none accent-primary transition-opacity duration-200"
         value={scrollProgress}
         max={100}
         aria-label={`${title} scroll progress`}

@@ -42,7 +42,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
     <div className={cn("flex w-full", isUser ? "justify-end" : "justify-start")}>
       <div
         className={cn(
-          "max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
+          "max-w-[85%] rounded-none px-4 py-2.5 text-sm leading-relaxed",
           isUser
             ? "rounded-br-md bg-primary text-primary-foreground"
             : "rounded-bl-md bg-muted text-foreground",
@@ -57,11 +57,11 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
 function TypingIndicator() {
   return (
     <div className="flex justify-start">
-      <div className="rounded-2xl rounded-bl-md bg-muted px-4 py-3">
+      <div className="rounded-none rounded-bl-md bg-muted px-4 py-3">
         <div className="flex gap-1">
-          <span className="size-2 animate-bounce rounded-full bg-muted-foreground/50 [animation-delay:0s]" />
-          <span className="size-2 animate-bounce rounded-full bg-muted-foreground/50 [animation-delay:0.15s]" />
-          <span className="size-2 animate-bounce rounded-full bg-muted-foreground/50 [animation-delay:0.3s]" />
+          <span className="size-2 animate-bounce rounded-none bg-muted-foreground/50 [animation-delay:0s]" />
+          <span className="size-2 animate-bounce rounded-none bg-muted-foreground/50 [animation-delay:0.15s]" />
+          <span className="size-2 animate-bounce rounded-none bg-muted-foreground/50 [animation-delay:0.3s]" />
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@ export default function AiChat({ isOpen, onClose }: AiChatProps) {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
           <div className="flex items-center gap-2">
-            <div className="flex size-8 items-center justify-center rounded-full bg-linear-to-br from-primary to-violet-500">
+            <div className="flex size-8 items-center justify-center rounded-none bg-linear-to-br from-primary to-violet-500">
               <Sparkles className="size-4 text-primary-foreground" />
             </div>
             <div>
@@ -146,7 +146,7 @@ export default function AiChat({ isOpen, onClose }: AiChatProps) {
         <div className="flex-1 overflow-y-auto px-4 py-4">
           {messages.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
-              <div className="flex size-16 items-center justify-center rounded-full bg-muted">
+              <div className="flex size-16 items-center justify-center rounded-none bg-muted">
                 <Sparkles className="size-8 text-muted-foreground" />
               </div>
               <div>
@@ -169,7 +169,7 @@ export default function AiChat({ isOpen, onClose }: AiChatProps) {
                       setInput(suggestion);
                       inputRef.current?.focus();
                     }}
-                    className="rounded-full border border-border/60 px-3 py-1.5 text-xs transition-colors hover:bg-muted"
+                    className="rounded-none border border-border/60 px-3 py-1.5 text-xs transition-colors hover:bg-muted"
                   >
                     {suggestion}
                   </button>
@@ -202,14 +202,14 @@ export default function AiChat({ isOpen, onClose }: AiChatProps) {
                 }
               }}
               placeholder="Ask for movie recommendations..."
-              className="flex-1 rounded-xl border border-input bg-background px-4 py-2.5 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30"
+              className="flex-1 rounded-none border border-input bg-background px-4 py-2.5 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30"
               disabled={isLoading}
             />
             <button
               type="button"
               onClick={handleSend}
               disabled={!input.trim() || isLoading}
-              className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 active:scale-95"
+              className="flex size-10 shrink-0 items-center justify-center rounded-none bg-primary text-primary-foreground transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 active:scale-95"
             >
               <Send className="size-4" />
             </button>

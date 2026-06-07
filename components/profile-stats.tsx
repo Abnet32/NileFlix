@@ -30,7 +30,7 @@ export default function ProfileStats() {
     return (
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="animate-pulse rounded-xl border border-border/60 bg-card/60 p-4">
+          <div key={i} className="animate-pulse rounded-none border border-border/60 bg-card/60 p-4">
             <div className="mb-2 h-4 w-12 rounded bg-muted" />
             <div className="h-8 w-16 rounded bg-muted" />
           </div>
@@ -51,9 +51,9 @@ export default function ProfileStats() {
       {statItems.map(({ label, value, icon: Icon }) => (
         <div
           key={label}
-          className="flex flex-col items-center gap-2 rounded-xl border border-border/60 bg-card/60 p-5 text-center shadow-sm backdrop-blur transition-all duration-200 hover:border-border hover:shadow-md"
+          className="flex flex-col items-center gap-2 rounded-none border border-border/60 bg-card/60 p-5 text-center shadow-sm backdrop-blur transition-all duration-200 hover:border-border hover:shadow-md"
         >
-          <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <div className="flex size-10 items-center justify-center rounded-none bg-primary/10 text-primary">
             <Icon className="size-5" />
           </div>
           <div>
