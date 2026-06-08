@@ -9,8 +9,6 @@ import {
 } from "lucide-react";
 import DashboardOverview from "@/components/dashboard-overview";
 import ContinueWatchingRow from "@/components/continue-watching-row";
-import MovieRow from "@/components/movie-row";
-import { getTrendingAll } from "@/lib/tmdb";
 
 const quickLinks = [
   { label: "Trending", href: "/dashboard/discover/trending", icon: Flame },
@@ -22,38 +20,23 @@ const quickLinks = [
 ];
 
 export default async function DashboardPage() {
-  const trendingAll = await getTrendingAll();
-  const trending = trendingAll.results
-    .filter((item) => item.media_type === "movie" || item.media_type === "tv")
-    .slice(0, 12);
-
   return (
-    <main className="flex-1 space-y-8 px-4 py-6 sm:px-6">
+    <main className="flex-1 space-y-6 px-3 py-4 sm:px-5">
       {/* Greeting */}
-      <header className="space-y-1">
-        <h1 className="text-2xl font-heading font-bold tracking-tight">
+      <header className="space-y-0.5">
+        <h1 className="text-xl font-heading font-bold tracking-tight">
           Welcome back
         </h1>
         <p className="text-sm text-muted-foreground">
-          Here&apos;s an overview of your library and what&apos;s trending today.
+          Here&apos;s an overview of your library and viewing stats.
         </p>
       </header>
 
-      {/* Overview stats, activity graph, insights */}
+      {/* Overview stats, graphs, insights */}
       <DashboardOverview />
 
       {/* Continue watching (hides itself when empty) */}
       <ContinueWatchingRow />
-
-      {/* Single compact trending strip */}
-      <section className="space-y-1">
-        <MovieRow
-          title="Trending Now"
-          movies={trending}
-          hrefPrefix="/dashboard"
-          viewAllHref="/dashboard/discover/trending"
-        />
-      </section>
 
       {/* Quick browse */}
       <section className="space-y-3">
