@@ -1,3 +1,4 @@
+import DashboardSearch from "@/components/dashboard-search";
 import MediaGrid from "@/components/media-grid";
 import {
   getOnTheAirSeries,
@@ -82,11 +83,14 @@ export default async function DiscoverPage({ params }: DiscoverPageProps) {
   const items = await config.fetch();
 
   return (
-    <MediaGrid
-      title={config.title}
-      description={config.description}
-      items={items}
-      hrefPrefix="/dashboard"
-    />
+    <>
+      <DashboardSearch />
+      <MediaGrid
+        title={config.title}
+        description={config.description}
+        items={items}
+        hrefPrefix="/dashboard"
+      />
+    </>
   );
 }
