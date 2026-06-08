@@ -19,6 +19,8 @@ type MovieDetailProps = {
   basePath?: string;
   /** When provided, renders Favorite/Watchlist toggle buttons. */
   listItem?: MediaListItem;
+  /** Favorite/Watchlist/Share are only shown to signed-in users. */
+  isAuthenticated?: boolean;
 };
 
 export default function MovieDetail({
@@ -27,6 +29,7 @@ export default function MovieDetail({
   backHref,
   basePath = "/movie",
   listItem,
+  isAuthenticated = true,
 }: MovieDetailProps) {
   const title = getContentTitle(movie);
 
@@ -88,10 +91,12 @@ export default function MovieDetail({
             basePath={basePath}
           />
 
-          <div className="flex flex-wrap items-center gap-3">
-            {listItem ? <MediaActions item={listItem} /> : null}
-            <ShareButton title={title} />
-          </div>
+          {isAuthenticated ? (
+            <div className="flex flex-wrap items-center gap-3">
+              {listItem ? <MediaActions item={listItem} /> : null}
+              <ShareButton title={title} />
+            </div>
+          ) : null}
         </div>
       </section>
     </main>
