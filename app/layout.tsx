@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Lexend_Deca } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const outfit = Outfit({subsets:['latin'],variable:'--font-sans'});
+// const outfit = Outfit({ subsets: ["latin"], variable: "--font-sans" });
+const lexend = Lexend_Deca({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "NileFlix",
@@ -25,7 +26,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("h-full", "antialiased", "font-sans", outfit.variable)}
+      className={cn("h-full", "antialiased", "font-sans", lexend.variable)}
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider
