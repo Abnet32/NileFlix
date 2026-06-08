@@ -1,3 +1,4 @@
+import DashboardSearch from "@/components/dashboard-search";
 import MediaGrid from "@/components/media-grid";
 import { discoverMovies } from "@/lib/tmdb";
 import { notFound } from "next/navigation";
@@ -57,6 +58,7 @@ export default async function GenrePage({ params, searchParams }: GenrePageProps
 
   return (
     <>
+      <DashboardSearch />
       <MediaGrid
         title={config.title}
         description={`Sorted by ${currentSort.toLowerCase()}.`}
