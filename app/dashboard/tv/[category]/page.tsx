@@ -6,7 +6,6 @@ import RecentlySeenTracker from "@/components/recently-seen-tracker";
 import SeriesDetail from "@/components/series-detail";
 import SimilarTitles from "@/components/similar-titles";
 import {
-  getSeasonHref,
   getSeries,
   getSeriesVideos,
   getSimilarSeries,
@@ -54,7 +53,9 @@ export default async function DashboardTvPage({ params }: TvDetailPageProps) {
         backHref="/dashboard"
         playHref={`/dashboard/tv/${id}/watch`}
         playLabel="Watch now"
-        seasonHref={(seasonNumber) => getSeasonHref(id, seasonNumber)}
+        seasonHref={(seasonNumber) =>
+          `/dashboard/tv/${id}/season/${seasonNumber}`
+        }
         listItem={listItem}
       />
       <div className="container mx-auto px-4 pb-10">
