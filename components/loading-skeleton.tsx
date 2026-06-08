@@ -79,7 +79,7 @@ export function WatchScreenSkeleton() {
 export function HeroSkeleton() {
   return (
     <div className="relative mb-8 w-full overflow-hidden rounded-none bg-muted">
-      <Skeleton className="min-h-80 w-full sm:min-h-[30rem] lg:min-h-[34rem] rounded-none" />
+      <Skeleton className="min-h-80 w-full sm:min-h-120 lg:min-h-136 rounded-none" />
     </div>
   );
 }
