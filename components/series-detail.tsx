@@ -30,6 +30,8 @@ type SeriesDetailProps = {
   seasonHref: (seasonNumber: number) => string;
   /** When provided, renders Favorite/Watchlist toggle buttons. */
   listItem?: MediaListItem;
+  /** Favorite/Watchlist/Share are only shown to signed-in users. */
+  isAuthenticated?: boolean;
 };
 
 const SEASON_COLORS = [
@@ -50,6 +52,7 @@ export default function SeriesDetail({
   playLabel,
   seasonHref,
   listItem,
+  isAuthenticated = true,
 }: SeriesDetailProps) {
   const heroImage = series.backdrop_path ?? series.poster_path;
   const seasons = series.seasons.filter((season) => season.season_number > 0);
@@ -157,10 +160,12 @@ export default function SeriesDetail({
             {series.overview}
           </p>
 
-          <div className="flex flex-wrap items-center gap-3">
-            {listItem ? <MediaActions item={listItem} /> : null}
-            <ShareButton title={series.name} />
-          </div>
+          {isAuthenticated ? (
+            <div className="flex flex-wrap items-center gap-3">
+              {listItem ? <MediaActions item={listItem} /> : null}
+              <ShareButton title={series.name} />
+            </div>
+          ) : null}
         </div>
       </section>
 
