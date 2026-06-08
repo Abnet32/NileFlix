@@ -10,14 +10,7 @@ export type ChatMessage = {
 };
 
 const CHAT_HISTORY_KEY = "nileflix:ai-chat-history";
-const CHAT_SETTINGS_KEY = "nileflix:ai-settings";
 const MAX_MESSAGES = 100;
-
-export type ChatSettings = {
-  apiKey: string;
-  model: string;
-  endpoint?: string;
-};
 
 function generateId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -43,26 +36,6 @@ function saveMessages(msgs: ChatMessage[]) {
   }
 }
 
-export function loadSettings(): ChatSettings {
-  if (typeof window === "undefined") return { apiKey: "", model: "gpt-4o-mini" };
-  try {
-    const raw = localStorage.getItem(CHAT_SETTINGS_KEY);
-    if (!raw) return { apiKey: "", model: "gpt-4o-mini" };
-    return JSON.parse(raw) as ChatSettings;
-  } catch {
-    return { apiKey: "", model: "gpt-4o-mini" };
-  }
-}
-
-export function saveSettings(settings: ChatSettings) {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.setItem(CHAT_SETTINGS_KEY, JSON.stringify(settings));
-  } catch {
-    // ignore
-  }
-}
-
 export function useAiChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -74,22 +47,6 @@ export function useAiChat() {
   }, []);
 
   const sendMessage = useCallback(async (text: string) => {
-    const settings = loadSettings();
-    if (!settings.apiKey) {
-      const errorMsg: ChatMessage = {
-        id: generateId(),
-        role: "assistant",
-        content: "Please configure your AI API key first. Click the gear icon ⚙️ to set it up.",
-        timestamp: Date.now(),
-      };
-      setMessages((prev) => {
-        const updated = [...prev, errorMsg];
-        saveMessages(updated);
-        return updated;
-      });
-      return;
-    }
-
     const userMsg: ChatMessage = {
       id: generateId(),
       role: "user",
@@ -108,8 +65,6 @@ export function useAiChat() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: updated.map((m) => ({ role: m.role, content: m.content })),
-          apiKey: settings.apiKey,
-          model: settings.model,
         }),
       });
 
