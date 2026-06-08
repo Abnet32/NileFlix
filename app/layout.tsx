@@ -5,7 +5,10 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 
 // const outfit = Outfit({ subsets: ["latin"], variable: "--font-sans" });
-const lexend = Lexend_Deca({ subsets: ["latin"], variable: "--font-sans" });
+const lexend = Lexend_Deca({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "NileFlix",
