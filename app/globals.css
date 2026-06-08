@@ -49,74 +49,76 @@
 }
 
 :root {
-  /* NileFlix — Light: cool Nile-blue surfaces, teal primary, warm gold accent */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.3);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.147 0.004 49.3);
-  --primary: oklch(0.488 0.243 264.376);
-  --primary-foreground: oklch(0.97 0.014 254.604);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.96 0.002 17.2);
-  --muted-foreground: oklch(0.547 0.021 43.1);
-  --accent: oklch(0.488 0.243 264.376);
-  --accent-foreground: oklch(0.97 0.014 254.604);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0.005 34.3);
-  --input: oklch(0.922 0.005 34.3);
-  --ring: oklch(0.714 0.014 41.2);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --radius: 0rem;
-  --sidebar: oklch(0.986 0.002 67.8);
-  --sidebar-foreground: oklch(0.147 0.004 49.3);
-  --sidebar-primary: oklch(0.546 0.245 262.881);
-  --sidebar-primary-foreground: oklch(0.97 0.014 254.604);
-  --sidebar-accent: oklch(0.96 0.002 17.2);
-  --sidebar-accent-foreground: oklch(0.214 0.009 43.1);
-  --sidebar-border: oklch(0.922 0.005 34.3);
-  --sidebar-ring: oklch(0.714 0.014 41.2);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.147 0.004 49.3);
+  /* NileFlix — Light (odit.et): sage / bay-leaf green brand accent on warm
+     off-white surfaces, with a colorful stat palette (teal, amber, blue, purple). */
+  --background: #fdfcfc;
+  --foreground: #292624;
+  --card: #fafafa;
+  --card-foreground: #292624;
+  --popover: #fafafa;
+  --popover-foreground: #292624;
+  --primary: #5f8a76;
+  --primary-foreground: #ffffff;
+  --secondary: #e7e5e4;
+  --secondary-foreground: #34423b;
+  --muted: #f3f2f1;
+  --muted-foreground: #6c6660;
+  --accent: #e3ece7;
+  --accent-foreground: #1f3a2d;
+  --destructive: #d35050;
+  --border: #cfc6bf;
+  --input: #cfc6bf;
+  --ring: #7ca08e;
+  --chart-1: #7ca08e;
+  --chart-2: #14b8a6;
+  --chart-3: #f59e0b;
+  --chart-4: #5472d2;
+  --chart-5: #a855f7;
+  --radius: 0.5rem;
+  --sidebar: #f4f2f0;
+  --sidebar-foreground: #2f3a34;
+  --sidebar-primary: #5f8a76;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e3ece7;
+  --sidebar-accent-foreground: #1f3a2d;
+  --sidebar-border: #cfc6bf;
+  --sidebar-ring: #7ca08e;
 }
 
 .dark {
-  /* NileFlix — Dark: deep Nile navy, bright teal primary, gold accent */
-  --background: oklch(0.147 0.004 49.3);
-  --foreground: oklch(0.986 0.002 67.8);
-  --card: oklch(0.214 0.009 43.1);
-  --card-foreground: oklch(0.986 0.002 67.8);
-  --popover: oklch(0.214 0.009 43.1);
-  --popover-foreground: oklch(0.986 0.002 67.8);
-  --primary: oklch(0.424 0.199 265.638);
-  --primary-foreground: oklch(0.97 0.014 254.604);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.268 0.011 36.5);
-  --muted-foreground: oklch(0.714 0.014 41.2);
-  --accent: oklch(0.424 0.199 265.638);
-  --accent-foreground: oklch(0.97 0.014 254.604);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.547 0.021 43.1);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.214 0.009 43.1);
-  --sidebar-foreground: oklch(0.986 0.002 67.8);
-  --sidebar-primary: oklch(0.623 0.214 259.815);
-  --sidebar-primary-foreground: oklch(0.97 0.014 254.604);
-  --sidebar-accent: oklch(0.268 0.011 36.5);
-  --sidebar-accent-foreground: oklch(0.986 0.002 67.8);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.547 0.021 43.1);
+  /* NileFlix — Dark (odit.et): dark-slate surfaces with a brighter sage-green
+     brand accent for contrast, plus the same colorful stat palette. */
+  --background: #292e2e;
+  --foreground: #ecece9;
+  --card: #2f3737;
+  --card-foreground: #ecece9;
+  --popover: #2f3737;
+  --popover-foreground: #ecece9;
+  --primary: #8fb6a3;
+  --primary-foreground: #16201b;
+  --secondary: #465353;
+  --secondary-foreground: #e4e7e7;
+  --muted: #3b4545;
+  --muted-foreground: #c3c8c4;
+  --accent: #3a4a43;
+  --accent-foreground: #eaf3ee;
+  --destructive: #da7171;
+  --border: #5e6e6e;
+  --input: #5e6e6e;
+  --ring: #8fb6a3;
+  --chart-1: #8fb6a3;
+  --chart-2: #2dd4bf;
+  --chart-3: #fbbf24;
+  --chart-4: #7c93e0;
+  --chart-5: #c084fc;
+  --sidebar: #232929;
+  --sidebar-foreground: #e4e7e7;
+  --sidebar-primary: #8fb6a3;
+  --sidebar-primary-foreground: #16201b;
+  --sidebar-accent: #3a4a43;
+  --sidebar-accent-foreground: #eaf3ee;
+  --sidebar-border: #5e6e6e;
+  --sidebar-ring: #8fb6a3;
 }
 
 @layer base {
