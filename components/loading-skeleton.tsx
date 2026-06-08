@@ -61,7 +61,7 @@ export function MediaDetailSkeleton() {
 
 export function WatchScreenSkeleton() {
   return (
-    <main className="min-h-dvh bg-black text-white">
+    <main className="min-h-dvh bg-background text-foreground">
       <div className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col gap-4 px-3 py-3 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
         <div className="flex items-start justify-between">
           <div className="space-y-2">
