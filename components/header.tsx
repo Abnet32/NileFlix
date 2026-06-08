@@ -55,7 +55,7 @@ export default function Header() {
 
         <div className="ml-auto hidden items-center gap-2 md:flex">
           <ModeToggle />
-          {/* <Link
+          <Link
             href="/sign-in"
             className={cn(
               buttonVariants({ variant: "default", size: "sm" }),
@@ -64,7 +64,7 @@ export default function Header() {
           >
             <UserRound className="size-4" aria-hidden="true" />
             Sign in
-          </Link> */}
+          </Link>
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:hidden">
@@ -96,7 +96,7 @@ export default function Header() {
                 </Link>
               ))}
 
-              {/* <Link
+              <Link
                 href="/sign-in"
                 className={cn(
                   buttonVariants({ variant: "default", size: "sm" }),
@@ -105,7 +105,7 @@ export default function Header() {
               >
                 <UserRound className="size-4" aria-hidden="true" />
                 Sign in
-              </Link> */}
+              </Link>
             </div>
           </details>
         </div>
