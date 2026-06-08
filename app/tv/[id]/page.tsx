@@ -5,6 +5,8 @@ import {
   getSeriesVideos,
   getTrailerVideo,
 } from "@/lib/tmdb";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 type TvPageProps = {
   params: Promise<{ id: string }>;
@@ -12,9 +14,10 @@ type TvPageProps = {
 
 export default async function TvPage({ params }: TvPageProps) {
   const { id } = await params;
-  const [series, videos] = await Promise.all([
+  const [series, videos, session] = await Promise.all([
     getSeries(id),
     getSeriesVideos(id),
+    auth.api.getSession({ headers: await headers() }),
   ]);
 
   const trailer = getTrailerVideo(videos.results);
@@ -27,6 +30,7 @@ export default async function TvPage({ params }: TvPageProps) {
       trailerKey={trailer?.key ?? null}
       label="TV Show"
       backHref="/"
+      isAuthenticated={!!session}
       playHref={getSeasonHref(id, firstPlayableSeason)}
       playLabel="Open first season"
       seasonHref={(seasonNumber) => getSeasonHref(id, seasonNumber)}
