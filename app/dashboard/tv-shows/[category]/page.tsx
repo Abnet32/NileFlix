@@ -1,3 +1,4 @@
+import DashboardSearch from "@/components/dashboard-search";
 import MediaGrid from "@/components/media-grid";
 import {
   getAiringTodaySeries,
@@ -47,12 +48,15 @@ export default async function TvPage({ params }: TvPageProps) {
   const data = await config.fetch();
 
   return (
-    <MediaGrid
-      title={config.title}
-      description={config.description}
-      items={data.results}
-      contentType="tv"
-      hrefPrefix="/dashboard"
-    />
+    <>
+      <DashboardSearch />
+      <MediaGrid
+        title={config.title}
+        description={config.description}
+        items={data.results}
+        contentType="tv"
+        hrefPrefix="/dashboard"
+      />
+    </>
   );
 }
