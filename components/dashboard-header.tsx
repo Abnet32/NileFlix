@@ -1,7 +1,6 @@
 "use client";
 
 import DashboardBreadcrumb from "@/components/dashboard-breadcrumb";
-import MovieSearch from "@/components/movie-search";
 import { ModeToggle } from "@/components/theme-toggle";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -19,9 +18,6 @@ export default function DashboardHeader() {
       </div>
 
       <div className="ml-auto flex items-center gap-2 px-4">
-        <div className="hidden w-full max-w-xs sm:block">
-          <MovieSearch hrefPrefix="/dashboard" />
-        </div>
         <ModeToggle />
       </div>
     </header>
