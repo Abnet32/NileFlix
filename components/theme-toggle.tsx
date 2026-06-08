@@ -4,24 +4,24 @@ import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "./theme-provider";
 
-export function ModeToggle() {
+export function 
+() {
   const { theme, setTheme } = useTheme();
 
-  const toggleTheme = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
   return (
-    <a
-      href="#"
+    <button
+      type="button"
       onClick={toggleTheme}
-      className="relative inline-flex items-center justify-center p-2"
       aria-label="Toggle theme"
+      className="relative inline-flex size-9 items-center justify-center rounded-md border border-border bg-background/70 text-foreground shadow-sm backdrop-blur transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+      <Sun className="size-[1.1rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+      <Moon className="absolute size-[1.1rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
       <span className="sr-only">Toggle theme</span>
-    </a>
+    </button>
   );
 }
