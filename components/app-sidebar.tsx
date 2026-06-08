@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/sidebar";
 import {
   GalleryVerticalEndIcon,
-  HomeIcon,
   CompassIcon,
   ClapperboardIcon,
   TvIcon,
@@ -23,6 +22,7 @@ import {
   HeartIcon,
   BookmarkIcon,
   UserRoundIcon,
+  SparklesIcon,
 } from "lucide-react";
 
 // This is sample data.
@@ -42,11 +42,6 @@ const data = {
   ],
 
   navMain: [
-    {
-      title: "Home",
-      url: "/dashboard",
-      icon: <HomeIcon />,
-    },
     {
       title: "Discover",
       url: "/dashboard/discover/trending",
@@ -138,6 +133,11 @@ const data = {
   ],
 
   projects: [
+    {
+      name: "AI Assistant",
+      url: "/dashboard/assistant",
+      icon: <SparklesIcon />,
+    },
     {
       name: "Profile",
       url: "/dashboard/profile",
