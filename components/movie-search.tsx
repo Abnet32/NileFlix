@@ -21,11 +21,14 @@ type SearchResponse = {
 type MovieSearchProps = {
   initialQuery?: string;
   hrefPrefix?: string;
+  /** Compact mode: just the input + live results (no scope select / button). */
+  compact?: boolean;
 };
 
 export default function MovieSearch({
   initialQuery = "",
   hrefPrefix = "",
+  compact = false,
 }: MovieSearchProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const requestIdRef = useRef(0);
@@ -105,7 +108,7 @@ export default function MovieSearch({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="relative flex-1 space-y-2">
           <div className="relative">
-            <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className={`pointer-events-none absolute top-1/2 size-4 -translate-y-1/2 text-muted-foreground ${compact ? "left-3" : "left-4"}`} />
             <input
               id="movie-search"
               value={query}
@@ -129,7 +132,11 @@ export default function MovieSearch({
               }}
               placeholder="search movies, tv shows, or anime..."
               autoComplete="off"
-              className="h-11 w-full rounded-lg border border-input bg-background pl-11 pr-12 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 sm:h-12"
+              className={
+                compact
+                  ? "h-9 w-full rounded-md border border-input bg-background pl-9 pr-9 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30"
+                  : "h-11 w-full rounded-lg border border-input bg-background pl-11 pr-12 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 sm:h-12"
+              }
             />
 
             {query ? (
@@ -149,42 +156,44 @@ export default function MovieSearch({
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <select
-              value={scope}
-              onChange={(e) =>
-                setScope(e.target.value as "all" | "movie" | "tv" | "anime")
-              }
-              className="h-11 rounded-lg border border-input bg-background pl-3 pr-10 text-sm outline-none appearance-none sm:h-12"
-              aria-label="Search scope"
+        {compact ? null : (
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <select
+                value={scope}
+                onChange={(e) =>
+                  setScope(e.target.value as "all" | "movie" | "tv" | "anime")
+                }
+                className="h-11 rounded-lg border border-input bg-background pl-3 pr-10 text-sm outline-none appearance-none sm:h-12"
+                aria-label="Search scope"
+              >
+                <option value="all">All</option>
+                <option value="movie">Movies</option>
+                <option value="tv">TV Shows</option>
+                <option value="anime">Anime</option>
+              </select>
+
+              <ChevronDown
+                className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+                aria-hidden="true"
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (!trimmedQuery) return;
+                addSearchTerm(trimmedQuery);
+                void runSearch(trimmedQuery);
+              }}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-transparent bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 sm:h-12"
+              disabled={!trimmedQuery || isLoading}
             >
-              <option value="all">All</option>
-              <option value="movie">Movies</option>
-              <option value="tv">TV Shows</option>
-              <option value="anime">Anime</option>
-            </select>
-
-            <ChevronDown
-              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-              aria-hidden="true"
-            />
+              <Search className="size-4" />
+              Search
+            </button>
           </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              if (!trimmedQuery) return;
-              addSearchTerm(trimmedQuery);
-              void runSearch(trimmedQuery);
-            }}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-transparent bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 sm:h-12"
-            disabled={!trimmedQuery || isLoading}
-          >
-            <Search className="size-4" />
-            Search
-          </button>
-        </div>
+        )}
       </div>
 
       {/* Search History Dropdown */}
