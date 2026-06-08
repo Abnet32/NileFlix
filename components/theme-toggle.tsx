@@ -4,8 +4,7 @@ import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "./theme-provider";
 
-export function 
-() {
+export function ModeToggle() {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
