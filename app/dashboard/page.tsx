@@ -35,9 +35,6 @@ export default async function DashboardPage() {
       {/* Overview stats, graphs, insights */}
       <DashboardOverview />
 
-      {/* Continue watching (hides itself when empty) */}
-      <ContinueWatchingRow />
-
       {/* Quick browse */}
       <section className="space-y-3">
         <h2 className="px-2 text-xs uppercase tracking-[0.3em] text-muted-foreground">
@@ -48,7 +45,7 @@ export default async function DashboardPage() {
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-2 rounded-none border border-border/60 bg-card px-4 py-3 text-sm font-medium ring-1 ring-foreground/5 transition-colors hover:border-border hover:bg-muted"
+              className="flex items-center gap-2 rounded-sm border border-border/60 bg-card px-4 py-3 text-sm font-medium ring-1 ring-foreground/5 transition-colors hover:border-border hover:bg-muted"
             >
               <Icon className="size-4 text-primary" />
               {label}
@@ -56,6 +53,9 @@ export default async function DashboardPage() {
           ))}
         </div>
       </section>
+
+      {/* Continue watching (hides itself when empty) */}
+      <ContinueWatchingRow />
     </main>
   );
 }
