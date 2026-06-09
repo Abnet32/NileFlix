@@ -15,7 +15,7 @@ export default async function ProfilePage() {
   }
 
   const user = session.user;
-  const initials = (user.name ?? "U").slice(0, 2).toUpperCase();
+  const initials = (user.name ?? "U").slice(0, 1).toUpperCase();
 
   return (
     <main className="flex-1 px-4 py-6 sm:px-6">
