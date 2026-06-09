@@ -42,7 +42,7 @@ export default function ShareButton({ title, url, className }: ShareButtonProps)
       type="button"
       onClick={handleShare}
       className={cn(
-        "inline-flex items-center gap-2 rounded-none border border-border bg-background px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-muted active:scale-95",
+        "inline-flex items-center gap-2 rounded-sm border border-border bg-background px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-muted active:scale-95",
         className,
       )}
       aria-label="Share"
