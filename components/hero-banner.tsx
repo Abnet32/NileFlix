@@ -43,7 +43,7 @@ export default function HeroBanner({
   const heroTitle = getContentTitle(hero);
 
   return (
-    <section className="relative mb-10 w-full overflow-hidden rounded-none bg-black shadow-2xl shadow-black/30 sm:mb-12">
+    <section className="relative mb-10 w-full overflow-hidden rounded-sm bg-black shadow-2xl shadow-black/30 sm:mb-12">
       {heroImage ? (
         <Image
           src={`https://image.tmdb.org/t/p/original${heroImage}`}
