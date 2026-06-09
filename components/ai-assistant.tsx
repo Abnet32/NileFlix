@@ -24,7 +24,7 @@ function parseTmdbRefs(content: string): React.ReactNode[] {
         <a
           key={i}
           href={href}
-          className="mx-0.5 inline-flex items-center gap-1 rounded-none border border-primary/40 bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
+          className="mx-0.5 inline-flex items-center gap-1 rounded-sm border border-primary/40 bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
         >
           <Sparkles className="size-3" />
           View {type === "tv" ? "Show" : "Movie"}
@@ -41,7 +41,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
     <div className={cn("flex w-full", isUser ? "justify-end" : "justify-start")}>
       <div
         className={cn(
-          "max-w-[85%] rounded-none px-4 py-2.5 text-sm leading-relaxed",
+          "max-w-[85%] rounded-sm px-4 py-2.5 text-sm leading-relaxed",
           isUser
             ? "bg-primary text-primary-foreground"
             : "bg-muted text-foreground",
@@ -75,7 +75,7 @@ export default function AiAssistant() {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border px-4 py-3 sm:px-6">
         <div className="flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-none bg-primary/10 text-primary">
+          <div className="flex size-9 items-center justify-center rounded-sm bg-primary/10 text-primary">
             <Sparkles className="size-5" />
           </div>
           <div>
@@ -89,7 +89,7 @@ export default function AiAssistant() {
           <button
             type="button"
             onClick={clearChat}
-            className="flex items-center gap-2 rounded-none border border-border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
+            className="flex items-center gap-2 rounded-sm border border-border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
           >
             <Trash2 className="size-3.5" />
             Clear
@@ -102,7 +102,7 @@ export default function AiAssistant() {
         <div className="mx-auto w-full max-w-3xl">
           {!mounted ? null : messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-              <div className="flex size-16 items-center justify-center rounded-none bg-muted">
+              <div className="flex size-16 items-center justify-center rounded-sm bg-muted">
                 <Sparkles className="size-8 text-primary" />
               </div>
               <div>
@@ -120,7 +120,7 @@ export default function AiAssistant() {
                       setInput(s);
                       inputRef.current?.focus();
                     }}
-                    className="rounded-none border border-border px-3 py-1.5 text-sm transition-colors hover:bg-muted"
+                    className="rounded-sm border border-border px-3 py-1.5 text-sm transition-colors hover:bg-muted"
                   >
                     {s}
                   </button>
@@ -134,10 +134,10 @@ export default function AiAssistant() {
               ))}
               {isLoading ? (
                 <div className="flex justify-start">
-                  <div className="flex gap-1 rounded-none bg-muted px-4 py-3">
-                    <span className="size-2 animate-bounce rounded-none bg-muted-foreground/50 [animation-delay:0s]" />
-                    <span className="size-2 animate-bounce rounded-none bg-muted-foreground/50 [animation-delay:0.15s]" />
-                    <span className="size-2 animate-bounce rounded-none bg-muted-foreground/50 [animation-delay:0.3s]" />
+                  <div className="flex gap-1 rounded-sm bg-muted px-4 py-3">
+                    <span className="size-2 animate-bounce rounded-sm bg-muted-foreground/50 [animation-delay:0s]" />
+                    <span className="size-2 animate-bounce rounded-sm bg-muted-foreground/50 [animation-delay:0.15s]" />
+                    <span className="size-2 animate-bounce rounded-sm bg-muted-foreground/50 [animation-delay:0.3s]" />
                   </div>
                 </div>
               ) : null}
@@ -163,14 +163,14 @@ export default function AiAssistant() {
             }}
             placeholder="Ask for movie recommendations…"
             disabled={isLoading}
-            className="h-11 flex-1 rounded-none border border-input bg-background px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30"
+            className="h-11 flex-1 rounded-sm border border-input bg-background px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30"
           />
           <button
             type="button"
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
             aria-label="Send message"
-            className="flex size-11 shrink-0 items-center justify-center rounded-none bg-primary text-primary-foreground transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 active:scale-95"
+            className="flex size-11 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 active:scale-95"
           >
             <Send className="size-4" />
           </button>
