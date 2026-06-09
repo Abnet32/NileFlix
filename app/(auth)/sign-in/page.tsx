@@ -115,7 +115,7 @@ function SignInForm() {
       </div>
 
       {error && (
-        <div className="mb-5 flex items-start gap-2.5 rounded-none border border-destructive/30 bg-destructive/10 px-4 py-3">
+        <div className="mb-5 flex items-start gap-2.5 rounded-sm border border-destructive/30 bg-destructive/10 px-4 py-3">
           <IoAlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
           <p className="text-sm text-destructive">{error}</p>
         </div>
@@ -137,7 +137,7 @@ function SignInForm() {
             value={form.email}
             onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
             placeholder="you@example.com"
-            className="w-full rounded-none border border-border bg-input px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-sm border border-border bg-input px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </div>
 
@@ -168,7 +168,7 @@ function SignInForm() {
                 setForm((f) => ({ ...f, password: e.target.value }))
               }
               placeholder="••••••••"
-              className="w-full rounded-none border border-border bg-input py-2.5 pl-3.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="w-full rounded-sm border border-border bg-input py-2.5 pl-3.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
             <button
               type="button"
@@ -188,7 +188,7 @@ function SignInForm() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 flex w-full items-center justify-center gap-2 rounded-none bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-sm bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
         >
           {loading && <FiLoader className="h-4 w-4 animate-spin" />}
           {loading ? "Signing in…" : "Sign in"}
@@ -200,7 +200,7 @@ function SignInForm() {
           type="button"
           onClick={() => void handleSocialSignIn("google")}
           disabled={loading || socialLoading !== null}
-          className="flex w-full items-center justify-center gap-2 rounded-none border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted/60 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
+          className="flex w-full items-center justify-center gap-2 rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted/60 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
         >
           {socialLoading === "google" ? (
             <FiLoader className="h-4 w-4 animate-spin" />
@@ -213,7 +213,7 @@ function SignInForm() {
           type="button"
           onClick={() => void handleSocialSignIn("github")}
           disabled={loading || socialLoading !== null}
-          className="flex w-full items-center justify-center gap-2 rounded-none border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted/60 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
+          className="flex w-full items-center justify-center gap-2 rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted/60 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
         >
           {socialLoading === "github" ? (
             <FiLoader className="h-4 w-4 animate-spin" />
@@ -234,7 +234,7 @@ function SignInForm() {
 
       <Link
         href="/sign-up"
-        className="flex w-full items-center justify-center rounded-none border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted/60"
+        className="flex w-full items-center justify-center rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted/60"
       >
         Create an account
       </Link>
