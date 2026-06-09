@@ -144,7 +144,7 @@ export default function SignUpPage() {
       </div>
 
       {error && (
-        <div className="mb-5 flex items-start gap-2.5 rounded-sm border border-destructive/30 bg-destructive/10 px-4 py-3">
+        <div className="mb-5 flex items-start gap-2.5 rounded-none border border-destructive/30 bg-destructive/10 px-4 py-3">
           <IoAlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
           <p className="text-sm text-destructive">{error}</p>
         </div>
@@ -166,7 +166,7 @@ export default function SignUpPage() {
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
             placeholder="Jane Smith"
-            className="w-full rounded-sm border border-border bg-input px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-none border border-border bg-input px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
         </div>
 
@@ -185,7 +185,7 @@ export default function SignUpPage() {
             value={form.email}
             onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
             placeholder="you@example.com"
-            className="w-full rounded-sm border border-border bg-input px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-none border border-border bg-input px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
         </div>
 
@@ -208,7 +208,7 @@ export default function SignUpPage() {
                 setForm((f) => ({ ...f, password: e.target.value }))
               }
               placeholder="Min. 8 characters"
-              className="w-full rounded-sm border border-border bg-input py-2.5 pl-3.5 pr-10 text-sm text-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+              className="w-full rounded-none border border-border bg-input py-2.5 pl-3.5 pr-10 text-sm text-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
             <button
               type="button"
@@ -225,9 +225,9 @@ export default function SignUpPage() {
 
           {passwordStrength && (
             <div className="mt-2">
-              <div className="h-1 w-full overflow-hidden rounded-sm bg-muted">
+              <div className="h-1 w-full overflow-hidden rounded-none bg-muted">
                 <div
-                  className={`h-full rounded-sm transition-all duration-300 ${strengthConfig[passwordStrength].color} ${strengthConfig[passwordStrength].width}`}
+                  className={`h-full rounded-none transition-all duration-300 ${strengthConfig[passwordStrength].color} ${strengthConfig[passwordStrength].width}`}
                 />
               </div>
               <p className="mt-1 text-[11px] text-muted-foreground">
@@ -266,7 +266,7 @@ export default function SignUpPage() {
                 setForm((f) => ({ ...f, confirmPassword: e.target.value }))
               }
               placeholder="Re-enter password"
-              className={`w-full rounded-sm border bg-input py-2.5 pl-3.5 pr-10 text-sm text-foreground focus:outline-none focus:ring-2 ${
+              className={`w-full rounded-none border bg-input py-2.5 pl-3.5 pr-10 text-sm text-foreground focus:outline-none focus:ring-2 ${
                 form.confirmPassword.length > 0
                   ? passwordsMatch
                     ? "border-primary focus:border-primary focus:ring-primary/20"
@@ -296,7 +296,7 @@ export default function SignUpPage() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-1 flex w-full items-center justify-center gap-2 rounded-sm bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
+          className="mt-1 flex w-full items-center justify-center gap-2 rounded-none bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
         >
           {loading && <FiLoader className="h-4 w-4 animate-spin" />}
           {loading ? "Creating account…" : "Create account"}
@@ -308,7 +308,7 @@ export default function SignUpPage() {
           type="button"
           onClick={() => void handleSocialSignIn("google")}
           disabled={loading || socialLoading !== null}
-          className="flex w-full items-center justify-center gap-2 rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted/60 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
+          className="flex w-full items-center justify-center gap-2 rounded-none border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted/60 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
         >
           {socialLoading === "google" ? (
             <FiLoader className="h-4 w-4 animate-spin" />
@@ -321,7 +321,7 @@ export default function SignUpPage() {
           type="button"
           onClick={() => void handleSocialSignIn("github")}
           disabled={loading || socialLoading !== null}
-          className="flex w-full items-center justify-center gap-2 rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted/60 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
+          className="flex w-full items-center justify-center gap-2 rounded-none border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted/60 disabled:pointer-events-none disabled:opacity-60 cursor-pointer"
         >
           {socialLoading === "github" ? (
             <FiLoader className="h-4 w-4 animate-spin" />
@@ -342,7 +342,7 @@ export default function SignUpPage() {
 
       <Link
         href="/sign-in?callbackUrl=/dashboard"
-        className="flex w-full items-center justify-center rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted/60"
+        className="flex w-full items-center justify-center rounded-none border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted/60"
       >
         Sign in instead
       </Link>

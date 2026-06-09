@@ -134,8 +134,8 @@ export default function MovieSearch({
               autoComplete="off"
               className={
                 compact
-                  ? "h-9 w-full rounded-md border border-input bg-background pl-9 pr-9 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30"
-                  : "h-11 w-full rounded-lg border border-input bg-background pl-11 pr-12 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 sm:h-12"
+                  ? "h-9 w-full rounded-none border border-input bg-background pl-9 pr-9 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30"
+                  : "h-11 w-full rounded-none border border-input bg-background pl-11 pr-12 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30 sm:h-12"
               }
             />
 
@@ -147,7 +147,7 @@ export default function MovieSearch({
                   setResults([]);
                   setIsOpen(false);
                 }}
-                className="absolute right-3 top-1/2 inline-flex size-7 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                className="absolute right-3 top-1/2 inline-flex size-7 -translate-y-1/2 items-center justify-center rounded-none text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 aria-label="Clear search"
               >
                 <X className="size-4" />
@@ -164,7 +164,7 @@ export default function MovieSearch({
                 onChange={(e) =>
                   setScope(e.target.value as "all" | "movie" | "tv" | "anime")
                 }
-                className="h-11 rounded-lg border border-input bg-background pl-3 pr-10 text-sm outline-none appearance-none sm:h-12"
+                className="h-11 rounded-none border border-input bg-background pl-3 pr-10 text-sm outline-none appearance-none sm:h-12"
                 aria-label="Search scope"
               >
                 <option value="all">All</option>
@@ -186,7 +186,7 @@ export default function MovieSearch({
                 addSearchTerm(trimmedQuery);
                 void runSearch(trimmedQuery);
               }}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-transparent bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 sm:h-12"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-none border border-transparent bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 sm:h-12"
               disabled={!trimmedQuery || isLoading}
             >
               <Search className="size-4" />
@@ -229,7 +229,7 @@ export default function MovieSearch({
                     addSearchTerm(term);
                     void runSearch(term);
                   }}
-                  className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm transition-colors hover:bg-muted"
+                  className="flex w-full items-center gap-2 rounded-none px-2 py-2 text-left text-sm transition-colors hover:bg-muted"
                 >
                   <Clock className="size-3.5 shrink-0 text-muted-foreground" />
                   <span className="truncate">{term}</span>
@@ -265,7 +265,7 @@ export default function MovieSearch({
                         key={`${item.media_type}-${item.id}`}
                         href={href}
                         onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-muted"
+                        className="flex items-center gap-3 rounded-none p-2 transition-colors hover:bg-muted"
                       >
                         <div className="relative h-14 w-10 shrink-0 overflow-hidden bg-muted sm:h-16 sm:w-12">
                           {imagePath ? (

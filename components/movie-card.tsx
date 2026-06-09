@@ -36,7 +36,7 @@ export default function MovieCard({
 
   return (
     <Link href={href} className="group block">
-      <Card className="mx-auto h-full w-full overflow-hidden rounded-none shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
+      <Card className="py-0 mx-auto h-full w-full overflow-hidden rounded-none shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
         <div className="relative aspect-2/3 w-full overflow-hidden">
           {imagePath ? (
             <Image
@@ -44,7 +44,7 @@ export default function MovieCard({
               alt={title}
               fill
               className="object-cover"
-              sizes="(max-width: 640px) 40vw, (max-width: 1024px) 22vw, 16vw"
+              sizes="(max-width: 40px) 40vw, (max-width: 1024px) 22vw, 16vw"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-muted via-background to-muted px-3 text-center text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:text-xs">

@@ -31,8 +31,8 @@ export default function ProfileStats() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i} className="animate-pulse rounded-none border border-border/60 bg-card/60 p-4">
-            <div className="mb-2 h-4 w-12 rounded bg-muted" />
-            <div className="h-8 w-16 rounded bg-muted" />
+            <div className="mb-2 h-4 w-12 rounded-none bg-muted" />
+            <div className="h-8 w-16 rounded-none bg-muted" />
           </div>
         ))}
       </div>
