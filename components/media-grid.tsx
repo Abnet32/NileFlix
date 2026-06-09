@@ -30,7 +30,7 @@ export default function MediaGrid({
       {items.length === 0 ? (
         <p className="text-sm text-muted-foreground">Nothing to show here yet.</p>
       ) : (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-2.5 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7">
           {items.map((movie) => (
             <MovieCard
               key={movie.id}
