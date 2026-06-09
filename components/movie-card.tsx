@@ -36,7 +36,7 @@ export default function MovieCard({
 
   return (
     <Link href={href} className="group block">
-      <Card className="py-0 mx-auto h-full w-full overflow-hidden rounded-sm shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
+      <Card className="py-0 mx-auto h-full w-full overflow-hidden rounded-sm shadow-md ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.015] hover:shadow-xl">
         <div className="relative aspect-2/3 w-full overflow-hidden">
           {imagePath ? (
             <Image
@@ -53,29 +53,29 @@ export default function MovieCard({
           )}
 
           <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/40 to-transparent opacity-100 transition-all duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:backdrop-blur-[2px]" />
-          <div className="absolute left-2 top-2 sm:left-3 sm:top-3">
+          <div className="absolute left-1.5 top-1.5 sm:left-2 sm:top-2">
             <Badge
               variant="secondary"
-              className="px-2 py-1 text-[10px] sm:text-xs"
+              className="px-1.5 py-0.5 text-[10px] font-semibold"
             >
               {movie.vote_average.toFixed(1)} ⭐
             </Badge>
           </div>
-          <div className="absolute right-2 top-2 sm:right-3 sm:top-3">
+          <div className="absolute right-1.5 top-1.5 sm:right-2 sm:top-2">
             <Badge
               variant="outline"
-              className="border-white/20 bg-black/40 px-2 py-1 text-[10px] text-white sm:text-xs"
+              className="border-white/20 bg-black/40 px-1.5 py-0.5 text-[10px] font-semibold text-white"
             >
               {typeLabel}
             </Badge>
           </div>
-          <div className="absolute inset-x-0 bottom-0 p-2 sm:p-3">
-            <div className="space-y-1 text-white">
-              <h3 className="line-clamp-2 text-sm font-semibold leading-tight sm:text-base sm:font-bold lg:text-lg">
+          <div className="absolute inset-x-0 bottom-0 p-2 sm:p-2.5">
+            <div className="space-y-0.5 text-white">
+              <h3 className="line-clamp-2 text-xs font-semibold leading-tight tracking-tight sm:text-sm">
                 {title}
               </h3>
               {releaseYear ? (
-                <p className="text-[11px] font-medium text-white/85 sm:text-sm">
+                <p className="text-[10px] font-medium text-white/80 sm:text-[11px]">
                   {releaseYear}
                 </p>
               ) : null}
