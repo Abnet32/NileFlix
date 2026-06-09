@@ -82,7 +82,7 @@ export default function DashboardOverview() {
         {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
-            className="h-24 animate-pulse rounded-none bg-card/60 ring-1 ring-foreground/10"
+            className="h-24 animate-pulse rounded-sm bg-card/60 ring-1 ring-foreground/10"
           />
         ))}
       </div>
@@ -121,14 +121,14 @@ export default function DashboardOverview() {
         {stats.map(({ label, value, icon: Icon, color }) => (
           <div
             key={label}
-            className="relative overflow-hidden rounded-none border border-border/60 bg-card p-4 ring-1 ring-foreground/5"
+            className="relative overflow-hidden rounded-sm border border-border/60 bg-card p-4 ring-1 ring-foreground/5"
           >
             <div
-              className="absolute -right-6 -top-6 size-20 rounded-none opacity-15 blur-xl"
+              className="absolute -right-6 -top-6 size-20 rounded-sm opacity-15 blur-xl"
               style={{ backgroundColor: color }}
             />
             <div
-              className="flex size-9 items-center justify-center rounded-none"
+              className="flex size-9 items-center justify-center rounded-sm"
               style={{
                 backgroundColor: `color-mix(in oklab, ${color} 15%, transparent)`,
                 color,
@@ -147,7 +147,7 @@ export default function DashboardOverview() {
       </div>
 
       {/* Actual graph: rating distribution area chart */}
-      <div className="rounded-none border border-border/60 bg-card p-4 ring-1 ring-foreground/5">
+      <div className="rounded-sm border border-border/60 bg-card p-4 ring-1 ring-foreground/5">
         <div className="mb-1 flex items-center gap-2">
           <BarChart3 className="size-4 text-primary" />
           <h3 className="text-sm font-medium">Ratings of Your Titles</h3>
@@ -165,7 +165,7 @@ export default function DashboardOverview() {
 
       <div className="grid gap-3 lg:grid-cols-2">
         {/* Donut: library composition */}
-        <div className="rounded-none border border-border/60 bg-card p-4 ring-1 ring-foreground/5">
+        <div className="rounded-sm border border-border/60 bg-card p-4 ring-1 ring-foreground/5">
           <div className="mb-3 flex items-center gap-2">
             <Sparkles className="size-4 text-primary" />
             <h3 className="text-sm font-medium">Library Composition</h3>
@@ -183,7 +183,7 @@ export default function DashboardOverview() {
                   >
                     <span className="flex items-center gap-2 text-muted-foreground">
                       <span
-                        className="size-2.5 rounded-none"
+                        className="size-2.5 rounded-sm"
                         style={{ backgroundColor: s.color }}
                       />
                       {s.label}
@@ -197,7 +197,7 @@ export default function DashboardOverview() {
         </div>
 
         {/* Insights + movies vs tv */}
-        <div className="rounded-none border border-border/60 bg-card p-4 ring-1 ring-foreground/5">
+        <div className="rounded-sm border border-border/60 bg-card p-4 ring-1 ring-foreground/5">
           <div className="mb-3 flex items-center gap-2">
             <Film className="size-4 text-primary" />
             <h3 className="text-sm font-medium">Insights</h3>
@@ -212,9 +212,9 @@ export default function DashboardOverview() {
                 {data.tvCount} TV <Tv className="size-3" />
               </span>
             </div>
-            <div className="flex h-2 w-full overflow-hidden rounded-none bg-muted">
+            <div className="flex h-2 w-full overflow-hidden rounded-sm bg-muted">
               <div
-                className="h-full rounded-none transition-all"
+                className="h-full rounded-sm transition-all"
                 style={{ width: `${moviePct}%`, backgroundColor: "var(--chart-1)" }}
               />
               <div
