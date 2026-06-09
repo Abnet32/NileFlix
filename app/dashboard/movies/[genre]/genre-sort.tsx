@@ -24,7 +24,7 @@ export default function GenreSort({ currentSort }: { currentSort: string }) {
         <select
           value={currentSort}
           onChange={(e) => handleSort(e.target.value)}
-          className="h-10 appearance-none rounded-none border border-border bg-card/90 pl-3 pr-9 text-sm shadow-lg backdrop-blur outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary/30"
+          className="h-10 appearance-none rounded-sm border border-border bg-card/90 pl-3 pr-9 text-sm shadow-lg backdrop-blur outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary/30"
           aria-label="Sort order"
         >
           {SORT_OPTIONS.map((opt) => (
