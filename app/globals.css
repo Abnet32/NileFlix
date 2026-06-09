@@ -126,10 +126,19 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-medium;
+    letter-spacing: -0.01em;
   }
   html {
     @apply font-sans;
+    /* Smaller global baseline — every rem-based size scales down proportionally. */
+    font-size: 14px;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight;
   }
 }
 
