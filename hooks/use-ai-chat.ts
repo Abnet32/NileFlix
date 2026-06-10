@@ -59,6 +59,9 @@ export function useAiChat() {
     saveMessages(updated);
     setIsLoading(true);
 
+    const assistantId = generateId();
+    let streamed = "";
+
     try {
       const res = await fetch("/api/ai-chat", {
         method: "POST",
@@ -68,29 +71,83 @@ export function useAiChat() {
         }),
       });
 
-      const data = await res.json();
+      // Errors arrive as JSON (before the stream starts); success streams text.
+      const contentType = res.headers.get("Content-Type") ?? "";
+      if (!res.ok || contentType.includes("application/json")) {
+        const data = await res.json().catch(() => ({}));
+        setMessages((prev) => {
+          const final: ChatMessage[] = [
+            ...prev,
+            {
+              id: assistantId,
+              role: "assistant",
+              content:
+                data.error ??
+                "Sorry, I couldn't respond right now. Please try again.",
+              timestamp: Date.now(),
+            },
+          ];
+          saveMessages(final);
+          return final;
+        });
+        return;
+      }
 
-      const assistantMsg: ChatMessage = {
-        id: generateId(),
-        role: "assistant",
-        content: data.content ?? data.error ?? "Sorry, I couldn't respond right now.",
-        timestamp: Date.now(),
-      };
+      // Add an empty assistant bubble, then fill it as chunks stream in.
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: assistantId,
+          role: "assistant",
+          content: "",
+          timestamp: Date.now(),
+        },
+      ]);
+      setIsLoading(false);
 
+      const reader = res.body?.getReader();
+      if (reader) {
+        const decoder = new TextDecoder();
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          streamed += decoder.decode(value, { stream: true });
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId ? { ...m, content: streamed } : m,
+            ),
+          );
+        }
+      }
+
+      const finalText = streamed || "Sorry, I couldn't generate a response.";
       setMessages((prev) => {
-        const final = [...prev, assistantMsg];
+        const final = prev.map((m) =>
+          m.id === assistantId ? { ...m, content: finalText } : m,
+        );
         saveMessages(final);
         return final;
       });
     } catch {
-      const errorMsg: ChatMessage = {
-        id: generateId(),
-        role: "assistant",
-        content: "Something went wrong. Please check your connection and try again.",
-        timestamp: Date.now(),
-      };
+      const fallback =
+        "Something went wrong. Please check your connection and try again.";
       setMessages((prev) => {
-        const final = [...prev, errorMsg];
+        const exists = prev.some((m) => m.id === assistantId);
+        const final = exists
+          ? prev.map((m) =>
+              m.id === assistantId
+                ? { ...m, content: streamed || fallback }
+                : m,
+            )
+          : [
+              ...prev,
+              {
+                id: assistantId,
+                role: "assistant" as const,
+                content: fallback,
+                timestamp: Date.now(),
+              },
+            ];
         saveMessages(final);
         return final;
       });
