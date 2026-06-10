@@ -6,10 +6,10 @@ import { useAiChat, type ChatMessage } from "@/hooks/use-ai-chat";
 import { cn } from "@/lib/utils";
 
 const SUGGESTIONS = [
-  "Recommend a sci-fi movie",
-  "What's similar to Breaking Bad?",
-  "Best anime for beginners",
-  "Hidden gem thrillers",
+  "I'm feeling sad, cheer me up",
+  "I want something exciting tonight",
+  "Cozy anime to relax with",
+  "I'm bored, surprise me",
 ];
 
 function parseTmdbRefs(content: string): React.ReactNode[] {
@@ -81,7 +81,8 @@ export default function AiAssistant() {
           <div>
             <h1 className="text-base font-semibold">NileFlix AI</h1>
             <p className="text-xs text-muted-foreground">
-              Movie, TV &amp; anime recommendations — powered by Gemini
+              Tell me your mood, get movie, TV &amp; anime picks — powered by
+              Gemini
             </p>
           </div>
         </div>
@@ -106,9 +107,10 @@ export default function AiAssistant() {
                 <Sparkles className="size-8 text-primary" />
               </div>
               <div>
-                <p className="text-lg font-medium">Ask NileFlix AI</p>
+                <p className="text-lg font-medium">How are you feeling?</p>
                 <p className="text-sm text-muted-foreground">
-                  Get personalized movie, TV show, and anime recommendations.
+                  Tell me your mood and I&apos;ll suggest the perfect movie, TV
+                  show, or anime to match it.
                 </p>
               </div>
               <div className="mt-2 flex flex-wrap justify-center gap-2">
@@ -161,7 +163,7 @@ export default function AiAssistant() {
                 handleSend();
               }
             }}
-            placeholder="Ask for movie recommendations…"
+            placeholder="Tell me your mood…"
             disabled={isLoading}
             className="h-11 flex-1 rounded-sm border border-input bg-background px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30"
           />
