@@ -9,6 +9,19 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  account: {
+    accountLinking: {
+      enabled: true,
+      // Auto-link Google/GitHub logins to an existing account that shares the
+      // same email. Both providers return verified emails, so this is safe and
+      // prevents the `account_not_linked` error on cross-provider sign-in.
+      trustedProviders: ["google", "github"],
+      // Allow linking onto local accounts that aren't email-verified (e.g. ones
+      // created via email/password), since the trusted IdP's verified email is
+      // proof of ownership.
+      requireLocalEmailVerified: false,
+    },
+  },
   socialProviders: {
     google: {
       enabled: true,
