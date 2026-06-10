@@ -34,7 +34,7 @@ export function TeamSwitcher({
         >
           <div className="flex aspect-square size-8 items-center justify-center">
             <Image
-              src="/icon.svg"
+              src="/icon1.png"
               alt="NileFlix"
               width={28}
               height={28}

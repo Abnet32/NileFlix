@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     "A free movie discovery app built with Next.js, Tailwind CSS, and TypeScript.",
   icons: {
-    icon: "/icon.svg",
+    icon: "/icon.png",
     apple: "/icon.svg",
   },
 };
