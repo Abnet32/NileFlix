@@ -3,8 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogOut, Shield } from "lucide-react";
-import { authClient } from "@/lib/auth-client";
+import {  Shield } from "lucide-react";
 import SignOutButton from "./sign-out-button";
 
 export default async function ProfilePage() {
