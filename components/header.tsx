@@ -18,7 +18,7 @@ const navItems = [
     href: "#tv-shows",
     icon: TvMinimalPlay,
   },
-    {
+  {
     label: "Anime",
     href: "#anime",
     icon: Star,
