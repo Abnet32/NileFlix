@@ -1,11 +1,11 @@
-import DashboardSearch from "@/components/dashboard-search";
+// import DashboardSearch from "@/components/dashboard-search";
 import SavedMediaGrid from "@/components/saved-media-grid";
 import { FAVORITES_KEY } from "@/lib/media-lists";
 
 export default function FavoritesPage() {
   return (
     <>
-      <DashboardSearch />
+      {/* <DashboardSearch /> */}
       <SavedMediaGrid
         listKey={FAVORITES_KEY}
         title="Favorites"
