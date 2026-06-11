@@ -1,11 +1,11 @@
-import DashboardSearch from "@/components/dashboard-search";
+// import DashboardSearch from "@/components/dashboard-search";
 import SavedMediaGrid from "@/components/saved-media-grid";
 import { WATCHLIST_KEY } from "@/lib/media-lists";
 
 export default function WatchlistPage() {
   return (
     <>
-      <DashboardSearch />
+      {/* <DashboardSearch /> */}
       <SavedMediaGrid
         listKey={WATCHLIST_KEY}
         title="Watchlist"
