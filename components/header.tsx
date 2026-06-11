@@ -14,14 +14,14 @@ const navItems = [
     icon: Film,
   },
   {
-    label: "Anime",
-    href: "#anime",
-    icon: Star,
-  },
-  {
     label: "TV Show",
     href: "#tv-shows",
     icon: TvMinimalPlay,
+  },
+    {
+    label: "Anime",
+    href: "#anime",
+    icon: Star,
   },
 ] as const;
 
