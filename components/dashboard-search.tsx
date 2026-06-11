@@ -9,7 +9,7 @@ export default function DashboardSearch({
 }: DashboardSearchProps) {
   return (
     <div className="px-3 pt-4 sm:px-5">
-      <div className="max-w-xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <MovieSearch compact hrefPrefix="/dashboard" defaultScope={scope} />
       </div>
     </div>
