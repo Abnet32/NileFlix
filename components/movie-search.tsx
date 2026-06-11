@@ -9,7 +9,11 @@ import {
 } from "@/lib/tmdb";
 import { Badge } from "@/components/ui/badge";
 import { Search, X, ChevronDown, Clock, Trash2 } from "lucide-react";
-import { getSearchHistory, addSearchTerm, clearSearchHistory } from "@/lib/search-history";
+import {
+  getSearchHistory,
+  addSearchTerm,
+  clearSearchHistory,
+} from "@/lib/search-history";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -23,12 +27,14 @@ type MovieSearchProps = {
   hrefPrefix?: string;
   /** Compact mode: just the input + live results (no scope select / button). */
   compact?: boolean;
+  defaultScope?: "all" | "movie" | "tv" | "anime";
 };
 
 export default function MovieSearch({
   initialQuery = "",
   hrefPrefix = "",
   compact = false,
+  defaultScope = "all",
 }: MovieSearchProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const requestIdRef = useRef(0);
@@ -36,7 +42,9 @@ export default function MovieSearch({
   const [results, setResults] = useState<TMDBSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [scope, setScope] = useState<"all" | "movie" | "tv" | "anime">("all");
+  const [scope, setScope] = useState<"all" | "movie" | "tv" | "anime">(
+    defaultScope,
+  );
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
 
@@ -108,7 +116,9 @@ export default function MovieSearch({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="relative flex-1 space-y-2">
           <div className="relative">
-            <Search className={`pointer-events-none absolute top-1/2 size-4 -translate-y-1/2 text-muted-foreground ${compact ? "left-3" : "left-4"}`} />
+            <Search
+              className={`pointer-events-none absolute top-1/2 size-4 -translate-y-1/2 text-muted-foreground ${compact ? "left-3" : "left-4"}`}
+            />
             <input
               id="movie-search"
               value={query}
@@ -130,7 +140,7 @@ export default function MovieSearch({
                   setShowHistory(true);
                 }
               }}
-              placeholder="search movies, tv shows, or anime..."
+              placeholder="search what really interests you..."
               autoComplete="off"
               className={
                 compact
