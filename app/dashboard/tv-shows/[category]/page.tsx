@@ -49,7 +49,7 @@ export default async function TvPage({ params }: TvPageProps) {
 
   return (
     <>
-      <DashboardSearch />
+      <DashboardSearch scope="tv" />
       <MediaGrid
         title={config.title}
         description={config.description}
