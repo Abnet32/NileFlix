@@ -38,7 +38,10 @@ const SORT_OPTIONS: Record<string, { label: string; value: string }> = {
   "revenue.desc": { label: "Box Office", value: "revenue.desc" },
 };
 
-export default async function GenrePage({ params, searchParams }: GenrePageProps) {
+export default async function GenrePage({
+  params,
+  searchParams,
+}: GenrePageProps) {
   const { genre } = await params;
   const { sort } = await searchParams;
   const config = GENRES[genre as keyof typeof GENRES];
@@ -58,7 +61,7 @@ export default async function GenrePage({ params, searchParams }: GenrePageProps
 
   return (
     <>
-      <DashboardSearch />
+      <DashboardSearch scope="movie" />
       <MediaGrid
         title={config.title}
         description={`Sorted by ${currentSort.toLowerCase()}.`}
