@@ -81,7 +81,7 @@ export default function Header() {
               Menu
             </summary>
 
-            <div className="absolute right-0 top-full z-50 mt-3 w-38 overflow-hidden border border-white/10 bg-black/95 p-2 shadow-2xl shadow-black/30 backdrop-blur-xl">
+            <div className="absolute right-0 top-full z-50 mt-3 w-38 overflow-hidden border border-white/10 p-2 shadow-2xl shadow-black/30 backdrop-blur-xl">
               {navItems.map(({ label, href, icon: Icon }) => (
                 <Link
                   key={label}
