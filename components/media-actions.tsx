@@ -18,8 +18,13 @@ export default function MediaActions({ item }: { item: MediaListItem }) {
 
   useEffect(() => {
     setMounted(true);
-    setFav(isInList(FAVORITES_KEY, item.id, item.media_type));
-    setSaved(isInList(WATCHLIST_KEY, item.id, item.media_type));
+    const refresh = () => {
+      setFav(isInList(FAVORITES_KEY, item.id, item.media_type));
+      setSaved(isInList(WATCHLIST_KEY, item.id, item.media_type));
+    };
+    refresh();
+    window.addEventListener("nileflix:lists", refresh);
+    return () => window.removeEventListener("nileflix:lists", refresh);
   }, [item.id, item.media_type]);
 
   const baseClass =
