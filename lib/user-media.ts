@@ -28,6 +28,19 @@ function collection(name: keyof typeof COLLECTIONS) {
   return client.db().collection<Doc>(COLLECTIONS[name]);
 }
 
+/** Collapse to one entry per title (id + media_type), keeping the first seen. */
+function dedupe(items: MediaListItem[]): MediaListItem[] {
+  const seen = new Set<string>();
+  const out: MediaListItem[] = [];
+  for (const item of items) {
+    const key = `${item.media_type}-${item.id}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(item);
+  }
+  return out;
+}
+
 function toItem(doc: Doc): MediaListItem {
   return {
     id: doc.id,
@@ -65,9 +78,9 @@ export async function getUserLists(userId: string): Promise<{
   ]);
 
   return {
-    favorites: favorites.map(toItem),
-    watchlist: watchlist.map(toItem),
-    history: history.map(toItem),
+    favorites: dedupe(favorites.map(toItem)),
+    watchlist: dedupe(watchlist.map(toItem)),
+    history: dedupe(history.map(toItem)),
   };
 }
 
