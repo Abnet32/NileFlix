@@ -18,6 +18,7 @@ import {
   CompassIcon,
   ClapperboardIcon,
   TvIcon,
+  DramaIcon,
   LibraryIcon,
   HeartIcon,
   BookmarkIcon,
@@ -107,6 +108,26 @@ const data = {
         {
           title: "Airing Today",
           url: "/dashboard/tv-shows/airing-today",
+        },
+      ],
+    },
+
+    {
+      title: "Anime",
+      url: "/dashboard/animes/popular",
+      icon: <DramaIcon />,
+      items: [
+        {
+          title: "Popular Anime",
+          url: "/dashboard/animes/popular",
+        },
+        {
+          title: "Top Rated",
+          url: "/dashboard/animes/top-rated",
+        },
+        {
+          title: "Trending",
+          url: "/dashboard/animes/trending",
         },
       ],
     },
