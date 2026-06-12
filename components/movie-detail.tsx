@@ -44,7 +44,7 @@ export default function MovieDetail({
         </Button>
       </div>
       <section className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
-        <div className="mx-auto w-1/2 max-w-[220px] overflow-hidden border border-foreground/10 bg-card shadow-2xl shadow-black/10 sm:max-w-[260px] lg:mx-0 lg:w-full lg:max-w-none">
+        <div className="mx-auto overflow-hidden border border-foreground/10 bg-card shadow-2xl shadow-black/10  lg:mx-0 w-full lg:max-w-none">
           <div className="relative aspect-2/3 sm:aspect-4/5 lg:aspect-5/6">
             {movie.poster_path ? (
               <Image
