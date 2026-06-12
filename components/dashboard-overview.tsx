@@ -6,10 +6,12 @@ import {
   Clock,
   Film,
   Heart,
+  Layers,
   Play,
   Sparkles,
+  Star,
+  TrendingUp,
   Tv,
-  BarChart3,
 } from "lucide-react";
 import { FAVORITES_KEY, WATCHLIST_KEY, readList } from "@/lib/media-lists";
 import { readRecentlySeen } from "@/lib/recently-seen";
@@ -18,16 +20,24 @@ type Overview = {
   favorites: number;
   watchlist: number;
   watched: number;
-  estimatedMinutes: number;
+  watchTime: string;
+  total: number;
   movieCount: number;
   tvCount: number;
-  topTitle: { title: string; vote: number } | null;
+  avgRating: number;
   ratingBuckets: number[];
 };
 
 const RATING_LABELS = ["0–2", "2–4", "4–6", "6–8", "8–10"];
 
-function formatHours(mins: number) {
+// Theme-aligned palette (forest green / teal / sage / calm blue).
+const GREEN = "var(--primary)";
+const TEAL = "var(--chart-2)";
+const SAGE = "var(--chart-1)";
+const BLUE = "var(--chart-4)";
+
+function formatWatchTime(seconds: number) {
+  const mins = Math.round(seconds / 60);
   if (mins <= 0) return "0m";
   if (mins < 60) return `${mins}m`;
   const h = Math.floor(mins / 60);
@@ -39,225 +49,202 @@ export default function DashboardOverview() {
   const [data, setData] = useState<Overview | null>(null);
 
   useEffect(() => {
-    const favorites = readList(FAVORITES_KEY);
-    const watchlist = readList(WATCHLIST_KEY);
-    const recent = readRecentlySeen();
+    const refresh = () => {
+      const favorites = readList(FAVORITES_KEY);
+      const watchlist = readList(WATCHLIST_KEY);
+      const recent = readRecentlySeen();
+      const all = [...favorites, ...watchlist, ...recent];
 
-    const all = [...favorites, ...watchlist, ...recent];
-    const movieCount = all.filter((i) => i.media_type === "movie").length;
-    const tvCount = all.filter((i) => i.media_type === "tv").length;
-    const estimatedMinutes = recent.reduce(
-      (acc, i) => acc + (i.media_type === "movie" ? 90 : 45),
-      0,
-    );
-    const top = all.reduce<Overview["topTitle"]>((best, i) => {
-      if (!best || i.vote_average > best.vote) {
-        return { title: i.title, vote: i.vote_average };
+      const watchedSeconds = recent.reduce(
+        (acc, i) => acc + (i.watchedSeconds ?? 0),
+        0,
+      );
+      const ratingBuckets = [0, 0, 0, 0, 0];
+      const rated = all.filter((i) => i.vote_average > 0);
+      for (const i of all) {
+        const idx = Math.min(4, Math.max(0, Math.floor(i.vote_average / 2)));
+        ratingBuckets[idx] += 1;
       }
-      return best;
-    }, null);
+      const avgRating = rated.length
+        ? rated.reduce((a, i) => a + i.vote_average, 0) / rated.length
+        : 0;
 
-    // Distribution of all tracked titles across rating bands [0-2,2-4,...,8-10].
-    const ratingBuckets = [0, 0, 0, 0, 0];
-    for (const i of all) {
-      const idx = Math.min(4, Math.max(0, Math.floor(i.vote_average / 2)));
-      ratingBuckets[idx] += 1;
-    }
+      setData({
+        favorites: favorites.length,
+        watchlist: watchlist.length,
+        watched: recent.length,
+        watchTime: formatWatchTime(watchedSeconds),
+        total: all.length,
+        movieCount: all.filter((i) => i.media_type === "movie").length,
+        tvCount: all.filter((i) => i.media_type === "tv").length,
+        avgRating,
+        ratingBuckets,
+      });
+    };
 
-    setData({
-      favorites: favorites.length,
-      watchlist: watchlist.length,
-      watched: recent.length,
-      estimatedMinutes,
-      movieCount,
-      tvCount,
-      topTitle: top,
-      ratingBuckets,
-    });
+    refresh();
+    window.addEventListener("nileflix:lists", refresh);
+    return () => window.removeEventListener("nileflix:lists", refresh);
   }, []);
 
-  if (!data) {
-    return (
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div
-            key={i}
-            className="h-24 animate-pulse rounded-sm bg-card/60 ring-1 ring-foreground/10"
-          />
-        ))}
-      </div>
-    );
-  }
-
   const stats = [
-    { label: "Favorites", value: data.favorites, icon: Heart, color: "var(--chart-5)" },
-    { label: "Watchlist", value: data.watchlist, icon: Bookmark, color: "var(--chart-3)" },
-    { label: "Watched", value: data.watched, icon: Play, color: "var(--chart-2)" },
+    {
+      label: "Favorites",
+      value: data?.favorites ?? 0,
+      icon: Heart,
+      color: GREEN,
+      stripe: [GREEN, TEAL] as const,
+    },
+    {
+      label: "Watchlist",
+      value: data?.watchlist ?? 0,
+      icon: Bookmark,
+      color: TEAL,
+      stripe: [TEAL, BLUE] as const,
+    },
+    {
+      label: "Watched",
+      value: data?.watched ?? 0,
+      icon: Play,
+      color: SAGE,
+      stripe: [SAGE, GREEN] as const,
+    },
     {
       label: "Watch Time",
-      value: formatHours(data.estimatedMinutes),
+      value: data?.watchTime ?? "0m",
       icon: Clock,
-      color: "var(--chart-4)",
+      color: BLUE,
+      stripe: [BLUE, "var(--chart-5)"] as const,
     },
   ];
 
-  const segments = [
-    { label: "Favorites", value: data.favorites, color: "var(--chart-5)" },
-    { label: "Watchlist", value: data.watchlist, color: "var(--chart-3)" },
-    { label: "Watched", value: data.watched, color: "var(--chart-2)" },
+  const composition = [
+    { label: "Favorites", value: data?.favorites ?? 0, color: GREEN },
+    { label: "Watchlist", value: data?.watchlist ?? 0, color: TEAL },
+    { label: "Watched", value: data?.watched ?? 0, color: BLUE },
   ];
-  const segTotal = segments.reduce((a, s) => a + s.value, 0);
+  const compTotal = composition.reduce((a, s) => a + s.value, 0);
 
-  const totalTitles = data.movieCount + data.tvCount;
+  const totalTitles = (data?.movieCount ?? 0) + (data?.tvCount ?? 0);
   const moviePct = totalTitles
-    ? Math.round((data.movieCount / totalTitles) * 100)
+    ? Math.round(((data?.movieCount ?? 0) / totalTitles) * 100)
     : 0;
-  const hasRatings = data.ratingBuckets.some((v) => v > 0);
+  const hasRatings = (data?.ratingBuckets ?? []).some((v) => v > 0);
 
   return (
-    <div className="space-y-4">
-      {/* Colorful stat cards */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <div className="space-y-3">
+      {/* Primary stats — full-width stretched row, soft theme tints */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {stats.map(({ label, value, icon: Icon, color }) => (
           <div
             key={label}
-            className="relative overflow-hidden rounded-sm border border-border/60 bg-card p-4 ring-1 ring-foreground/5"
+            className="relative flex min-h-36 flex-col justify-center gap-4 overflow-hidden rounded-xl p-5 pl-7 shadow-sm transition-transform duration-300 hover:-translate-y-0.5"
           >
-            <div
-              className="absolute -right-6 -top-6 size-20 rounded-sm opacity-15 blur-xl"
+            {/* Colored accent strip on the left edge */}
+            <span
+              className="absolute inset-y-0 left-0 w-2"
               style={{ backgroundColor: color }}
             />
-            <div
-              className="flex size-9 items-center justify-center rounded-sm"
+            <span
+              className="flex size-12 shrink-0 items-center justify-center rounded-xl"
               style={{
-                backgroundColor: `color-mix(in oklab, ${color} 15%, transparent)`,
+                backgroundColor: `color-mix(in oklab, ${color} 0%, transparent)`,
                 color,
               }}
             >
-              <Icon className="size-4" />
+              <Icon className="size-6" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-2xl font-bold tabular-nums leading-none">
+                {typeof value === "number" ? value.toLocaleString() : value}
+              </p>
+              <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                {label}
+              </p>
             </div>
-            <p className="mt-3 text-2xl font-semibold tabular-nums leading-none">
-              {typeof value === "number" ? value.toLocaleString() : value}
-            </p>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              {label}
-            </p>
           </div>
         ))}
       </div>
 
-      {/* Actual graph: rating distribution area chart */}
-      <div className="rounded-sm border border-border/60 bg-card p-4 ring-1 ring-foreground/5">
-        <div className="mb-1 flex items-center gap-2">
-          <BarChart3 className="size-4 text-primary" />
-          <h3 className="text-sm font-medium">Ratings of Your Titles</h3>
-        </div>
-        <p className="mb-3 text-xs text-muted-foreground">
-          How the {totalTitles} titles you track are distributed across rating
-          bands.
-        </p>
-        {hasRatings ? (
-          <AreaChart values={data.ratingBuckets} labels={RATING_LABELS} />
-        ) : (
-          <EmptyHint />
-        )}
-      </div>
-
       <div className="grid gap-3 lg:grid-cols-2">
-        {/* Donut: library composition */}
-        <div className="rounded-sm border border-border/60 bg-card p-4 ring-1 ring-foreground/5">
+        {/* Ratings area chart */}
+        <div className="rounded-2xl bg-card/70 p-5 shadow-sm">
+          <div className="mb-1 flex items-center gap-2">
+            <TrendingUp className="size-4 text-primary" />
+            <h3 className="text-sm font-semibold">Ratings of Your Titles</h3>
+          </div>
+          <p className="mb-3 text-xs text-muted-foreground">
+            {totalTitles} titles across rating bands — updates live.
+          </p>
+          {hasRatings ? (
+            <AreaChart
+              values={data?.ratingBuckets ?? []}
+              labels={RATING_LABELS}
+            />
+          ) : (
+            <EmptyHint />
+          )}
+        </div>
+
+        {/* Library composition */}
+        <div className="rounded-2xl bg-card/70 p-5 shadow-sm">
           <div className="mb-3 flex items-center gap-2">
             <Sparkles className="size-4 text-primary" />
-            <h3 className="text-sm font-medium">Library Composition</h3>
+            <h3 className="text-sm font-semibold">Library Composition</h3>
           </div>
-          {segTotal === 0 ? (
+
+          {compTotal === 0 ? (
             <EmptyHint />
           ) : (
-            <div className="flex items-center gap-4">
-              <Donut segments={segments} total={segTotal} />
-              <ul className="flex-1 space-y-2">
-                {segments.map((s) => (
+            <div className="flex items-center gap-5">
+              <Donut segments={composition} total={compTotal} />
+              <ul className="flex-1 space-y-2.5">
+                {composition.map((s) => (
                   <li
                     key={s.label}
                     className="flex items-center justify-between text-xs"
                   >
                     <span className="flex items-center gap-2 text-muted-foreground">
                       <span
-                        className="size-2.5 rounded-sm"
+                        className="size-2.5 rounded-full"
                         style={{ backgroundColor: s.color }}
                       />
                       {s.label}
                     </span>
-                    <span className="font-semibold tabular-nums">{s.value}</span>
+                    <span className="font-semibold tabular-nums">
+                      {s.value}
+                    </span>
                   </li>
                 ))}
               </ul>
             </div>
           )}
-        </div>
 
-        {/* Insights + movies vs tv */}
-        <div className="rounded-sm border border-border/60 bg-card p-4 ring-1 ring-foreground/5">
-          <div className="mb-3 flex items-center gap-2">
-            <Film className="size-4 text-primary" />
-            <h3 className="text-sm font-medium">Insights</h3>
-          </div>
-
-          <div className="mb-3 space-y-2">
-            <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <Film className="size-3" /> Movies {data.movieCount}
-              </span>
-              <span className="flex items-center gap-1">
-                {data.tvCount} TV <Tv className="size-3" />
-              </span>
+          {totalTitles > 0 ? (
+            <div className="mt-4 space-y-1.5">
+              <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                <span>Movies {moviePct}%</span>
+                <span>TV / Anime {100 - moviePct}%</span>
+              </div>
+              <div className="flex h-2 w-full overflow-hidden rounded-full bg-muted">
+                <div
+                  className="h-full rounded-full transition-all"
+                  style={{ width: `${moviePct}%`, backgroundColor: BLUE }}
+                />
+                <div
+                  className="h-full flex-1"
+                  style={{ backgroundColor: TEAL }}
+                />
+              </div>
             </div>
-            <div className="flex h-2 w-full overflow-hidden rounded-sm bg-muted">
-              <div
-                className="h-full rounded-sm transition-all"
-                style={{ width: `${moviePct}%`, backgroundColor: "var(--chart-1)" }}
-              />
-              <div
-                className="h-full flex-1"
-                style={{ backgroundColor: "var(--chart-4)" }}
-              />
-            </div>
-          </div>
-
-          <dl className="space-y-2 text-sm">
-            <Insight label="Titles tracked" value={totalTitles.toLocaleString()} />
-            <Insight
-              label="You mostly watch"
-              value={
-                totalTitles === 0
-                  ? "—"
-                  : data.movieCount >= data.tvCount
-                    ? "Movies"
-                    : "TV Shows"
-              }
-            />
-            <Insight
-              label="Top rated pick"
-              value={
-                data.topTitle
-                  ? `${data.topTitle.title} · ${data.topTitle.vote.toFixed(1)}★`
-                  : "—"
-              }
-            />
-          </dl>
+          ) : null}
         </div>
       </div>
     </div>
   );
 }
 
-function AreaChart({
-  values,
-  labels,
-}: {
-  values: number[];
-  labels: string[];
-}) {
+function AreaChart({ values, labels }: { values: number[]; labels: string[] }) {
   const max = Math.max(1, ...values);
   const n = values.length;
   const padY = 8;
@@ -284,12 +271,15 @@ function AreaChart({
         >
           <defs>
             <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--chart-1)" stopOpacity="0.45" />
-              <stop offset="100%" stopColor="var(--chart-1)" stopOpacity="0" />
+              <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="areaStroke" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="var(--primary)" />
+              <stop offset="100%" stopColor="var(--chart-2)" />
             </linearGradient>
           </defs>
 
-          {/* horizontal gridlines */}
           {[25, 50, 75].map((y) => (
             <line
               key={y}
@@ -307,8 +297,8 @@ function AreaChart({
           <path
             d={linePath}
             fill="none"
-            stroke="var(--chart-1)"
-            strokeWidth="2"
+            stroke="url(#areaStroke)"
+            strokeWidth="2.5"
             strokeLinejoin="round"
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
@@ -320,7 +310,7 @@ function AreaChart({
               cy={p.y}
               r="2.5"
               fill="var(--card)"
-              stroke="var(--chart-1)"
+              stroke="var(--primary)"
               strokeWidth="2"
               vectorEffect="non-scaling-stroke"
             />
@@ -345,33 +335,53 @@ function Donut({
 }) {
   const r = 38;
   const c = 2 * Math.PI * r;
-  let offset = 0;
+
+  const arcs = segments.reduce(
+    (acc, s) => {
+      const len = total ? (s.value / total) * c : 0;
+      acc.items.push({ label: s.label, color: s.color, len, offset: acc.acc });
+      acc.acc += len;
+      return acc;
+    },
+    {
+      acc: 0,
+      items: [] as {
+        label: string;
+        color: string;
+        len: number;
+        offset: number;
+      }[],
+    },
+  ).items;
 
   return (
     <div className="relative size-28 shrink-0">
       <svg viewBox="0 0 100 100" className="size-full -rotate-90">
-        <circle cx="50" cy="50" r={r} fill="none" stroke="var(--muted)" strokeWidth="12" />
-        {segments.map((s) => {
-          const len = total ? (s.value / total) * c : 0;
-          const seg = (
-            <circle
-              key={s.label}
-              cx="50"
-              cy="50"
-              r={r}
-              fill="none"
-              stroke={s.color}
-              strokeWidth="12"
-              strokeDasharray={`${len} ${c - len}`}
-              strokeDashoffset={-offset}
-            />
-          );
-          offset += len;
-          return seg;
-        })}
+        <circle
+          cx="50"
+          cy="50"
+          r={r}
+          fill="none"
+          stroke="var(--muted)"
+          strokeWidth="12"
+        />
+        {arcs.map((s) => (
+          <circle
+            key={s.label}
+            cx="50"
+            cy="50"
+            r={r}
+            fill="none"
+            stroke={s.color}
+            strokeWidth="12"
+            strokeLinecap="round"
+            strokeDasharray={`${s.len} ${c - s.len}`}
+            strokeDashoffset={-s.offset}
+          />
+        ))}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-xl font-semibold tabular-nums leading-none">
+        <span className="text-xl font-bold tabular-nums leading-none">
           {total}
         </span>
         <span className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
@@ -386,16 +396,7 @@ function EmptyHint() {
   return (
     <p className="py-6 text-xs text-muted-foreground">
       Add favorites, build a watchlist, or watch something to see your stats
-      here.
+      light up here.
     </p>
-  );
-}
-
-function Insight({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between gap-3 border-b border-border/40 pb-2 last:border-0 last:pb-0">
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd className="truncate text-right font-medium text-foreground">{value}</dd>
-    </div>
   );
 }
