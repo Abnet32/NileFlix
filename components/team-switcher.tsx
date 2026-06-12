@@ -38,7 +38,14 @@ export function TeamSwitcher({
               alt="NileFlix"
               width={28}
               height={28}
-              className="size-7"
+              className="size-7 dark:hidden"
+            />
+            <Image
+              src="/icon2.png"
+              alt="NileFlix"
+              width={28}
+              height={28}
+              className="size-7 hidden dark:block"
             />
           </div>
           <span className="truncate text-base font-semibold tracking-tight">
