@@ -4,14 +4,10 @@ import { useEffect, useState } from "react";
 import {
   Bookmark,
   Clock,
-  Film,
   Heart,
-  Layers,
   Play,
   Sparkles,
-  Star,
   TrendingUp,
-  Tv,
 } from "lucide-react";
 import { FAVORITES_KEY, WATCHLIST_KEY, readList } from "@/lib/media-lists";
 import { readRecentlySeen } from "@/lib/recently-seen";
