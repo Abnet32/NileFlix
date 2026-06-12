@@ -49,7 +49,16 @@ export default function DashboardOverview() {
       const favorites = readList(FAVORITES_KEY);
       const watchlist = readList(WATCHLIST_KEY);
       const recent = readRecentlySeen();
-      const all = [...favorites, ...watchlist, ...recent];
+
+      // Unique titles only: a title in both favorites and watched (or any
+      // overlap) must be counted once, not once per list.
+      const seen = new Set<string>();
+      const all = [...favorites, ...watchlist, ...recent].filter((i) => {
+        const key = `${i.media_type}-${i.id}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
 
       const watchedSeconds = recent.reduce(
         (acc, i) => acc + (i.watchedSeconds ?? 0),
@@ -114,6 +123,9 @@ export default function DashboardOverview() {
     },
   ];
 
+  // Donut ring is split by activity (Favorites / Watchlist / Watched), while
+  // its center shows the unique title count — a title saved in several lists is
+  // counted once there, not per list.
   const composition = [
     { label: "Favorites", value: data?.favorites ?? 0, color: GREEN },
     { label: "Watchlist", value: data?.watchlist ?? 0, color: TEAL },
@@ -195,7 +207,11 @@ export default function DashboardOverview() {
             <EmptyHint />
           ) : (
             <div className="flex items-center gap-5">
-              <Donut segments={composition} total={compTotal} />
+              <Donut
+                segments={composition}
+                total={compTotal}
+                display={totalTitles}
+              />
               <ul className="flex-1 space-y-2.5">
                 {composition.map((s) => (
                   <li
@@ -327,9 +343,13 @@ function AreaChart({ values, labels }: { values: number[]; labels: string[] }) {
 function Donut({
   segments,
   total,
+  display,
 }: {
   segments: { label: string; value: number; color: string }[];
+  /** Drives the ring geometry (sum of segment values). */
   total: number;
+  /** Number shown in the center; defaults to `total`. */
+  display?: number;
 }) {
   const r = 38;
   const c = 2 * Math.PI * r;
@@ -380,7 +400,7 @@ function Donut({
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-xl font-bold tabular-nums leading-none">
-          {total}
+          {display ?? total}
         </span>
         <span className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
           Titles
