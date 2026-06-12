@@ -146,29 +146,29 @@ export default function DashboardOverview() {
         {stats.map(({ label, value, icon: Icon, color, stripe }) => (
           <div
             key={label}
-            className="relative flex min-h-36 flex-col justify-center gap-4 overflow-hidden rounded-xl p-5 pl-7 shadow-sm transition-transform duration-300 hover:-translate-y-0.5"
+            className="relative flex min-h-20 flex-col justify-center gap-2 overflow-hidden rounded-lg p-3 pl-4 shadow-sm transition-transform duration-300 hover:-translate-y-0.5 sm:min-h-36 sm:gap-4 sm:rounded-xl sm:p-5 sm:pl-7"
           >
             {/* Two-color gradient accent strip on the left edge — unique per card */}
             <span
-              className="absolute inset-y-0 left-0 w-2"
+              className="absolute inset-y-0 left-0 w-1.5 sm:w-2"
               style={{
                 backgroundImage: `linear-gradient(to bottom, ${stripe[0]}, ${stripe[1]})`,
               }}
             />
             <span
-              className="flex size-12 shrink-0 items-center justify-center rounded-xl"
+              className="flex size-8 shrink-0 items-center justify-center rounded-lg sm:size-12 sm:rounded-xl"
               style={{
                 backgroundColor: `color-mix(in oklab, ${color} 0%, transparent)`,
                 color,
               }}
             >
-              <Icon className="size-6" />
+              <Icon className="size-4 sm:size-6" />
             </span>
             <div className="min-w-0">
-              <p className="text-2xl font-bold tabular-nums leading-none">
+              <p className="text-lg font-bold tabular-nums leading-none sm:text-2xl">
                 {typeof value === "number" ? value.toLocaleString() : value}
               </p>
-              <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+              <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground sm:mt-1.5 sm:text-xs">
                 {label}
               </p>
             </div>
