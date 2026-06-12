@@ -91,11 +91,10 @@ export default function VideoPlayer({
           })}
           className="absolute inset-0 h-full w-full border-0 transition-opacity duration-200 ease-out"
           allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-          // Block ad pop-ups and redirect hijacking on click: the player keeps
-          // scripts, its own origin, casting and form support, but WITHOUT
-          // allow-popups / allow-top-navigation it cannot open new ad tabs or
-          // navigate this page away.
-          sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
+          // NOTE: vidlink.pro refuses to play inside a sandboxed iframe
+          // ("Please Disable Sandbox"), so we can't block its ad pop-ups /
+          // redirects at the iframe level. The browser still blocks automatic
+          // (non-user-gesture) top-navigation from this cross-origin frame.
           referrerPolicy="no-referrer"
           loading="eager"
         />
