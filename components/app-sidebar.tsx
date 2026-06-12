@@ -147,7 +147,7 @@ const data = {
         },
         {
           title: "Recently Seen",
-          url: "/dashboard",
+          url: "/dashboard/recently-seen",
         },
       ],
     },
