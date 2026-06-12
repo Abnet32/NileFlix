@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,12 +8,10 @@ export default function ContinueWatchingRow() {
   const [items, setItems] = useState<RecentItem[] | null>(null);
 
   useEffect(() => {
-    const recent = readRecentlySeen();
-    if (recent.length > 0) {
-      setItems(recent.slice(0, 12));
-    } else {
-      setItems([]);
-    }
+    const refresh = () => setItems(readRecentlySeen().slice(0, 12));
+    refresh();
+    window.addEventListener("nileflix:lists", refresh);
+    return () => window.removeEventListener("nileflix:lists", refresh);
   }, []);
 
   if (!items || items.length === 0) return null;
