@@ -90,7 +90,13 @@ export default function VideoPlayer({
             episodeNumber,
           })}
           className="absolute inset-0 h-full w-full border-0 transition-opacity duration-200 ease-out"
-          allow="autoplay; fullscreen; picture-in-picture"
+          allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+          // Block ad pop-ups and redirect hijacking on click: the player keeps
+          // scripts, its own origin, casting and form support, but WITHOUT
+          // allow-popups / allow-top-navigation it cannot open new ad tabs or
+          // navigate this page away.
+          sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
+          referrerPolicy="no-referrer"
           loading="eager"
         />
       </div>
