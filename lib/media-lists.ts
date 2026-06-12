@@ -9,12 +9,6 @@ export const FAVORITES_KEY: MediaListKey = "nileflix:favorites";
 export const WATCHLIST_KEY: MediaListKey = "nileflix:watchlist";
 export const RECENT_KEY: MediaListKey = "nileflix:recent";
 
-const CAPS: Record<MediaListKey, number> = {
-  "nileflix:favorites": 100,
-  "nileflix:watchlist": 100,
-  "nileflix:recent": 20,
-};
-
 export type MediaListItem = {
   id: number;
   media_type: "movie" | "tv";
@@ -22,29 +16,73 @@ export type MediaListItem = {
   poster_path: string | null;
   vote_average: number;
   date?: string;
+  /** Real seconds watched (history items only). */
+  watchedSeconds?: number;
+  /** Total runtime in seconds reported by the player (history items only). */
+  duration?: number;
 };
 
-export function readList(key: MediaListKey): MediaListItem[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(key);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as MediaListItem[]) : [];
-  } catch {
-    return [];
-  }
+type CacheField = "favorites" | "watchlist" | "recent";
+
+const KEY_TO_FIELD: Record<MediaListKey, CacheField> = {
+  "nileflix:favorites": "favorites",
+  "nileflix:watchlist": "watchlist",
+  "nileflix:recent": "recent",
+};
+
+// Server list name for the API (favorites/watchlist only).
+const KEY_TO_LIST: Partial<Record<MediaListKey, "favorites" | "watchlist">> = {
+  "nileflix:favorites": "favorites",
+  "nileflix:watchlist": "watchlist",
+};
+
+type Cache = Record<CacheField, MediaListItem[]>;
+
+const cache: Cache = { favorites: [], watchlist: [], recent: [] };
+let hydrated = false;
+let hydrating: Promise<void> | null = null;
+
+function notify(key: MediaListKey) {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent("nileflix:lists", { detail: key }));
 }
 
-function writeList(key: MediaListKey, items: MediaListItem[]) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(key, JSON.stringify(items.slice(0, CAPS[key])));
-    // Notify same-tab listeners (storage event only fires cross-tab).
-    window.dispatchEvent(new CustomEvent("nileflix:lists", { detail: key }));
-  } catch {
-    // ignore quota / serialization errors
-  }
+function notifyAll() {
+  notify(FAVORITES_KEY);
+  notify(WATCHLIST_KEY);
+  notify(RECENT_KEY);
+}
+
+/** Load the user's lists from the database once (client-side). */
+export function ensureHydrated(): Promise<void> {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (hydrated) return Promise.resolve();
+  if (hydrating) return hydrating;
+
+  hydrating = fetch("/api/lists", { credentials: "same-origin" })
+    .then((res) => (res.ok ? res.json() : null))
+    .then((data) => {
+      if (data) {
+        cache.favorites = Array.isArray(data.favorites) ? data.favorites : [];
+        cache.watchlist = Array.isArray(data.watchlist) ? data.watchlist : [];
+        cache.recent = Array.isArray(data.history) ? data.history : [];
+      }
+      hydrated = true;
+      notifyAll();
+    })
+    .catch(() => {
+      hydrated = true;
+    })
+    .finally(() => {
+      hydrating = null;
+    });
+
+  return hydrating;
+}
+
+export function readList(key: MediaListKey): MediaListItem[] {
+  void ensureHydrated();
+  return cache[KEY_TO_FIELD[key]];
 }
 
 function sameItem(a: MediaListItem, id: number, media_type: "movie" | "tv") {
@@ -59,12 +97,41 @@ export function isInList(
   return readList(key).some((entry) => sameItem(entry, id, media_type));
 }
 
-/** Add to the front of a list (dedup, capped, newest-first). */
-export function pushItem(key: MediaListKey, item: MediaListItem) {
-  const existing = readList(key).filter(
-    (entry) => !sameItem(entry, item.id, item.media_type),
+/** Toggle favorite/watchlist membership; returns the new membership state. */
+export function toggleItem(key: MediaListKey, item: MediaListItem): boolean {
+  const field = KEY_TO_FIELD[key];
+  const list = KEY_TO_LIST[key];
+  if (!list) return isInList(key, item.id, item.media_type);
+
+  const exists = cache[field].some((e) =>
+    sameItem(e, item.id, item.media_type),
   );
-  writeList(key, [item, ...existing]);
+  const nowIn = !exists;
+
+  // Optimistic local update.
+  cache[field] = exists
+    ? cache[field].filter((e) => !sameItem(e, item.id, item.media_type))
+    : [item, ...cache[field]];
+  notify(key);
+
+  if (typeof window !== "undefined") {
+    fetch("/api/lists", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ list, item }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("toggle failed");
+      })
+      .catch(() => {
+        // Re-sync from the server on failure.
+        hydrated = false;
+        void ensureHydrated();
+      });
+  }
+
+  return nowIn;
 }
 
 export function removeItem(
@@ -72,23 +139,26 @@ export function removeItem(
   id: number,
   media_type: "movie" | "tv",
 ) {
-  writeList(
-    key,
-    readList(key).filter((entry) => !sameItem(entry, id, media_type)),
-  );
-}
-
-/** Toggle membership; returns the new membership state (true = now in list). */
-export function toggleItem(key: MediaListKey, item: MediaListItem): boolean {
-  if (isInList(key, item.id, item.media_type)) {
-    removeItem(key, item.id, item.media_type);
-    return false;
+  if (isInList(key, id, media_type)) {
+    toggleItem(key, {
+      id,
+      media_type,
+      title: "",
+      poster_path: null,
+      vote_average: 0,
+    });
   }
-  pushItem(key, item);
-  return true;
 }
 
-/** Get IDs for a list (for exclusion in recommendations). */
+/** Optimistically add/refresh a recently-watched item in the local cache. */
+export function cacheRecent(item: MediaListItem) {
+  cache.recent = [
+    item,
+    ...cache.recent.filter((e) => !sameItem(e, item.id, item.media_type)),
+  ];
+  notify(RECENT_KEY);
+}
+
 export function getFavoritesIds(): number[] {
   return readList(FAVORITES_KEY).map((item) => item.id);
 }
