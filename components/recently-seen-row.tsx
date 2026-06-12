@@ -9,14 +9,17 @@ import {
 } from "@/lib/recently-seen";
 
 /**
- * Renders the "Recently seen" row from localStorage. Renders nothing until
- * mounted (avoids hydration mismatch) and when the history is empty.
+ * Renders the "Recently seen" row from the user's watch history. Renders
+ * nothing until mounted (avoids hydration mismatch) and when history is empty.
  */
 export default function RecentlySeenRow() {
   const [items, setItems] = useState<RecentItem[] | null>(null);
 
   useEffect(() => {
-    setItems(readRecentlySeen());
+    const refresh = () => setItems(readRecentlySeen());
+    refresh();
+    window.addEventListener("nileflix:lists", refresh);
+    return () => window.removeEventListener("nileflix:lists", refresh);
   }, []);
 
   if (!items || items.length === 0) return null;
