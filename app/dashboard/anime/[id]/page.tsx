@@ -1,4 +1,3 @@
-import RecentlySeenTracker from "@/components/recently-seen-tracker";
 import SeriesDetail from "@/components/series-detail";
 import SimilarTitles from "@/components/similar-titles";
 import {
@@ -33,16 +32,6 @@ export default async function DashboardAnimePage({ params }: AnimePageProps) {
 
   return (
     <>
-      <RecentlySeenTracker
-        item={{
-          id: series.id,
-          media_type: "tv",
-          title: series.name,
-          poster_path: series.poster_path,
-          vote_average: series.vote_average,
-          date: series.first_air_date,
-        }}
-      />
       <SeriesDetail
         series={series}
         trailerKey={trailer?.key ?? null}
