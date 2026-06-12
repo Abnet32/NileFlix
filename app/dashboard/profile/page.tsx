@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {  Shield } from "lucide-react";
+import { Shield } from "lucide-react";
 import SignOutButton from "./sign-out-button";
 
 export default async function ProfilePage() {
@@ -21,8 +21,11 @@ export default async function ProfilePage() {
       <div className="mx-auto max-w-3xl space-y-8">
         {/* Profile Header */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
-          <Avatar className="size-20 ring-2 ring-border sm:size-24">
-            <AvatarImage src={user.image ?? undefined} alt={user.name ?? "User"} />
+          <Avatar className="size-20 sm:size-24">
+            <AvatarImage
+              src={user.image ?? undefined}
+              alt={user.name ?? "User"}
+            />
             <AvatarFallback className="text-2xl">{initials}</AvatarFallback>
           </Avatar>
           <div className="text-center sm:text-left">
@@ -41,25 +44,33 @@ export default async function ProfilePage() {
         <ProfileStats />
 
         {/* Account Info Card */}
-        <div className="rounded-sm border border-border/60 bg-card/60 p-6 shadow-sm backdrop-blur">
+        <div className="rounded-sm  bg-card/60 p-6 shadow-sm backdrop-blur">
           <h2 className="mb-4 text-lg font-semibold">Account Details</h2>
           <dl className="grid gap-4 sm:grid-cols-2">
             <div>
-              <dt className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Name</dt>
+              <dt className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Name
+              </dt>
               <dd className="mt-1 text-sm font-medium">{user.name ?? "—"}</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Email</dt>
+              <dt className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Email
+              </dt>
               <dd className="mt-1 text-sm font-medium">{user.email}</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Email Verified</dt>
+              <dt className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Email Verified
+              </dt>
               <dd className="mt-1 text-sm font-medium">
                 {user.emailVerified ? "Verified ✅" : "Not verified"}
               </dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Account ID</dt>
+              <dt className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Account ID
+              </dt>
               <dd className="mt-1 text-sm font-medium font-mono text-muted-foreground">
                 {user.id.slice(0, 8)}…
               </dd>
