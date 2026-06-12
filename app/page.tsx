@@ -18,12 +18,21 @@ import {
   getAiringTodayAnime,
 } from "@/lib/tmdb";
 import Footer from "@/components/footer";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 type HomeProps = {
   searchParams: Promise<{ query?: string | string[] }>;
 };
 
 export default async function Home({ searchParams }: HomeProps) {
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (session) {
+    redirect("/dashboard");
+  }
+
   const resolvedSearchParams = await searchParams;
   const queryValue = resolvedSearchParams.query;
   const initialQuery = Array.isArray(queryValue)
