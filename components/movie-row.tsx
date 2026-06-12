@@ -70,7 +70,7 @@ export default function MovieRow({
         <div className="flex items-stretch gap-3 sm:gap-4">
           {movies.slice(0, 12).map((movie) => (
             <div
-              key={movie.id}
+              key={`${movie.media_type ?? contentType ?? "movie"}-${movie.id}`}
               className="w-36 shrink-0 snap-start sm:w-44 md:w-52 lg:w-60"
             >
               <MovieCard
