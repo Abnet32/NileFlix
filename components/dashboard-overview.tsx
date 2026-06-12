@@ -131,15 +131,17 @@ export default function DashboardOverview() {
     <div className="space-y-3">
       {/* Primary stats — full-width stretched row, soft theme tints */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {stats.map(({ label, value, icon: Icon, color }) => (
+        {stats.map(({ label, value, icon: Icon, color, stripe }) => (
           <div
             key={label}
             className="relative flex min-h-36 flex-col justify-center gap-4 overflow-hidden rounded-xl p-5 pl-7 shadow-sm transition-transform duration-300 hover:-translate-y-0.5"
           >
-            {/* Colored accent strip on the left edge */}
+            {/* Two-color gradient accent strip on the left edge — unique per card */}
             <span
               className="absolute inset-y-0 left-0 w-2"
-              style={{ backgroundColor: color }}
+              style={{
+                backgroundImage: `linear-gradient(to bottom, ${stripe[0]}, ${stripe[1]})`,
+              }}
             />
             <span
               className="flex size-12 shrink-0 items-center justify-center rounded-xl"
