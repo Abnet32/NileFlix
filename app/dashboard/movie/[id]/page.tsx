@@ -1,6 +1,5 @@
 import MovieDetail from "@/components/movie-detail";
 import SimilarTitles from "@/components/similar-titles";
-import RecentlySeenTracker from "@/components/recently-seen-tracker";
 import {
   getContentTitle,
   getMovie,
@@ -32,16 +31,6 @@ export default async function DashboardMoviePage({ params }: MoviePageProps) {
 
   return (
     <>
-      <RecentlySeenTracker
-        item={{
-          id: movie.id,
-          media_type: "movie",
-          title: getContentTitle(movie),
-          poster_path: movie.poster_path,
-          vote_average: movie.vote_average,
-          date: movie.release_date,
-        }}
-      />
       <MovieDetail
         movie={movie}
         trailerKey={trailer?.key ?? null}
