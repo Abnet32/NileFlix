@@ -1,5 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import VideoPlayer from "@/components/view-movie";
+import AdblockNotice from "@/components/adblock-notice";
 import { getContentTitle, getSeries, getSeriesEpisode } from "@/lib/tmdb";
 import { ArrowLeft, Clapperboard, Play, Tv2 } from "lucide-react";
 import Link from "next/link";
@@ -20,6 +21,7 @@ export default async function EpisodeWatchPage({
 
   return (
     <main className="min-h-dvh bg-background text-foreground">
+      <AdblockNotice />
       <div className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div className="min-w-0 space-y-2">
