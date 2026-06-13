@@ -193,3 +193,4 @@ For a deeper architecture snapshot and history, see [docs/PROJECT_STATUS.md](doc
 - Movie, TV, and anime metadata and artwork: **TMDB**. This product uses the TMDB API but is not endorsed or certified by TMDB.
 - Embedded playback: **VidLink**.
 - © NileFlix.
+
