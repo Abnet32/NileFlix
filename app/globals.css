@@ -49,7 +49,7 @@
 }
 
 :root {
-  /* NileFlix — Light (odit.et): sage / bay-leaf green brand accent on warm
+  /* NileFlix — Light : sage / bay-leaf green brand accent on warm
      off-white surfaces, with a colorful stat palette (teal, amber, blue, purple). */
   --background: #fdfcfc;
   --foreground: #292624;
@@ -86,7 +86,7 @@
 }
 
 .dark {
-  /* NileFlix — Dark (odit.et): dark-slate surfaces with a brighter sage-green
+  /* NileFlix — Dark : dark-slate surfaces with a brighter sage-green
      brand accent for contrast, plus the same colorful stat palette. */
   --background: #292e2e;
   --foreground: #ecece9;
