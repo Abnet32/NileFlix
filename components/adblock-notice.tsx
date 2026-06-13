@@ -1,16 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShieldCheck, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 /**
  * Popup on the watch page recommending an ad blocker. The embedded player is
- * ad-supported, so this nudges users toward a cleaner experience. Shows every
- * time the watch page opens (resets on each mount).
+ * ad-supported, so this nudges users toward a cleaner experience.
+ *
+ * It first checks whether the visitor already runs an ad blocker. Playback is
+ * never blocked either way — we only skip the nudge for users who already have
+ * one, so the recommendation is shown solely to those who could benefit from it.
  */
+
+/**
+ * Best-effort ad-blocker detection. Returns true only when we have a positive
+ * signal that a blocker is active; anything uncertain resolves to false so the
+ * recommendation still reaches users who almost certainly aren't blocking ads.
+ */
+async function detectAdBlocker(): Promise<boolean> {
+  // Method 1 — bait element. Filter lists hide elements with these class names
+  // via cosmetic rules (`display:none !important`), which collapses the box.
+  const bait = document.createElement("div");
+  bait.className = "ad ads adsbox ad-banner ad-placement pub_300x250";
+  bait.style.cssText =
+    "position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;";
+  document.body.appendChild(bait);
+
+  // Give the extension a tick to apply its cosmetic filtering.
+  await new Promise((resolve) => setTimeout(resolve, 120));
+
+  const baitBlocked =
+    bait.offsetParent === null ||
+    bait.offsetHeight === 0 ||
+    window.getComputedStyle(bait).display === "none";
+
+  bait.remove();
+
+  if (baitBlocked) return true;
+
+  // Method 2 — request a script URL that blockers drop via network filters.
+  // A successful (opaque) response means no blocker; a thrown error means the
+  // request was intercepted.
+  try {
+    await fetch(
+      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+      { method: "HEAD", mode: "no-cors", cache: "no-store" },
+    );
+    return false;
+  } catch {
+    return true;
+  }
+}
+
 export default function AdblockNotice() {
-  const [open, setOpen] = useState(true);
+  // Start hidden: we only reveal the popup once detection confirms the user
+  // does NOT have an ad blocker.
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    detectAdBlocker().then((hasBlocker) => {
+      if (!cancelled && !hasBlocker) setOpen(true);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const dismiss = () => setOpen(false);
 
@@ -51,8 +109,8 @@ export default function AdblockNotice() {
           For the best experience
         </h2>
         <p className="mt-1.5 text-sm text-muted-foreground">
-          This player is ad-supported and may show pop-ups or redirects. Use an
-          ad blocker like{" "}
+          This player is ad-supported and may show pop-ups or redirects. You can
+          keep watching as-is, but an ad blocker like{" "}
           <a
             href="https://adblockplus.org/"
             target="_blank"
@@ -61,7 +119,7 @@ export default function AdblockNotice() {
           >
             Adblock Plus
           </a>{" "}
-          for a cleaner, safer experience.
+          gives a cleaner, safer experience.
         </p>
 
         <Button onClick={dismiss} className="mt-5 w-full">
