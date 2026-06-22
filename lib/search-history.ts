@@ -1,5 +1,5 @@
 const SEARCH_HISTORY_KEY = "nileflix:search-history";
-const MAX_HISTORY = 20;
+const MAX_HISTORY = 50;
 
 export function getSearchHistory(): string[] {
   if (typeof window === "undefined") return [];
@@ -21,7 +21,7 @@ export function addSearchTerm(term: string): void {
     history.unshift(term.trim());
     window.localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(history.slice(0, MAX_HISTORY)));
   } catch {
-    // Ignore quota errors
+  
   }
 }
 
@@ -30,6 +30,6 @@ export function clearSearchHistory(): void {
   try {
     window.localStorage.removeItem(SEARCH_HISTORY_KEY);
   } catch {
-    // Ignore
+    
   }
 }
